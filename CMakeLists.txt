@@ -10,18 +10,21 @@ include( CheckIncludeFileCXX )
 set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED YES )
 
-pkg_check_modules( libpmem_pc libpmem2 libpmemobj REQUIRED IMPORTED_TARGET )
+pkg_check_modules( libpmemobj REQUIRED IMPORTED_TARGET )
 
-if( NOT libpmem_pc_FOUND )
-  message( FATAL_ERROR "PMDK libraries not found" )
+if( NOT libpmemobj_FOUND )
+    message( FATAL_ERROR "PMDK libraries not found" )
 endif()
 
-check_include_file_cxx( cereal/cereal.hpp HAVE_CEREAL_HPP )
+include_directories(include)
+#include_directories(include
+#        /home/lukemartinlogan/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/msgpack-c-3.1.1-wuob7l3wfkfrsry67wetwdbtxt4dzsjj/include
+#        /home/lukemartinlogan/Documents/Projects/PhD/scspkg/packages/pmdk/include)
 
-add_executable( r1 r1.cc )
-add_executable( w1 w1.cc )
-add_executable( w2 w2.cc )
-target_link_libraries( r1 PkgConfig::libpmem_pc )
-target_link_libraries( w1 PkgConfig::libpmem_pc )
-target_link_libraries( w2 PkgConfig::libpmem_pc )
-  
+#Build unit test
+add_executable(test_pmem ${CMAKE_SOURCE_DIR}/test/unit/test_pmem.cpp)
+target_link_libraries(test_pmem pmemobj)
+target_link_libraries(test_pmem msgpackc)
+
+#Build performance test
+#add_subdirectory(test/performance)

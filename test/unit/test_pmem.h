@@ -5,6 +5,7 @@
 #ifndef PM_MEMCPY_TEST_PMEM_H
 #define PM_MEMCPY_TEST_PMEM_H
 
+/*
 struct DataStructure {
     int a;
     double b;
@@ -69,6 +70,6 @@ namespace clmdep_msgpack {
                 };
             }
     }
-}
+}*/
 
 #endif //PM_MEMCPY_TEST_PMEM_H
