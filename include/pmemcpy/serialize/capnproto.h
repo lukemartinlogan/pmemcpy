@@ -16,15 +16,10 @@ template<typename T>
 class CapnProtoSerializer : public Serializer<T> {
 public:
     inline std::string serialize(const T *src) {
-        std::stringstream ss;
-        boost::archive::text_oarchive iarch(ss);
-        oarch << *src;
-        return ss.str();
+        return nullptr;
     }
 
     inline void deserialize(T *dst, const std::string src) {
-        boost::archive::text_iarchive iarch(src);
-        iarch >> *dst;
     }
 };
 

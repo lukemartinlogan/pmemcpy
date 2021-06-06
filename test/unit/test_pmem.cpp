@@ -53,7 +53,7 @@ void reset(pmemcpy::PMEM &pmem) {
 
 int main(int argc, char **argv)
 {
-    pmemcpy::PMEM pmem(pmemcpy::StorageType::PMDK_HASHTABLE, pmemcpy::SerializerType::MSGPACK);
+    pmemcpy::PMEM pmem(pmemcpy::StorageType::PMDK_HASHTABLE, pmemcpy::SerializerType::CEREAL);
     if(argc != 3) {
         printf("USAGE: test_pmem [pool-path] [i/o mode]");
         return -1;

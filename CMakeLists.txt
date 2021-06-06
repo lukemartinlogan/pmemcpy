@@ -17,14 +17,13 @@ if( NOT libpmemobj_FOUND )
 endif()
 
 include_directories(include)
-#include_directories(include
-#        /home/lukemartinlogan/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/msgpack-c-3.1.1-wuob7l3wfkfrsry67wetwdbtxt4dzsjj/include
-#        /home/lukemartinlogan/Documents/Projects/PhD/scspkg/packages/pmdk/include)
 
 #Build unit test
 add_executable(test_pmem ${CMAKE_SOURCE_DIR}/test/unit/test_pmem.cpp)
 target_link_libraries(test_pmem pmemobj)
 target_link_libraries(test_pmem msgpackc)
+target_link_libraries(test_pmem boost_system boost_serialization)
+target_link_libraries(test_pmem capnp)
 
 #Build performance test
 #add_subdirectory(test/performance)

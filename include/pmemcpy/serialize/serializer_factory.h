@@ -9,14 +9,16 @@
 #include <pmemcpy/serialize/msgpack.h>
 #include <pmemcpy/serialize/cereal.h>
 #include <pmemcpy/serialize/boost.h>
-#include <pmemcpy/serialize/boost.h>
+#include <pmemcpy/serialize/capnproto.h>
 
 namespace pmemcpy {
 
 enum class SerializerType {
     CEREAL,
     MSGPACK,
-    BOOST
+    BOOST,
+    CAPNPROTO,
+    PROTOBUF
 };
 
 template<typename T>
@@ -25,12 +27,15 @@ public:
     static std::unique_ptr<Serializer<T>> get(SerializerType type) {
         switch(type) {
             case SerializerType::CEREAL: {
-                return nullptr;
+                return std::make_unique<CerealSerializer<T>>();
             }
             case SerializerType::MSGPACK: {
                 return std::make_unique<MsgpackSerializer<T>>();
             }
             case SerializerType::BOOST: {
+                return std::make_unique<BoostSerializer<T>>();
+            }
+            case SerializerType::CAPNPROTO: {
                 return nullptr;
             }
         }
