@@ -37,17 +37,30 @@ namespace pmemcpy {
 template<typename T>
 class CerealSerializer : public Serializer<T> {
 public:
-    inline std::string serialize(const T *src) {
+    inline std::string serialize(T &src) {
         std::stringstream ss;
         cereal::PortableBinaryOutputArchive oarchive(ss);
-        oarchive(*src);
+        oarchive(src);
         return ss.str();
     }
 
-    inline void deserialize(T *dst, const std::string src) {
+    inline std::string serialize(T *src, Dimensions dims) {
+        std::stringstream ss;
+        cereal::PortableBinaryOutputArchive oarchive(ss);
+        oarchive(cereal::binary_data(src, sizeof(T) * dims.count()));
+        return ss.str();
+    }
+
+    inline void deserialize(T &dst, const std::string src) {
         std::stringstream ss(src);
         cereal::PortableBinaryInputArchive iarchive(ss);
-        iarchive(*dst);
+        iarchive(dst);
+    }
+
+    inline void deserialize(T *dst, const std::string src, Dimensions dims) {
+        std::stringstream ss(src);
+        cereal::PortableBinaryInputArchive iarchive(ss);
+        iarchive(cereal::binary_data(dst, sizeof(T) * dims.count()));
     }
 };
 

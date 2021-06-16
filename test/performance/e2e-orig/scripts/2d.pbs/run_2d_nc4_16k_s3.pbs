@@ -1,0 +1,54 @@
+#!/bin/sh
+#PBS -A CSC024adio
+#PBS -N read_2d_nc4_16k_s3
+#PBS -o /tmp/work/ge1/a/2d/read.2d.nc4.16k.s3.out
+#PBS -e /tmp/work/ge1/a/2d/read.2d.nc4.16k.s3.err
+#PBS -l walltime=02:00:00,size=516
+
+write_prog=write_2d_nc4
+read_prog=read_2d_nc4
+flush_prog=write_3d_bp
+
+cd $PBS_O_WORKDIR
+lfs setstripe . -c 160 -i 0
+export MPICH_MAX_SHORT_MSG_SIZE=64000
+
+echo Run 2-D tests $write_prog $read_prog $flush_prog
+date
+
+####################### NC4 #####################
+#################################################
+# READ TESTS
+#################################################
+
+for p in 212 216 220 224 228 232 236 240 244 248 252 256 260 264 268 272 276 280 284 288 292 296 300 304 308 312 
+do
+
+#hp=`expr $p / 2`
+
+for i in 1 2 3 4 5
+do
+
+aprun -n $p $read_prog 2 2d_128_128 128 128
+echo flush
+date
+
+aprun -n $p $read_prog 3 2d_128_128 128 128
+echo flush
+date
+
+aprun -n $p $read_prog 4 2d_128_128 128 128
+echo flush
+date
+
+aprun -n $p $read_prog 5 2d_128_128 128 128
+echo flush
+date
+
+aprun -n $p $read_prog 6 2d_128_128 128 128
+echo flush
+date
+
+done
+done
+

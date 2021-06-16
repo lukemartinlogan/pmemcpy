@@ -1,0 +1,300 @@
+#!/bin/sh
+#PBS -A CSC024adio
+#PBS -N read_2d_nc4
+#PBS -o /tmp/work/ge1/a/2d/run.stdout.2d.nc4
+#PBS -e /tmp/work/ge1/a/2d/run.stderr.2d.nc4
+#PBS -l walltime=08:00:00,size=8004
+
+write_prog=write_2d_nc4
+read_prog=read_2d_nc4
+flush_prog=write_3d_bp
+
+cd $PBS_O_WORKDIR
+lfs setstripe . -c 160 -i 0
+export MPICH_MAX_SHORT_MSG_SIZE=64000
+
+echo Run 2-D tests $write_prog $read_prog $flush_prog
+date
+
+####################### BP #####################
+# 1000 procs
+aprun -n 1000 $write_prog 2d_25_40 25 40
+date
+
+# 2000 procs
+aprun -n 2000 $write_prog 2d_50_40 50 40
+date
+
+# 4000 procs
+aprun -n 4000 $write_prog 2d_50_80 50 80
+date
+
+# 8000 procs
+aprun -n 8000 $write_prog 2d_100_80 100 80
+date
+
+#################################################
+# READ TESTS
+#################################################
+
+# 1000 reader procs (1000 writer procs)
+for i in 1 2 3 4 5
+do
+for filename in 2d_25_40
+do
+aprun -n 1000 $read_prog 2 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 3 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 4 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 5 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 6 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+# 500 reader procs (1000 writers)
+for i in 1 2 3 4 5
+do
+for filename in 2d_25_40
+do
+aprun -n 500 $read_prog 2 $filename 25 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 500 $read_prog 3 $filename 25 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 500 $read_prog 4 $filename 25 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 500 $read_prog 5 $filename 25 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 500 $read_prog 6 $filename 25 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+################################################
+
+# 2000 reader procs (2000 writer procs)
+for i in 1 2 3 4 5
+do
+for filename in 2d_50_40
+do
+aprun -n 2000 $read_prog 2 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 3 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 4 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 5 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 6 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+# 1000 reader procs (2000 writers)
+for i in 1 2 3 4 5
+do
+for filename in 2d_50_40
+do
+aprun -n 1000 $read_prog 2 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 3 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 4 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 5 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 6 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+################################################
+
+# 4000 reader procs (4000 writer procs)
+for i in 1 2 3 4 5
+do
+for filename in 2d_50_80
+do
+aprun -n 4000 $read_prog 2 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 3 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 4 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 5 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 6 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+# 2000 reader procs (4000 writers)
+for i in 1 2 3 4 5
+do
+for filename in 2d_50_80
+do
+aprun -n 2000 $read_prog 2 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 3 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 4 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 5 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 6 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+################################################
+
+# 8000 reader procs (8000 writer procs)
+for i in 1 2 3 4 5
+do
+for filename in 2d_100_80
+do
+aprun -n 8000 $read_prog 2 $filename 100 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 8000 $read_prog 3 $filename 100 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 8000 $read_prog 4 $filename 100 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 8000 $read_prog 5 $filename 100 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 8000 $read_prog 6 $filename 100 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+# 4000 reader procs (8000 writers)
+for i in 1 2 3 4 5
+do
+for filename in 2d_100_80
+do
+aprun -n 4000 $read_prog 2 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 3 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 4 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 5 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 6 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done

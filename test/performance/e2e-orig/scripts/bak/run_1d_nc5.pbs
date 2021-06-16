@@ -1,0 +1,55 @@
+#!/bin/sh
+#PBS -A CSC024adio
+#PBS -N read_1d_nc5
+#PBS -o /tmp/work/ge1/a/1d/read.1d.nc5.out
+#PBS -e /tmp/work/ge1/a/1d/read.1d.nc5.err
+#PBS -l walltime=04:00:00,size=8004
+
+write_prog=write_1d_nc5
+read_prog=read_1d_nc5
+flush_prog=write_3d_bp
+
+cd $PBS_O_WORKDIR
+lfs setstripe . -c 160 -i 0
+export MPICH_MAX_SHORT_MSG_SIZE=64000
+
+echo Run 1-D tests $write_prog $read_prog $flush_prog
+date
+
+#################################################
+# READ TESTS
+#################################################
+
+for p in 512 1024 1536 2048 2560 3072 3584 4096
+do
+
+#hp=`expr $p / 2`
+
+for filename in 1d_7168 1d_16384
+
+for i in 1 2 3 4 5
+do
+
+aprun -n $p $read_prog 2 $(filename)
+echo flush
+date
+
+aprun -n $p $read_prog 3 $(filename)
+echo flush
+date
+
+aprun -n $p $read_prog 4 $(filename)
+echo flush
+date
+
+aprun -n $p $read_prog 5 $(filename)
+echo flush
+date
+
+aprun -n $p $read_prog 6 $(filename)
+echo flush
+date
+
+done
+done
+

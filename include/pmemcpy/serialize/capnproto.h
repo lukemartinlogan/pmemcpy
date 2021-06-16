@@ -6,20 +6,75 @@
 #define PMEMCPY_CAPNPROTO_SERIALIZER_H
 
 #include <pmemcpy/serialize/serializer.h>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+#include <capnp/message.h>
+#include <capnp/serialize-packed.h>
+#include <kj/io.h>
+#include <basic_capnp.capnp.h>
+#include <vector>
 #include <string>
 
 namespace pmemcpy {
 
-template<typename T>
-class CapnProtoSerializer : public Serializer<T> {
-public:
-    inline std::string serialize(const T *src) {
-        return nullptr;
+#define CAPNP_PRIM_SERIAL(T, CT)\
+    inline std::string _serialize(T &src) {\
+        kj::VectorOutputStream output(sizeof(T));\
+        capnp::MallocMessageBuilder message;\
+        PrimitiveData::Builder num = message.initRoot<PrimitiveData>();\
+        num.set##CT(src);\
+        capnp::writePackedMessage(output, message.getSegmentsForOutput());\
+        return std::string((char*)output.getArray().begin(), output.getArray().size());\
+    }\
+    inline std::string _serialize(T *src, size_t count) {\
+        kj::VectorOutputStream output(count*sizeof(T));\
+        capnp::MallocMessageBuilder message;\
+        PrimitiveData::Builder nums = message.initRoot<PrimitiveData>();\
+        nums.set##CT##Arr(kj::ArrayPtr<T>(src, count));\
+        capnp::writePackedMessage(output, message.getSegmentsForOutput());\
+        return std::string((char*)output.getArray().begin(), output.getArray().size());\
+    }\
+    inline void _deserialize(T &dst, const std::string src) {\
+        kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src.c_str(), src.size()));\
+        capnp::PackedMessageReader message(input);\
+        PrimitiveData::Reader num = message.getRoot<PrimitiveData>();\
+        dst = num.get##CT();\
+    }\
+    inline void _deserialize(T *dst, const std::string src, Dimensions dims) {\
+        kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src.c_str(), src.size()));\
+        capnp::PackedMessageReader message(input);\
+        PrimitiveData::Reader nums = message.getRoot<PrimitiveData>();\
+        capnp::List<T>::Reader temp = nums.get##CT##Arr();\
+        for(size_t i = 0; i < temp.size(); ++i) { dst[i] = temp[i]; }\
     }
 
-    inline void deserialize(T *dst, const std::string src) {
+template<typename T>
+class CapnProtoSerializer : public Serializer<T> {
+private:
+    CAPNP_PRIM_SERIAL(int8_t, D8)
+    CAPNP_PRIM_SERIAL(int16_t, D16)
+    CAPNP_PRIM_SERIAL(int32_t, D32)
+    CAPNP_PRIM_SERIAL(int64_t, D64)
+    CAPNP_PRIM_SERIAL(uint8_t, U8)
+    CAPNP_PRIM_SERIAL(uint16_t, U16)
+    CAPNP_PRIM_SERIAL(uint32_t, U32)
+    CAPNP_PRIM_SERIAL(uint64_t, U64)
+    CAPNP_PRIM_SERIAL(float, F32)
+    CAPNP_PRIM_SERIAL(double, F64)
+
+public:
+    inline std::string serialize(T &src) {
+        return _serialize(src);
+    }
+
+    inline std::string serialize(T *src, Dimensions dims) {
+        return _serialize(src, dims.count());
+    }
+
+    inline void deserialize(T &dst, const std::string src) {
+        _deserialize(dst, src);
+    }
+
+    inline void deserialize(T *dst, const std::string src, Dimensions dims) {
+        _deserialize(dst, src, dims);
     }
 };
 

@@ -1,0 +1,59 @@
+#!/bin/sh
+#PBS -A CSC024adio
+#PBS -N read_3d_nc4_7k_s1
+#PBS -o /tmp/work/ge1/a/3d/read.3d.nc4.7k.s1.out
+#PBS -e /tmp/work/ge1/a/3d/read.3d.nc4.7k.s1.err
+#PBS -l walltime=02:00:00,size=516
+
+write_prog=write_3d_nc4
+read_prog=read_3d_nc4
+flush_prog=write_3d_bp
+
+cd $PBS_O_WORKDIR
+lfs setstripe . -c 160 -i 0
+export MPICH_MAX_SHORT_MSG_SIZE=64000
+export MPICH_PTL_OTHER_EVENTS=4096
+
+echo Run 3-D tests $write_prog $read_prog $flush_prog
+date
+
+####################### NC4 #####################
+#################################################
+# READ TESTS
+#################################################
+
+for p in 4 8 12 
+do
+
+#hp=`expr $p / 2`
+
+for i in 1 2 3 4 5
+do
+
+for per_proc_size in 32_32_32 64_64_64 128_128_128 256_256_256
+do
+
+aprun -n $p $read_prog 2 3d_28_16_16_${per_proc_size} 28 16 16
+echo flush
+date
+
+aprun -n $p $read_prog 3 3d_28_16_16_${per_proc_size} 28 16 16
+echo flush
+date
+
+aprun -n $p $read_prog 4 3d_28_16_16_${per_proc_size} 112 64
+echo flush
+date
+
+aprun -n $p $read_prog 5 3d_28_16_16_${per_proc_size} 28 16 16
+echo flush
+date
+
+aprun -n $p $read_prog 6 3d_28_16_16_${per_proc_size} 112 64
+echo flush
+date
+
+done
+done
+done
+

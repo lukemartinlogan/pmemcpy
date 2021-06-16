@@ -3,5 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/test/performance/e2e-hpdc2011" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/performance/e2e-orig" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/test/performance/pmemulator/fuse-example" vcs="Git" />
   </component>
 </project>

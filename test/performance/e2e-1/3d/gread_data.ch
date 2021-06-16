@@ -1,0 +1,13 @@
+s = adios_selection_writeblock (rank);
+adios_schedule_read (fp, s, "A", 0, 1, A);
+adios_schedule_read (fp, s, "B", 0, 1, B);
+adios_schedule_read (fp, s, "C", 0, 1, C);
+adios_schedule_read (fp, s, "D", 0, 1, D);
+adios_schedule_read (fp, s, "E", 0, 1, E);
+adios_schedule_read (fp, s, "F", 0, 1, F);
+adios_schedule_read (fp, s, "G", 0, 1, G);
+adios_schedule_read (fp, s, "H", 0, 1, H);
+adios_schedule_read (fp, s, "I", 0, 1, I);
+adios_schedule_read (fp, s, "J", 0, 1, J);
+adios_perform_reads (fp, 1);
+adios_selection_delete (s);

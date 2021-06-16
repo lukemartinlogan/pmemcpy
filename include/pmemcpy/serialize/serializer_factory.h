@@ -6,10 +6,15 @@
 #define PMEMCPY_SERIALIZER_FACTORY_H
 
 #include <memory>
+
 #include <pmemcpy/serialize/msgpack.h>
 #include <pmemcpy/serialize/cereal.h>
 #include <pmemcpy/serialize/boost.h>
+
+#ifdef VECTOR_TEST
+#else
 #include <pmemcpy/serialize/capnproto.h>
+#endif
 
 namespace pmemcpy {
 
@@ -17,8 +22,7 @@ enum class SerializerType {
     CEREAL,
     MSGPACK,
     BOOST,
-    CAPNPROTO,
-    PROTOBUF
+    CAPNPROTO
 };
 
 template<typename T>
@@ -36,7 +40,11 @@ public:
                 return std::make_unique<BoostSerializer<T>>();
             }
             case SerializerType::CAPNPROTO: {
+#ifdef VECTOR_TEST
                 return nullptr;
+#else
+                return std::make_unique<CapnProtoSerializer<T>>();
+#endif
             }
         }
         return nullptr;

@@ -21,7 +21,7 @@ public:
         storage_ = StorageFactory::get(storage);
     }
 
-    inline void mmap(std::string path, uint64_t size = PMEMOBJ_MIN_POOL) {
+    inline void mmap(std::string path, uint64_t size=0) {
         storage_->mmap(path, size);
     }
     inline void munmap() {
@@ -31,14 +31,32 @@ public:
         storage_->release(path);
     }
     template<typename T>
-    inline void store(std::string id, T *src, unsigned count = 1) {
+    inline void store(std::string id, T &src) {
         std::string serial = SerializerFactory<T>::get(serializer_)->serialize(src);
         storage_->store(id, serial);
     }
     template<typename T>
-    inline void load(std::string id, T *dst) {
+    inline void store(std::string id, T *src, Dimensions dims) {
+        std::string serial = SerializerFactory<T>::get(serializer_)->serialize(src, dims);
+        storage_->store(id, serial);
+    }
+    template<typename T>
+    inline void store(std::string id, T *src, Offsets offsets, Sizes sizes, Dimensions dims) {
+        store(id, src, dims);
+    }
+    template<typename T>
+    inline void load(std::string id, T &dst) {
         std::string serial = storage_->load(id);
         SerializerFactory<T>::get(serializer_)->deserialize(dst, serial);
+    }
+    template<typename T>
+    inline void load(std::string id, T *dst, Dimensions dims) {
+        std::string serial = storage_->load(id);
+        SerializerFactory<T>::get(serializer_)->deserialize(dst, serial, dims);
+    }
+    template<typename T>
+    inline void load(std::string id, T *dst, Offsets offsets, Sizes sizes, Dimensions dims) {
+        load(id, dst, dims);
     }
     inline void free(std::string id) {
         storage_->free(id);

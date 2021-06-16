@@ -1,0 +1,316 @@
+#!/bin/sh
+#PBS -A CSC024adio
+#PBS -N read_3d_nc5
+#PBS -o /tmp/work/ge1/a/3d/run.stdout.3d.nc5
+#PBS -e /tmp/work/ge1/a/3d/run.stderr.3d.nc5
+#PBS -l walltime=08:00:00,size=8004
+
+write_prog=write_3d_nc5
+read_prog=read_3d_nc5
+flush_prog=write_3d_bp
+
+cd $PBS_O_WORKDIR
+lfs setstripe . -c 160 -i 0
+export MPICH_MAX_SHORT_MSG_SIZE=32000
+
+echo Run 3-D tests $write_prog $read_prog $flush_prog
+date
+
+####################### BP #####################
+# 1000 procs
+aprun -n 1000 $write_prog 3d_10_10_10_32_32_32 10 10 10 32 32 32
+date
+aprun -n 1000 $write_prog 3d_10_10_10_128_128_128 10 10 10 128 128 128
+date
+aprun -n 1000 $write_prog 3d_10_10_10_256_256_256 10 10 10 256 256 256
+date
+
+# 2000 procs
+aprun -n 2000 $write_prog 3d_20_10_10_32_32_32 20 10 10 32 32 32
+date
+aprun -n 2000 $write_prog 3d_20_10_10_128_128_128 20 10 10 128 128 128
+date
+aprun -n 2000 $write_prog 3d_20_10_10_256_256_256 20 10 10 256 256 256
+date
+
+# 4000 procs
+aprun -n 4000 $write_prog 3d_20_20_10_32_32_32 20 20 10 32 32 32
+date
+aprun -n 4000 $write_prog 3d_20_20_10_128_128_128 20 20 10 128 128 128
+date
+aprun -n 4000 $write_prog 3d_20_20_10_256_256_256 20 20 10 256 256 256
+date
+
+# 8000 procs
+aprun -n 8000 $write_prog 3d_20_20_20_32_32_32 20 20 20 32 32 32
+date
+aprun -n 8000 $write_prog 3d_20_20_20_128_128_128 20 20 20 128 128 128
+date
+aprun -n 8000 $write_prog 3d_20_20_20_256_256_256 20 20 20 256 256 256
+date
+
+#################################################
+# 3-D READ TESTS
+#################################################
+
+# 1000 reader procs (1000 writer procs)
+for i in 1 2 3 4 5
+do
+for filename in 3d_10_10_10_32_32_32 3d_10_10_10_128_128_128 3d_10_10_10_256_256_256
+do
+aprun -n 1000 $read_prog 2 $filename 10 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 3 $filename 10 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 4 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 5 $filename 10 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 6 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+# 500 reader procs (1000 writers)
+for i in 1 2 3 4 5
+do
+for filename in 3d_10_10_10_32_32_32 3d_10_10_10_128_128_128 3d_10_10_10_256_256_256
+do
+aprun -n 500 $read_prog 2 $filename 10 10 5
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 500 $read_prog 3 $filename 10 10 5
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 500 $read_prog 4 $filename 25 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 500 $read_prog 5 $filename 10 10 5
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 500 $read_prog 6 $filename 25 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+################################################
+
+# 2000 reader procs (2000 writer procs)
+for i in 1 2 3 4 5
+do
+for filename in 3d_20_10_10_32_32_32 3d_20_10_10_128_128_128 3d_20_10_10_256_256_256
+do
+aprun -n 2000 $read_prog 2 $filename 20 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 3 $filename 20 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 4 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 5 $filename 20 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 6 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+# 1000 reader procs (2000 writers)
+for i in 1 2 3 4 5
+do
+for filename in 3d_20_10_10_32_32_32 3d_20_10_10_128_128_128 3d_20_10_10_256_256_256
+do
+aprun -n 1000 $read_prog 2 $filename 10 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 3 $filename 10 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 4 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 5 $filename 10 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 1000 $read_prog 6 $filename 25 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+################################################
+
+# 4000 reader procs (4000 writer procs)
+for i in 1 2 3 4 5
+do
+for filename in 3d_20_20_10_32_32_32 3d_20_20_10_128_128_128 3d_20_20_10_256_256_256
+do
+aprun -n 4000 $read_prog 2 $filename 20 20 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 3 $filename 20 20 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 4 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 5 $filename 20 20 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 6 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+# 2000 reader procs (4000 writers)
+for i in 1 2 3 4 5
+do
+for filename in 3d_20_20_10_32_32_32 3d_20_20_10_128_128_128 3d_20_20_10_256_256_256
+do
+aprun -n 2000 $read_prog 2 $filename 20 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 3 $filename 20 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 4 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 5 $filename 20 10 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 2000 $read_prog 6 $filename 50 40
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+################################################
+
+# 8000 reader procs (8000 writer procs)
+for i in 1 2 3 4 5
+do
+for filename in 3d_20_20_20_32_32_32 3d_20_20_20_128_128_128 3d_20_20_20_256_256_256
+do
+aprun -n 8000 $read_prog 2 $filename 20 20 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 8000 $read_prog 3 $filename 20 20 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 8000 $read_prog 4 $filename 100 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 8000 $read_prog 5 $filename 20 20 20
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 8000 $read_prog 6 $filename 100 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done
+
+# 4000 reader procs (8000 writers)
+for i in 1 2 3 4 5
+do
+for filename in 3d_20_20_20_32_32_32 3d_20_20_20_128_128_128 3d_20_20_20_256_256_256
+do
+aprun -n 4000 $read_prog 2 $filename 20 20 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 3 $filename 20 20 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 4 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 5 $filename 20 20 10
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+
+aprun -n 4000 $read_prog 6 $filename 50 80
+date
+aprun -n 1000 $flush_prog flush 10 10 10 256 256 256
+date
+done
+done

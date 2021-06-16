@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<adios-config host-language="C">
+
+ <adios-group name="particles" coordination-communicator="mype">
+   <var name="mype" type="integer"/>
+
+   <var name="nparam" type="integer"/>   <!-- generally 8 elements -->
+
+   <var name="l_ntracke" type="integer"/>  <!-- local electron size -->
+   <var name="l_ntracki" type="integer"/>  <!-- local ion size -->
+
+   <var name="ntracke" type="long"/>  <!-- global electron size -->
+   <var name="ntracki" type="long"/>  <!-- global ion size -->
+
+   <var name="offset_e" type="long"/>  <!-- offset into electrons -->
+   <var name="offset_i" type="long"/>  <!-- offset into ions -->
+
+   <!-- electron list -->
+   <global-bounds dimensions="nparam,ntracke" offsets="0,offset_e">
+    <var name="ptrackede" type="double" dimensions="nparam,l_ntracke"/>
+   </global-bounds>
+
+   <!-- ion list -->
+   <global-bounds dimensions="nparam,ntracki" offsets="0,offset_i">
+    <var name="ptrackedi" type="double" dimensions="nparam,l_ntracki"/>
+   </global-bounds>
+  </adios-group>
+
+  <transport method="MPI_STRIPE2" group="particles">stripe_count=160,stripe_offset=500,stripe_size=4194304,block_size=524288</transport>
+
+  <buffer size-MB="300" allocate-time="now"/>
+
+</adios-config>

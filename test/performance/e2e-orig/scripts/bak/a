@@ -1,0 +1,25 @@
+#!/bin/sh
+for p in 512 1024 1536 2048 2560 3072 3584 4096
+do
+
+hp=`expr $p / 2`
+
+for i in 1 2 3 4 5
+do
+
+for filename in 2d_$p
+do
+
+for t in 2 3 4 5 6
+do
+
+echo read $p $t $filename
+echo flush
+
+echo read $hp $t $filename
+echo flush
+
+done
+done
+done
+done

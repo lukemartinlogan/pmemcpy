@@ -1,0 +1,24 @@
+#!/bin/sh
+#PBS -A CSC024adio
+#PBS -N write_3d_nc4
+#PBS -o /tmp/work/ge1/a/3d/write.3d.nc4.16k.xl.out
+#PBS -e /tmp/work/ge1/a/3d/write.3d.nc4.16k.xl.err
+#PBS -l walltime=24:00:00,size=16392
+
+write_prog=write_3d_nc4
+read_prog=read_3d_nc4
+flush_prog=write_3d_bp
+
+cd $PBS_O_WORKDIR
+lfs setstripe . -c 160 -i 200
+export MPICH_UNEX_BUFFER_SIZE=90000000
+export MPICH_MAX_SHORT_MSG_SIZE=30000
+export MPICH_PTL_OTHER_EVENTS=4096
+
+echo Run 3-D tests $write_prog $read_prog $flush_prog
+date
+
+####################### NC4 #####################
+# 16384 procs
+aprun -n 16384 $write_prog 3d_32_32_16_256_256_256 32 32 16 256 256 256
+date

@@ -16,5 +16,6 @@ memory devices.
 ```{bash}
 mkdir build
 cd build
-cmake ../
+cmake ../ -DCMAKE_INSTALL_PREFIX=/usr
+cmake ../ -DCMAKE_INSTALL_PREFIX=`scspkg pkg-root pmemcpy`
 ```

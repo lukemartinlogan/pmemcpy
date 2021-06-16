@@ -6,7 +6,7 @@
 #define PMEMCPY_POSIX_H
 
 #include <pmemcpy/storage/storage.h>
-#include <filesystem>
+#include <boost/filesystem.hpp>
 #include <string>
 #include <cstdlib>
 #include <unistd.h>
@@ -23,7 +23,7 @@ public:
     ~PosixStorage() {}
 
     void mmap(std::string path, uint64_t size = 0) {
-        if(!std::filesystem::is_directory(path)) {
+        if(!boost::filesystem::is_directory(path)) {
             throw 1;
         }
         path_prefix_ = path;
@@ -45,7 +45,7 @@ public:
     std::string load(std::string id) {
         std::string path = path_prefix_ + "/" + id;
         int fd = open(id.c_str(), O_RDONLY | O_CREAT, 0666);
-        size_t len = std::filesystem::file_size(path);
+        size_t len = boost::filesystem::file_size(path);
         char *buffer = (char*)malloc(len);
         size_t ret = read(fd, buffer, len);
         if(len != ret) {

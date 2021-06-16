@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<adios-config host-language="C">
+
+  <adios-group name="data" time-index="steps">
+
+    <var name="nx" type="integer"/>
+    <var name="ny" type="integer"/>
+    <var name="nz" type="integer"/>
+    <var name="offx" type="integer"/>
+    <var name="offy" type="integer"/>
+    <var name="offz" type="integer"/>
+    <var name="ndx" type="integer"/>
+    <var name="ndy" type="integer"/>
+    <var name="ndz" type="integer"/>
+
+    <global-bounds dimensions="nx,ny,nz" offsets="offx,offy,offz">
+        <var name="A" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="B" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="C" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="D" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="E" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="F" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="G" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="H" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="I" type="double" dimensions="ndx,ndy,ndz"/>
+        <var name="J" type="double" dimensions="ndx,ndy,ndz"/>
+    </global-bounds>
+
+  </adios-group>
+
+  <transport group="data" method="MPI_STRIPE2">stripe_count=160,stripe_offset=200,stripe_size=4194304,block_size=524288</transport>
+
+  <buffer size-MB="1300" allocate-time="now"/>
+
+</adios-config>

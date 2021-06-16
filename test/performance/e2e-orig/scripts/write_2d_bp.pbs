@@ -1,0 +1,27 @@
+#!/bin/sh
+#PBS -A CSC024adio
+#PBS -N write_2d_bp
+#PBS -o /tmp/work/ge1/a/2d/write.2d.bp.out
+#PBS -e /tmp/work/ge1/a/2d/write.2d.bp.err
+#PBS -l walltime=00:10:00,size=16392
+
+write_prog=write_2d_bp
+read_prog=read_2d_bp
+flush_prog=write_3d_bp
+
+cd $PBS_O_WORKDIR
+lfs setstripe . -c 160 -i 0
+export MPICH_UNEX_BUFFER_SIZE=70000000
+export MPICH_MAX_SHORT_MSG_SIZE=25000
+
+echo Run 2-D tests $write_prog $read_prog $flush_prog
+date
+
+####################### BP #####################
+# 7168 procs
+aprun -n 7168 $write_prog 2d_112_64 112 64
+date
+
+# 16384 procs
+aprun -n 16384 $write_prog 2d_128_128 128 128
+date

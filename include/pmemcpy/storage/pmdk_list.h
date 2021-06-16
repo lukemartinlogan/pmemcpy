@@ -6,7 +6,7 @@
 #define PMEMCPY_PMDK_LIST_H
 
 #include <pmemcpy/storage/storage.h>
-#include <filesystem>
+#include <boost/filesystem.hpp>
 #include <string>
 #include <cstdlib>
 #include <memory>
@@ -108,7 +108,7 @@ public:
     ~PMDKListStorage() {}
 
     void mmap(std::string path, uint64_t size = 0) {
-        if (not std::filesystem::exists(path)) {
+        if (not boost::filesystem::exists(path)) {
             _create(path, size == 0 ? PMEMOBJ_MIN_POOL : size);
         } else {
             _open(path);
@@ -118,6 +118,7 @@ public:
     void munmap() {
         if (ppool_ != nullptr) {
             pmemobj_close(ppool_);
+            ppool_ = nullptr;
         }
     }
 

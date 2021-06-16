@@ -1,0 +1,46 @@
+#!/bin/sh
+
+write_prog=write_3d_bp
+read_prog=read_3d_bp
+flush_prog=write_3d_bp
+
+echo Run 3-D tests $write_prog $read_prog $flush_prog
+date
+
+#################################################
+# READ TESTS
+#################################################
+
+for p in 512 1024 1536 2048 2560 3072 3584 4096
+do
+
+#hp=`expr $p / 2`
+
+for filename in 1d_7168 1d_16384
+
+for i in 1 2 3 4 5
+do
+
+aprun -n $p $read_prog 2 $(filename)
+echo flush
+date
+
+aprun -n $p $read_prog 3 $(filename)
+echo flush
+date
+
+aprun -n $p $read_prog 4 $(filename)
+echo flush
+date
+
+aprun -n $p $read_prog 5 $(filename)
+echo flush
+date
+
+aprun -n $p $read_prog 6 $(filename)
+echo flush
+date
+
+done
+done
+

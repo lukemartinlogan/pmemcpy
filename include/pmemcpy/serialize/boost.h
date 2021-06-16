@@ -23,26 +23,46 @@
 #include <boost/serialization/valarray.hpp>
 #include <boost/serialization/variant.hpp>
 #include <boost/serialization/vector.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
 #include <string>
+
+#include <iostream>
+#include <fstream>
 
 namespace pmemcpy {
 
 template<typename T>
 class BoostSerializer : public Serializer<T> {
 public:
-    inline std::string serialize(const T *src) {
+    inline std::string serialize(T &src) {
         std::stringstream ss;
-        boost::archive::text_oarchive oarch(ss);
-        oarch << *src;
+        boost::archive::binary_oarchive oarch(ss);
+        oarch << src;
         return ss.str();
     }
 
-    inline void deserialize(T *dst, const std::string src) {
+    inline std::string serialize(T *src, Dimensions dims) {
+        std::vector<T, NoAllocator<T>> temp_(NoAllocator<T>(src, dims.count()));
+        temp_.resize(dims.count());
+        std::stringstream ss;
+        boost::archive::binary_oarchive oarch(ss);
+        oarch << temp_;
+        return ss.str();
+    }
+
+    inline void deserialize(T &dst, const std::string src) {
         std::stringstream ss = std::stringstream(src);
-        boost::archive::text_iarchive iarch(ss);
-        iarch >> *dst;
+        boost::archive::binary_iarchive iarch(ss);
+        iarch >> dst;
+    }
+
+    inline void deserialize(T *dst, const std::string src, Dimensions dims) {
+        std::vector<T, NoAllocator<T>> temp_(NoAllocator<T>(dst, dims.count()));
+        temp_.resize(dims.count());
+        std::stringstream ss(src);
+        boost::archive::binary_iarchive iarch(ss);
+        iarch >> temp_;
     }
 };
 
