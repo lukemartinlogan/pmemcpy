@@ -37,15 +37,17 @@ void test_mmap(char *path) {
     for(int i = 0; i < 8; ++i) {
         if (rank == i) {
             try {
+                printf("MMAP FOR RANK %d\n", rank);
                 pmem.mmap(path, 100 * (1 << 20));
                 printf("MMAP SUCCESS!\n");
-                sleep(100);
             }
             catch(...) {
                 printf("MMAP FAILED!\n");
             }
         }
+        printf("BARRIER %d\n", rank);
         MPI_Barrier(MPI_COMM_WORLD);
+        sleep(1);
     }
 }
 

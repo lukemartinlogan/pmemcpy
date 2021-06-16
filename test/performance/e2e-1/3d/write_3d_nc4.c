@@ -112,16 +112,16 @@ int main(int argc, char **argv)
      cube_dim[1] =  dimid2;
      cube_dim[2] =  dimid3;
    
-     status = nc_def_var (ncid, "A", NC_DOUBLE, 3, cube_dim, &cube1_id);
-     status = nc_def_var (ncid, "B", NC_DOUBLE, 3, cube_dim, &cube2_id);
-     status = nc_def_var (ncid, "C", NC_DOUBLE, 3, cube_dim, &cube3_id);
-     status = nc_def_var (ncid, "D", NC_DOUBLE, 3, cube_dim, &cube4_id);
-     status = nc_def_var (ncid, "E", NC_DOUBLE, 3, cube_dim, &cube5_id);
-     status = nc_def_var (ncid, "F", NC_DOUBLE, 3, cube_dim, &cube6_id);
-     status = nc_def_var (ncid, "G", NC_DOUBLE, 3, cube_dim, &cube7_id);
-     status = nc_def_var (ncid, "H", NC_DOUBLE, 3, cube_dim, &cube8_id);
-     status = nc_def_var (ncid, "I", NC_DOUBLE, 3, cube_dim, &cube9_id);
-     status = nc_def_var (ncid, "J", NC_DOUBLE, 3, cube_dim, &cube10_id);
+     status = nc_def_var (ncid, "A", NC_DOUBLE, 3, cube_dim, &cube1_id); nc_def_var_fill(ncid, cube1_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "B", NC_DOUBLE, 3, cube_dim, &cube2_id); nc_def_var_fill(ncid, cube2_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "C", NC_DOUBLE, 3, cube_dim, &cube3_id); nc_def_var_fill(ncid, cube3_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "D", NC_DOUBLE, 3, cube_dim, &cube4_id); nc_def_var_fill(ncid, cube4_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "E", NC_DOUBLE, 3, cube_dim, &cube5_id); nc_def_var_fill(ncid, cube5_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "F", NC_DOUBLE, 3, cube_dim, &cube6_id); nc_def_var_fill(ncid, cube6_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "G", NC_DOUBLE, 3, cube_dim, &cube7_id); nc_def_var_fill(ncid, cube7_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "H", NC_DOUBLE, 3, cube_dim, &cube8_id); nc_def_var_fill(ncid, cube8_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "I", NC_DOUBLE, 3, cube_dim, &cube9_id); nc_def_var_fill(ncid, cube9_id, NC_NOFILL, NULL);
+     status = nc_def_var (ncid, "J", NC_DOUBLE, 3, cube_dim, &cube10_id); nc_def_var_fill(ncid, cube10_id, NC_NOFILL, NULL);
      status = nc_enddef(ncid);
      
      status = nc_var_par_access(ncid, cube1_id, NC_COLLECTIVE);

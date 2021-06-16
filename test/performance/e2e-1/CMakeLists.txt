@@ -3,10 +3,10 @@ project(e2e-1 LANGUAGES C CXX)
 
 set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED YES )
-#set( CMAKE_C_FLAGS "-g -O3 --fast-math" )
-#set( CMAKE_CXX_FLAGS "-g -O3 --fast-math" )
-set( CMAKE_C_FLAGS "-g" )
-set( CMAKE_CXX_FLAGS "-g" )
+set( CMAKE_C_FLAGS "-g -O3 --fast-math" )
+set( CMAKE_CXX_FLAGS "-g -O3 --fast-math" )
+#set( CMAKE_C_FLAGS "-g" )
+#set( CMAKE_CXX_FLAGS "-g" )
 
 find_package(OpenMP)
 

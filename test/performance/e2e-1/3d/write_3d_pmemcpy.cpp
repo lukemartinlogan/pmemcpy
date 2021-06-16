@@ -93,16 +93,16 @@ int main(int argc, char **argv) {
         pmem.store<uint64_t>("nz", nz);
     }
 
-    pmem.store("A" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("B" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("C" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("D" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("E" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("F" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("G" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("H" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("I" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
-    pmem.store("J" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(nx, ny, nz));
+    pmem.store("A" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("B" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("C" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("D" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("E" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("F" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("G" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("H" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("I" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("J" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
 
     status = MPI_Barrier(MPI_COMM_WORLD);
     if (rank == 0) {
