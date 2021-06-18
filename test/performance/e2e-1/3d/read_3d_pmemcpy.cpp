@@ -78,9 +78,9 @@ int read_pattern_3 (int argc, char ** argv)
     readsize [1] = my_y_dim;
     readsize [2] = my_z_dim;
 
-    grav_x_c = (double*)malloc (sizeof (double) * readsize [1] * readsize [2] * readsize [3]);
-    grav_y_c = (double*)malloc (sizeof (double) * readsize [1] * readsize [2] * readsize [3]);
-    grav_z_c = (double*)malloc (sizeof (double) * readsize [1] * readsize [2] * readsize [3]);
+    grav_x_c = (double*)malloc (sizeof (double) * readsize [0] * readsize [1] * readsize [2]);
+    grav_y_c = (double*)malloc (sizeof (double) * readsize [0] * readsize [1] * readsize [2]);
+    grav_z_c = (double*)malloc (sizeof (double) * readsize [0] * readsize [1] * readsize [2]);
 
     pmem.load<double>("D" + std::to_string(rank), grav_x_c, pmemcpy::Dimensions(my_x_dim, my_y_dim, my_z_dim));
     pmem.load<double>("E" + std::to_string(rank), grav_y_c, pmemcpy::Dimensions(my_x_dim, my_y_dim, my_z_dim));
@@ -91,6 +91,7 @@ int read_pattern_3 (int argc, char ** argv)
     if (rank == 0)
         printf ("fn=%s dim=%d npx=%d npy=%d npz=%d time=%lf\n", filename, 3, nproc_x, nproc_y, nproc_z, end_time - start_time);
     nc_err = MPI_Finalize ();
+    return 0;
 }
 
 int main (int argc, char ** argv)

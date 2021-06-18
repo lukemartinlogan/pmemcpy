@@ -16,7 +16,7 @@ int read_pattern_3(int argc, char ** argv) {
 
     int nc_err;
     int ncid;
-    char filename[256], nx_str[256], ny_str[256], nz_str[256];
+    char filename[256];
     char dim_name[100];
     uint64_t start[10];
     uint64_t readsize[10];
@@ -26,19 +26,12 @@ int read_pattern_3(int argc, char ** argv) {
     int grav_x_c_varid, grav_y_c_varid, grav_z_c_varid;
 
     int rank;
-    int size;
-    int nproc_x;
-    int nproc_y;
-    int nproc_z;
-    MPI_Offset nx;
-    MPI_Offset ny;
-    MPI_Offset nz;
-    int my_x_dim;    // size of local x
-    int my_y_dim;    // size of local y
-    int my_z_dim;    // size of local z
-    int x_min;       // offset for local x
-    int y_min;       // offset for local y
-    int z_min;       // offset for local z
+    int npx, npy, npz;
+    int nx, ny, nz;
+    int ndx, ndy, ndz;    // size of local z
+    int posx, posy, posz;       // offset for local z
+    int offx, offy, offz;       // offset for local z
+    int nprocs;
 
     double *grav_x_c;
     double *grav_y_c;
@@ -48,15 +41,12 @@ int read_pattern_3(int argc, char ** argv) {
 
     adios_err = MPI_Init(&argc, &argv);
     adios_err = MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    adios_err = MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     sprintf(filename, "%s.bp", argv[1]);
-    strcpy(nx_str, argv[2]);
-    strcpy(ny_str, argv[3]);
-    strcpy(nz_str, argv[4]);
-    nproc_x = atoi(nx_str);
-    nproc_y = atoi(ny_str);
-    nproc_z = atoi(nz_str);
+    npx = atoi(argv[2]);
+    npy = atoi(argv[3]);
+    npz = atoi(argv[4]);
+    nprocs = npx*npy*npz;
 
     MPI_Barrier(MPI_COMM_WORLD);
     start_time = MPI_Wtime();
@@ -77,20 +67,25 @@ int read_pattern_3(int argc, char ** argv) {
     read_bytes = adios_read_var(group_handle, "nz", start, readsize, &nz);
     if (!read_bytes) fprintf(stderr, "%d: %s (6)\n", rank, adios_errmsg());
 
-    my_x_dim = nx / nproc_x;
-    my_y_dim = ny / nproc_y;
-    my_z_dim = nz / nproc_z;
-    x_min = (rank % nproc_x) * my_x_dim;
-    y_min = ((rank / nproc_x) % nproc_y) * my_y_dim;
-    z_min = rank / (nproc_x * nproc_y) * my_z_dim;
+    ndx = nx / npx ;
+    ndy = ny / npy;
+    ndz = nz/ npz;
 
-    start[0] = x_min;
-    start[1] = y_min;
-    start[2] = z_min;
+    posx = rank%npx;
+    posy = (rank/npx) %npy;
+    posz = rank/(npx*npy);
 
-    readsize[0] = my_x_dim;
-    readsize[1] = my_y_dim;
-    readsize[2] = my_z_dim;
+    offx = posx * ndx;
+    offy = posy * ndy;
+    offz = posz * ndz;
+
+    start[0] = offx;
+    start[1] = offy;
+    start[2] = offz;
+
+    readsize[0] = ndx;
+    readsize[1] = ndy;
+    readsize[2] = ndz;
 
     grav_x_c = malloc(sizeof(double) * readsize[0] * readsize[1] * readsize[2]);
     grav_y_c = malloc(sizeof(double) * readsize[0] * readsize[1] * readsize[2]);
@@ -113,8 +108,12 @@ int read_pattern_3(int argc, char ** argv) {
 
     MPI_Barrier(MPI_COMM_WORLD);
     end_time = MPI_Wtime();
-    if (rank == 0)
-        printf ("fn=%s dim=%d npx=%d npy=%d npz=%d time=%lf\n", filename, 3, nproc_x, nproc_y, nproc_z, end_time - start_time);
+    //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
+    if (rank == 0) {
+        size_t size_per_proc = 3*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
+        size_t agg_size = size_per_proc*nprocs;
+        printf("read bp %lu %lu %lu %lu %lu %lu %lf none none\n", nprocs, readsize[0], readsize[1], readsize[2], size_per_proc, agg_size, end_time - start_time);
+    }
     adios_err = MPI_Finalize();
 }
 

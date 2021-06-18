@@ -12,6 +12,7 @@
 #include <basic_capnp.capnp.h>
 #include <vector>
 #include <string>
+#include <limits>
 
 namespace pmemcpy {
 
@@ -21,7 +22,8 @@ namespace pmemcpy {
         capnp::MallocMessageBuilder message;\
         PrimitiveData::Builder num = message.initRoot<PrimitiveData>();\
         num.set##CT(src);\
-        capnp::writePackedMessage(output, message.getSegmentsForOutput());\
+        capnp::writePackedMessage(output, message.getSegmentsForOutput()); \
+        AUTO_TRACE("pmemcpy::capnp::serialize::single size={}", SizeType(output.getArray().size(), SizeType::MB));\
         return std::string((char*)output.getArray().begin(), output.getArray().size());\
     }\
     inline std::string _serialize(T *src, size_t count) {\
@@ -29,18 +31,25 @@ namespace pmemcpy {
         capnp::MallocMessageBuilder message;\
         PrimitiveData::Builder nums = message.initRoot<PrimitiveData>();\
         nums.set##CT##Arr(kj::ArrayPtr<T>(src, count));\
-        capnp::writePackedMessage(output, message.getSegmentsForOutput());\
+        capnp::writePackedMessage(output, message.getSegmentsForOutput()); \
+        AUTO_TRACE("pmemcpy::capnp::serialize::array size={}", SizeType(output.getArray().size(), SizeType::MB));\
         return std::string((char*)output.getArray().begin(), output.getArray().size());\
     }\
     inline void _deserialize(T &dst, const std::string src) {\
+        AUTO_TRACE("pmemcpy::capnp::deserialize::single size={}", SizeType(src.size(), SizeType::MB));\
         kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src.c_str(), src.size()));\
-        capnp::PackedMessageReader message(input);\
+        capnp::ReaderOptions opts;\
+        opts.traversalLimitInWords = ~0ul;\
+        capnp::PackedMessageReader message(input, opts);\
         PrimitiveData::Reader num = message.getRoot<PrimitiveData>();\
         dst = num.get##CT();\
     }\
     inline void _deserialize(T *dst, const std::string src, Dimensions dims) {\
+        AUTO_TRACE("pmemcpy::capnp::deserialize::array size={}", SizeType(src.size(), SizeType::MB));\
         kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src.c_str(), src.size()));\
-        capnp::PackedMessageReader message(input);\
+        capnp::ReaderOptions opts;\
+        opts.traversalLimitInWords = ~0ul;\
+        capnp::PackedMessageReader message(input, opts);\
         PrimitiveData::Reader nums = message.getRoot<PrimitiveData>();\
         capnp::List<T>::Reader temp = nums.get##CT##Arr();\
         for(size_t i = 0; i < temp.size(); ++i) { dst[i] = temp[i]; }\

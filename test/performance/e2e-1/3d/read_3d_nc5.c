@@ -90,8 +90,6 @@ int read_pattern_3 (int argc, char ** argv)
     readsize [1] = my_y_dim;
     readsize [2] = my_z_dim;
 
-//printf ("%2d start[0] %3d start[1] %3d start[2] %3d size[0] %3d size[1] %3d size[2] %3d\n", rank, start [0], start [1], start [2], readsize [0], readsize [1], readsize [2]);
-
     grav_x_c = malloc (sizeof (double) * readsize [0] * readsize [1] * readsize [2]);
     grav_y_c = malloc (sizeof (double) * readsize [0] * readsize [1] * readsize [2]);
     grav_z_c = malloc (sizeof (double) * readsize [0] * readsize [1] * readsize [2]);
@@ -115,8 +113,12 @@ int read_pattern_3 (int argc, char ** argv)
 
     MPI_Barrier (MPI_COMM_WORLD);
     end_time = MPI_Wtime ();
-    if (rank == 0)
-        printf ("fn=%s dim=%d npx=%d npy=%d npz=%d time=%lf\n", filename, 3, nproc_x, nproc_y, nproc_z, end_time - start_time);
+    //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
+    if (rank == 0) {
+        size_t size_per_proc = 3*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
+        size_t agg_size = size_per_proc*size;
+        printf("read nc5 %d %lld %lld %lld %lu %lu %lf none none\n", size, readsize[0], readsize[1], readsize[2], size_per_proc, agg_size, end_time - start_time);
+    }
     nc_err = MPI_Finalize ();
 }
 

@@ -5,6 +5,8 @@
 #ifndef PMEMCPY_H
 #define PMEMCPY_H
 
+#include <pmemcpy/util/errors.h>
+#include <pmemcpy/util/trace.h>
 #include <pmemcpy/serialize/serializer_factory.h>
 #include <pmemcpy/storage/storage_factory.h>
 #include <string>

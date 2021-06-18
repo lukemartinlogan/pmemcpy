@@ -175,12 +175,12 @@ int main(int argc, char **argv) {
     status = MPI_Barrier (MPI_COMM_WORLD);
 
     end_time = MPI_Wtime ();
-    t_time = end_time - start_time;
-
-    sz = (8.0 * 8.0 * nx * ny * ((double) nz)) / (1024.0 * 1024.0 * 1024.0);
-    gps = sz / t_time;
-    if (rank == 0)
-        printf ("fn=%s nprocs=%d ndx=%d ndy=%d ndz=%d sz=%lf time=%lf gps=%lf\n", filename, nprocs, ndx, ndy, ndz, sz, t_time, gps);
+    //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
+    if (rank == 0) {
+        size_t size_per_proc = 10*sizeof(double)*cube_count[0]*cube_count[1]*cube_count[2];
+        size_t agg_size = size_per_proc*nprocs;
+        printf("write nc5 %d %lld %lld %lld %lu %lu %lf none none\n", nprocs, cube_count[0], cube_count[1], cube_count[2], size_per_proc, agg_size, end_time - start_time);
+    }
     free (ddata);
     MPI_Info_free (&info);
     MPI_Finalize ();

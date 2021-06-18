@@ -109,8 +109,12 @@ int read_pattern_3 (int argc, char ** argv) {
 
     MPI_Barrier(MPI_COMM_WORLD);
     end_time = MPI_Wtime();
-    if (rank == 0)
-        printf ("fn=%s dim=%d npx=%d npy=%d npz=%d time=%lf\n", filename, 3, nproc_x, nproc_y, nproc_z, end_time - start_time);
+    //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
+    if (rank == 0) {
+        size_t size_per_proc = 3*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
+        size_t agg_size = size_per_proc*size;
+        printf("read nc4 %d %lu %lu %lu %lu %lu %lf none none\n", size, readsize[0], readsize[1], readsize[2], size_per_proc, agg_size, end_time - start_time);
+    }
     nc_err = MPI_Finalize();
 }
 

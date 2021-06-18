@@ -5,6 +5,8 @@
 #ifndef PMEMCPY_PMDK_HASHTABLE_H
 #define PMEMCPY_PMDK_HASHTABLE_H
 
+#include <pmemcpy/util/errors.h>
+#include <pmemcpy/util/trace.h>
 #include <pmemcpy/storage/storage.h>
 #include <boost/filesystem.hpp>
 #include <string>
@@ -22,7 +24,6 @@ POBJ_LAYOUT_TOID(objstore, struct PMEMPointer)
 POBJ_LAYOUT_TOID(objstore, struct PMEMPointerTable)
 POBJ_LAYOUT_TOID(objstore, char)
 POBJ_LAYOUT_END(objstore)
-
 
 struct PMEMListArgs {
     size_t id_len;
@@ -60,14 +61,14 @@ private:
     int nodecomm_, nodesize_, noderank_;
 
     inline void _create(std::string path, uint64_t size, uint64_t nbuckets=1000) {
+        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::_create path={}, size={}, nbuckets={}", path, SizeType(size, SizeType::MB), nbuckets);
         if(size < sizeof(struct PMEMHeader) + 32*nbuckets*sizeof(struct PMEMPointerList)) {
-            throw "Not enough space allocated in the pool";
+            PMDK_HASH_POOL_TOO_SMALL.format(size, nbuckets, sizeof(struct PMEMHeader) + 32*nbuckets*sizeof(struct PMEMPointerList));
         }
         ppool_ = pmemobj_create(path.c_str(), POBJ_LAYOUT_NAME(objstore), size, 0777);
         nbuckets_ = nbuckets;
         if (ppool_ == nullptr) {
-            perror("pmemobj create");
-            throw 1;
+            throw PMDK_HASH_POOL_FAILED.format(path, size, nbuckets, std::string(strerror(errno)));
         }
         root_ = POBJ_ROOT(ppool_, struct PMEMHeader);
         TX_BEGIN(ppool_) {
@@ -77,16 +78,16 @@ private:
             pmemobj_persist(ppool_, &ROOT_TABLE_RW(root_)->nbuckets, sizeof(uint64_t));
         }
         TX_ONABORT {
-            fprintf(stderr, "error: creating objstore aborted\n");
             release(path);
+            throw PMDK_CREATE_HEADER_FAILED.format(path, size, nbuckets, std::string(strerror(errno)));
         } TX_END
     }
 
     inline void _open(std::string path) {
+        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::_open path={}", path);
         ppool_ = pmemobj_open(path.c_str(), POBJ_LAYOUT_NAME(objstore));
         if (ppool_ == nullptr) {
-            perror("pmemobj open");
-            throw 1;
+            throw PMDK_CANT_OPEN_POOL.format(path, std::string(strerror(errno)));
         }
         root_ = POBJ_ROOT(ppool_, struct PMEMHeader);
         nbuckets_ = ROOT_TABLE_RO(root_)->nbuckets;
@@ -95,6 +96,7 @@ private:
     static int _add(PMEMobjpool *ppool, void *ptr, void *arg) {
         struct PMEMPointer *bucket_entry = (struct PMEMPointer *)ptr;
         struct PMEMListArgs *info = (struct PMEMListArgs *)arg;
+        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::_add id_len={} data_len={}", SizeType(info->id_len, SizeType::MB), SizeType(info->len, SizeType::MB));
         pmemobj_memcpy_persist(ppool, &bucket_entry->id_len, &info->id_len, sizeof(uint64_t));
         pmemobj_memcpy_persist(ppool, &bucket_entry->id, &info->id, sizeof(TOID(char)));
         pmemobj_memcpy_persist(ppool, &bucket_entry->len, &info->len, sizeof(uint64_t));
@@ -114,8 +116,7 @@ private:
         TOID(char) id_pmem;
         int ret = POBJ_ALLOC(ppool_, &id_pmem, char, str->size(), _alloc_str, str);
         if(ret < 0) {
-            fprintf(stderr, "error: failed to allocate ID: %s\n", pmemobj_errormsg());
-            throw 1;
+            throw PMDK_CANT_ALLOCATE_STR.format(str->size(), pmemobj_errormsg());
         }
         return id_pmem;
     }
@@ -131,9 +132,8 @@ private:
                 }
             }
         }
-        throw 1;
+        throw PMDK_CANT_FIND_KEY.format(id);
     }
-
     inline TOID(struct PMEMPointer) _find(std::string id) { uint64_t hash; return _find(id, hash); }
 
     inline uint64_t _hashfun(std::string &data) {
@@ -165,10 +165,12 @@ public:
     }
 
     void release(std::string path) {
+        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::release path={}", path);
         remove(path.c_str());
     }
 
     void store(std::string id, std::string &src) {
+        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::store id={} src_len={}", id, SizeType(src.size(), SizeType::MB));
         uint64_t hash = _hashfun(id);
         struct PMEMListArgs info;
 
@@ -181,38 +183,47 @@ public:
         //Allocate list entry
         PMEMoid oid = POBJ_LIST_INSERT_NEW_HEAD(ppool_, BUCKET_RW(root_, hash), neighbors, sizeof(struct PMEMPointer)+src.size(), _add, &info);
         if(OID_IS_NULL(oid)) {
-            fprintf(stderr, "failed to allocate entry: %s\n", pmemobj_errormsg());
-            throw 1;
+            PMDK_CANT_ALLOCATE_OBJ.format(id, src.size(), pmemobj_errormsg());
         }
     }
 
     std::string load(std::string id) {
+        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::store id={}", id);
         std::string str;
         char *buffer;
         uint64_t len;
-        TX_BEGIN(ppool_) {
+        TOID(struct PMEMPointer) bucket_entry = _find(id);
+        len = D_RO(bucket_entry)->len;
+        buffer = (char*)malloc(len);
+        std::memcpy(buffer, D_RO(D_RO(bucket_entry)->data), len);
+        /*TX_BEGIN(ppool_) {
             TX_ADD(root_);
             TOID(struct PMEMPointer) bucket_entry = _find(id);
             len = D_RO(bucket_entry)->len;
             buffer = (char*)malloc(len);
             std::memcpy(buffer, D_RO(D_RO(bucket_entry)->data), len);
         } TX_ONABORT {
-            fprintf(stderr, "error: reading from pmem aborted\n");
-        } TX_END
+            throw PMDK_LOAD_FAILED.format(pmemobj_errormsg());
+        } TX_END*/
         return std::string(buffer, len);
     }
 
     void free(std::string id) {
+        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::free id={}", id);
         uint64_t hash;
-        TX_BEGIN(ppool_) {
+        TOID(struct PMEMPointer) bucket_entry = _find(id, hash);
+        POBJ_FREE(&D_RO(bucket_entry)->id);
+        POBJ_FREE(&D_RO(bucket_entry)->data);
+        POBJ_LIST_REMOVE_FREE(ppool_, BUCKET_RW(root_, hash), bucket_entry, neighbors);
+        /*TX_BEGIN(ppool_) {
             TX_ADD(root_);
             TOID(struct PMEMPointer) bucket_entry = _find(id, hash);
             POBJ_FREE(&D_RO(bucket_entry)->id);
             POBJ_FREE(&D_RO(bucket_entry)->data);
             POBJ_LIST_REMOVE_FREE(ppool_, BUCKET_RW(root_, hash), bucket_entry, neighbors);
         } TX_ONABORT {
-            fprintf(stderr, "error: reading from pmem aborted\n");
-        } TX_END
+            throw PMDK_FREE_FAILED.format(pmemobj_errormsg());
+        } TX_END*/
     }
 };
 

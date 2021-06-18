@@ -19,15 +19,8 @@ void write(pmemcpy::PMEM &pmem) {
     pmem.store<double>(a_id, a);
 
     //Write array type
-    double data[5] = {10, 11, 12, 13, 14};
-    pmem.store(b_id, data, pmemcpy::Dimensions(5u));
-
-    //Write linked list
-    /*std::list<double> c;
-    c.push_back(1);
-    c.push_back(2);
-    c.push_back(3);
-    pmem.store<std::list<double>>(c_id, c);*/
+    double data[2][2] = {10, 11, 12, 13};
+    pmem.store<double>(b_id, (double*)data, pmemcpy::Dimensions(2u,2u));
 }
 
 void read(pmemcpy::PMEM &pmem) {
@@ -38,20 +31,13 @@ void read(pmemcpy::PMEM &pmem) {
     std::cout << std::endl;
 
     //Read array type?
-    double data[5];
-    pmem.load(b_id, data, pmemcpy::Dimensions(5u));
-    for(int i = 0; i < 5; ++i) {
-        std::cout << "b: " << data[i] << std::endl;
+    double data[2][2];
+    pmem.load<double>(b_id, (double*)data, pmemcpy::Dimensions(2u,2u));
+    for(int i = 0; i < 2; ++i) {
+        std::cout << "b: " << data[i][0] << std::endl;
+        std::cout << "b: " << data[i][1] << std::endl;
     }
     std::cout << std::endl;
-
-    //Read linked list
-    /*std::list<double> c;
-    pmem.load<std::list<double>>(c_id, c);
-    for(double num : c) {
-        std::cout << "c: " << num << std::endl;
-    }
-    std::cout << std::endl;*/
 }
 
 void reset(pmemcpy::PMEM &pmem) {
@@ -62,15 +48,22 @@ void reset(pmemcpy::PMEM &pmem) {
 
 int main(int argc, char **argv)
 {
-    pmemcpy::PMEM pmem(pmemcpy::StorageType::PMDK_LIST, pmemcpy::SerializerType::CAPNPROTO);
-    if(argc != 3) {
-        printf("USAGE: test_pmem [pool-path] [i/o mode]");
+    pmemcpy::StorageType storage_t;
+    pmemcpy::SerializerType serializer_t;
+    if(argc != 5) {
+        printf("USAGE: test_pmem [pool-path] [i/o mode] [storage_type] [serializer_type]");
         return -1;
     }
     char *path = argv[1];
     int mode = atoi(argv[2]);
+    PMEMCPY_ERROR_HANDLE_START()
+    storage_t = pmemcpy::StorageTypeConverter::convert(argv[3]);
+    serializer_t = pmemcpy::SerializerTypeConverter::convert(argv[4]);
+    PMEMCPY_ERROR_HANDLE_END()
 
     //Test create
+    pmemcpy::PMEM pmem(storage_t, serializer_t);
+    PMEMCPY_ERROR_HANDLE_START()
     if(mode == 0 && boost::filesystem::exists(path)) {
         pmem.release(path);
     }
@@ -95,4 +88,5 @@ int main(int argc, char **argv)
             break;
         }
     }
+    PMEMCPY_ERROR_HANDLE_END()
 }

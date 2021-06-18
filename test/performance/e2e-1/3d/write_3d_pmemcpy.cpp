@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
     sz = (8.0 * 8.0 * nx * ny * ((double) nz)) / (1024.0 * 1024.0 * 1024.0);
     gps = sz / t_time;
     if (rank == 0)
-        printf("fn=%s nprocs=%lu ndx=%lu ndy=%lu ndz=%lu sz=%lf time=%lf gps=%lf\n", filename, nprocs, ndx, ndy, ndz,
+        printf("fn=%s nprocs=%d ndx=%lu ndy=%lu ndz=%lu sz=%lf time=%lf gps=%lf\n", filename, nprocs, ndx, ndy, ndz,
     sz, t_time, gps);
     free(ddata);
 

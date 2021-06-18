@@ -6,7 +6,7 @@
 #define PMEMCPY_SERIALIZER_FACTORY_H
 
 #include <memory>
-
+#include <pmemcpy/util/errors.h>
 #include <pmemcpy/serialize/msgpack.h>
 #include <pmemcpy/serialize/cereal.h>
 #include <pmemcpy/serialize/boost.h>
@@ -25,25 +25,44 @@ enum class SerializerType {
     CAPNPROTO
 };
 
+class SerializerTypeConverter {
+public:
+    static SerializerType convert(std::string name) {
+        if(name == "CEREAL") return SerializerType::CEREAL;
+        if(name == "MSGPACK") return SerializerType::MSGPACK;
+        if(name == "BOOST") return SerializerType::BOOST;
+        if(name == "CAPNPROTO") return SerializerType::CAPNPROTO;
+        throw INVALID_SERIALIZER_TYPE.format(name);
+    }
+    static std::string convert(SerializerType id) {
+        switch(id) {
+            case SerializerType::CEREAL: return "CEREAL";
+            case SerializerType::MSGPACK: return "MSGPACK";
+            case SerializerType::BOOST: return "BOOST";
+            case SerializerType::CAPNPROTO: return "CAPNPROTO";
+        }
+    }
+};
+
 template<typename T>
 class SerializerFactory {
 public:
     static std::unique_ptr<Serializer<T>> get(SerializerType type) {
         switch(type) {
             case SerializerType::CEREAL: {
-                return std::make_unique<CerealSerializer<T>>();
+                return std::unique_ptr<CerealSerializer<T>>(new CerealSerializer<T>());
             }
             case SerializerType::MSGPACK: {
-                return std::make_unique<MsgpackSerializer<T>>();
+                return std::unique_ptr<MsgpackSerializer<T>>(new MsgpackSerializer<T>());
             }
             case SerializerType::BOOST: {
-                return std::make_unique<BoostSerializer<T>>();
+                return std::unique_ptr<BoostSerializer<T>>(new BoostSerializer<T>());
             }
             case SerializerType::CAPNPROTO: {
 #ifdef VECTOR_TEST
                 return nullptr;
 #else
-                return std::make_unique<CapnProtoSerializer<T>>();
+                return std::unique_ptr<CapnProtoSerializer<T>>(new CapnProtoSerializer<T>());
 #endif
             }
         }
