@@ -10,10 +10,12 @@
       <config projectName="pm" targetName="read_3d_pmemcpy" />
       <config projectName="pm" targetName="write_3d_bp" />
       <config projectName="pm" targetName="write_3d_pmemcpy_omp" />
+      <config projectName="pm" targetName="test_pmemulator" />
       <config projectName="pm" targetName="pmemcpy" />
       <config projectName="pm" targetName="read_3d_pmemcpy_omp" />
       <config projectName="pm" targetName="test_pmem" />
       <config projectName="pm" targetName="write_3d_nc4" />
+      <config projectName="pm" targetName="pmemulator" />
       <config projectName="pm" targetName="write_3d_nc5" />
       <config projectName="pm" targetName="test_vector" />
     </generated>
@@ -34,94 +36,659 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb017e54-6e21-4884-8028-4244ad7d5d3a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/include/pmemcpy/util/error.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/include/pmemcpy/util/errors.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/include/pmemcpy/util/serializeable.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/include/pmemcpy/util/trace.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/tests.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/logger.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/performance/e2e-orig/1d/read_1d_pmemcpy.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/performance/e2e-orig/1d/write_1d_pmemcpy.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/performance/e2e-orig/2d/read_2d_pmemcpy.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/performance/e2e-orig/2d/write_2d_pmemcpy.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/performance/e2e-orig/3d/read_3d_pmemcpy.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/performance/e2e-orig/3d/write_3d_pmemcpy.c" afterDir="false" />
+    <list default="true" id="cb017e54-6e21-4884-8028-4244ad7d5d3a" name="Default Changelist" comment="``">
+      <change afterPath="$PROJECT_DIR$/test/performance/e2e/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/unit/test_pmemulator.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/test/unit/test_parallel_io.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/test/unit/test_parallel_io.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/test/unit/test_pmem.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/test/unit/test_pmem.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/test/unit/test_vector.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/test/unit/test_vector.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/3d/read_3d_bp.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/3d/read_3d_bp.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/3d/read_3d_nc4.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/3d/read_3d_nc4.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/3d/read_3d_nc5.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/3d/read_3d_nc5.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/3d/read_3d_pmemcpy.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/3d/read_3d_pmemcpy.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/3d/read_3d_pmemcpy_omp.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/3d/read_3d_pmemcpy_omp.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/3d/write_3d_bp.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/3d/write_3d_bp.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/3d/write_3d_nc4.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/3d/write_3d_nc4.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/3d/write_3d_nc5.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/3d/write_3d_nc5.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/3d/write_3d_pmemcpy.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/3d/write_3d_pmemcpy.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/3d/write_3d_pmemcpy_omp.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/3d/write_3d_pmemcpy_omp.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_bp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_bp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_nc4" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_nc4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_nc5" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_nc5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_pmemcpy" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_pmemcpy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_pmemcpy_omp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_pmemcpy_omp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_bp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_bp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_nc4" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_nc4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_nc5" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_nc5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_nc5.nc5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_pmemcpy" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_pmemcpy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_pmemcpy_omp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_pmemcpy_omp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_parallel_io" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test_parallel_io" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_pmem" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test_pmem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_vector" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test_vector" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.19.2/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeRuleHashes.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPCheckVersion.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPCheckVersion.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPTryFlag.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/ompver_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FindOpenMP/ompver_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/pmemcpy.dir/src/serialize/basic_capnp.capnp.c++.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/test/unit/test_parallel_io.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/test/unit/test_pmem.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/test/unit/test_vector.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/libpmemcpy.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/pm.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_bp.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_bp.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_bp.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_bp.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_bp.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_bp.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_bp.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc4.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc4.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc4.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc4.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc4.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc4.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc4.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc5.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc5.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc5.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc5.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc5.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc5.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_nc5.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_pmemcpy.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_pmemcpy.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_pmemcpy.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_pmemcpy.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_pmemcpy.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_pmemcpy.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_1d_pmemcpy.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/3d/read_3d_bp.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_bp.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/3d/read_3d_nc4.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc4.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/3d/read_3d_nc5.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_nc5.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/3d/read_3d_pmemcpy.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/3d/read_3d_pmemcpy_omp.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/read_3d_pmemcpy_omp.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_bp.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_bp.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_bp.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_bp.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_bp.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_bp.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_bp.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc4.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc4.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc4.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc4.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc4.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc4.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc4.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc5.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc5.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc5.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc5.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc5.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc5.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_nc5.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_pmemcpy.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_pmemcpy.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_pmemcpy.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_pmemcpy.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_pmemcpy.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_pmemcpy.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_1d_pmemcpy.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/3d/write_3d_bp.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_bp.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/3d/write_3d_nc4.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc4.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/3d/write_3d_nc5.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_nc5.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/3d/write_3d_pmemcpy.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/3d/write_3d_pmemcpy_omp.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/CMakeFiles/write_3d_pmemcpy_omp.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/e2e-1.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_bp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_nc4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_nc5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_pmemcpy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/read_3d_pmemcpy_omp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_bp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_nc4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_nc5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_pmemcpy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e-1/write_3d_pmemcpy_omp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/performance.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_parallel_io" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_pmem" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_vector" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/include/pmemcpy/memcpy.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/memcpy.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/boost.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/boost.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/capnproto.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/capnproto.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/cereal.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/cereal.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/msgpack.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/msgpack.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/serializer.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/serializer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/serializer_factory.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/serializer_factory.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/storage/pmdk_hashtable.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/storage/pmdk_hashtable.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/storage/posix.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/storage/posix.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/storage/storage_factory.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/storage/storage_factory.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_bp.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_nc4.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_nc4.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_nc5.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_pmemcpy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_pmemcpy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_pmemcpy_omp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_bp.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_nc4.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_nc4.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_nc5.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_pmemcpy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_pmemcpy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_pmemcpy_omp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e-1/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/fuse-example" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-fs.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/test_pmem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/test_pmem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/tests.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/tests.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/3d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/3d.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/gread_data.ch" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/gread_data.ch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/gwrite_data.ch" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/gwrite_data.ch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/logger.h" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/logger.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_bp.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_nc4.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc4.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc5.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_pmemcpy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/read_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy_omp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_bp.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_nc4.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc4.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc5.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_pmemcpy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-1/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/1d.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/read_1d_bp.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/read_1d_nc4.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/read_1d_nc5.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/read_1d_pmemcpy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/write_1d_bp.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/write_1d_nc4.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/write_1d_nc5.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/1d/write_1d_pmemcpy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/2d.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/read_2d_bp.F90" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/read_2d_nc4.F90" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/read_2d_nc5.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/read_2d_pmemcpy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/write_2d_bp.F90" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/write_2d_nc4.F90" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/write_2d_nc5.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/2d/write_2d_pmemcpy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/3d.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/read_3d_bp.F90" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/read_3d_nc4.F90" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/read_3d_nc5.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/read_3d_pmemcpy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/write_3d_bp.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/write_3d_nc4.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/write_3d_nc5.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/3d/write_3d_pmemcpy.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/bp_16k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/bp_16k_s6.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/bp_16k_s7.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/bp_16k_s8.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/bp_16k_s9.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/nc4_16k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/nc4_7k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_16k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_16k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_16k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_16k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_16k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_16k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_7k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_7k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_7k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_7k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/run_2d_nc4_7k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/2d.pbs/write_2d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/bp_16k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/bp_16k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s10.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s10a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s10b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s11.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s11a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s11b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s12.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s12a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s12b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s13.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s13a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s13b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s14.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s14a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s14b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s15.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s15a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s15b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s16.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s16a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s16b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s17.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s17a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s17b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s18.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s18a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s18b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s19.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s19a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s19b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s1a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s1b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s20.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s20a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s20b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s21.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s21a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s21b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s22.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s22a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s22b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s23.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s23a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s23b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s24.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s24a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s24b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s25.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s25a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s25b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s26.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s26a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s26b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s27.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s27a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s27b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s28.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s28a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s28b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s29.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s29a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s29b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s2a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s2b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s30.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s30a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s30b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s31.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s32.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s33.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s34.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s35.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s36.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s37.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s38.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s39.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s3a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s3b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s4a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s4b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s5a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s5b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s6.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s6a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s6b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s7.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s7a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s7b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s8.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s8a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s8b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s9.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s9a.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/nc4_7k_s9b.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_16k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s10.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s11.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s12.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s13.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s14.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s15.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s16.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s17.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s18.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s19.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s20.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s21.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s22.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s23.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s24.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s25.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s26.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s27.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s28.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s29.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s30.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s31.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s32.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s6.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s7.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s8.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/run_3d_nc4_7k_s9.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/write_3d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/write_3d_nc4_16k_sml.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/write_3d_nc4_16k_xl.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/3d.pbs/write_3d_nc4_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/aa1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/aa2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/aa3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/aa1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/aa2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/aa3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_1d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_1d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_1d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_2d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_2d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_2d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_3d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_3d_nc4_16k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_3d_nc4_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/run_3d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_1d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_1d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_1d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_2d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_2d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_2d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_3d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_3d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_3d_nc4_16k_sml.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_3d_nc4_16k_xl.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_3d_nc4_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/bak/write_3d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_1d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_1d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_1d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s10.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s11.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s12.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s13.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s14.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s15.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s16.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s17.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s18.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s6.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s7.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s8.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_16k_s9.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s10.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s11.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s6.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s7.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s8.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_bp_7k_s9.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_16k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_16k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_16k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_16k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_16k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_16k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_7k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_7k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_7k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_7k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc4_7k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_2d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s10.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s11.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s12.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s13.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s14.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s15.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s16.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s17.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s18.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s19.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s20.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s21.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s22.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s23.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s24.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s25.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s26.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s6.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s7.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s8.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_16k_s9.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s10.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s11.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s12.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s13.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s14.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s15.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s16.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s17.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s18.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s19.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s20.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s21.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s22.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s6.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s7.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s8.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_bp_7k_s9.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_16k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s1.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s10.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s11.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s12.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s13.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s14.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s15.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s16.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s17.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s18.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s19.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s2.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s20.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s21.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s22.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s23.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s24.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s25.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s26.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s27.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s28.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s29.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s3.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s30.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s31.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s32.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s6.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s7.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s8.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc4_7k_s9.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/run_3d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_1d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_1d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_1d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_2d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_2d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_2d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_3d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_3d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/save/run_3d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_1d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_1d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_1d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_2d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_2d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_2d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_3d_bp.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_3d_nc4.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_3d_nc4_16k_sml.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_3d_nc4_16k_xl.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_3d_nc4_7k.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e-orig/scripts/write_3d_nc5.pbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/pmemulator/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +715,7 @@
     <setting file="file://$PROJECT_DIR$/include/pmemcpy/serialize/serializer_factory.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/include/pmemcpy/serialize/capnproto.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/include/pmemcpy/serialize/basic_capnp.capnp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/test/performance/e2e-1/CMakeLists.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/performance/e2e/CMakeLists.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/test/unit/test_pmem.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1tNxMCve7vwy2olKmwVyrnilQVo" />
@@ -165,16 +732,16 @@
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="cmake.loaded.for.project" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/include/pmemcpy/util" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/unit" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test/unit" />
       <recent name="$PROJECT_DIR$/include/pmemcpy/util" />
       <recent name="$PROJECT_DIR$/test/performance/e2e-1/3d" />
-      <recent name="$PROJECT_DIR$/test/unit" />
       <recent name="$PROJECT_DIR$/test/performance/e2e-1" />
       <recent name="$PROJECT_DIR$/include/pmemcpy/serialize" />
     </key>
@@ -182,13 +749,18 @@
       <recent name="$PROJECT_DIR$/include/pmem_memcpy" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.read_3d_pmemcpy_omp">
+  <component name="RunManager" selected="CMake Application.pmemulator">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration name="pmemcpy" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="pmemcpy" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="pmemulator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="pmemulator" CONFIG_NAME="Debug" RUN_PATH="$PROJECT_DIR$/cmake-build-debug/test_pmemulator">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -470,6 +1042,11 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="test_pmemulator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="test_pmemulator" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pm" RUN_TARGET_NAME="test_pmemulator">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="test_vector" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="test_vector" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pm" RUN_TARGET_NAME="test_vector">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -699,7 +1276,9 @@
       <item itemvalue="CMake Application.test_parallel_posix" />
       <item itemvalue="CMake Application.test_parallel_pmdk" />
       <item itemvalue="CMake Application.test_pmdk" />
+      <item itemvalue="CMake Application.pmemulator" />
       <item itemvalue="CMake Application.pmemcpy" />
+      <item itemvalue="CMake Application.test_pmemulator" />
       <item itemvalue="CMake Application.test_vector" />
     </list>
   </component>
@@ -722,7 +1301,9 @@
       <workItem from="1623323642707" duration="367000" />
       <workItem from="1623324320798" duration="10360000" />
       <workItem from="1623487303597" duration="614000" />
-      <workItem from="1623646841514" duration="69866000" />
+      <workItem from="1623646841514" duration="73357000" />
+      <workItem from="1624011993424" duration="6703000" />
+      <workItem from="1624118829851" duration="269000" />
     </task>
     <servers />
   </component>
@@ -770,12 +1351,12 @@
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_pmemcpy_omp.cpp</url>
+          <url>file://$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp</url>
           <line>20</line>
           <option name="timeStamp" value="68" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/test/performance/e2e-1/3d/write_3d_pmemcpy_omp.cpp</url>
+          <url>file://$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp</url>
           <line>31</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>

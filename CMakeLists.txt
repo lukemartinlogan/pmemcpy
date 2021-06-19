@@ -1,8 +1,5 @@
 cmake_minimum_required( VERSION 3.8.0 )
-project(pm LANGUAGES CXX)
-
-set( CMAKE_BUILD_TYPE "Debug" )
-set( CMAKE_CXX_BUILD_FLAGS "-g -O0" )
+project(pm LANGUAGES C CXX)
 
 include( FindPkgConfig )
 include( CheckIncludeFileCXX )
@@ -10,11 +7,18 @@ include( CheckIncludeFileCXX )
 set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED YES )
 
+option(CMAKE_BUILD_TYPE Debug)
 option(ALL_SERIALIZERS ON)
 option(CAPNPROTO_ENABLED ON)
 option(MSGPACK_ENABLED OFF)
 option(BOOST_ENABLED OFF)
 option(CEREAL_ENABLED OFF)
+
+if ( CMAKE_BUILD_TYPE STREQUAL Debug)
+    set( CMAKE_CXX_BUILD_FLAGS "-g -O0" )
+elseif ( CMAKE_BUILD_TYPE STREQUAL Release )
+    set( CMAKE_CXX_BUILD_FLAGS "-g -O3" )
+endif()
 
 pkg_check_modules( libpmemobj REQUIRED IMPORTED_TARGET )
 
@@ -45,7 +49,10 @@ target_link_libraries(test_vector ${TEST_LIBS})
 add_executable(test_pmem ${CMAKE_SOURCE_DIR}/test/unit/test_pmem.cpp)
 target_link_libraries(test_pmem ${TEST_LIBS})
 
-#Build performance test
+add_executable(test_pmemulator ${CMAKE_SOURCE_DIR}/test/unit/test_pmemulator.cpp)
+target_link_libraries(test_pmemulator pmemulator ${TEST_LIBS})
+
+#Build performance test and pmemulator
 add_subdirectory(test/performance)
 
 install(TARGETS pmemcpy LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})

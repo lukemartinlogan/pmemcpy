@@ -1,8 +1,8 @@
 #!/bin/bash
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-EXEC_DIR=${SCRIPT_DIR}/../cmake-build-debug/test/performance/e2e-1
-SOURCE_DIR=${SCRIPT_DIR}/../test/performance/e2e-1/3d
+EXEC_DIR=${SCRIPT_DIR}/../cmake-build-debug/test/performance/e2e
+SOURCE_DIR=${SCRIPT_DIR}/../test/performance/e2e/3d
 PMEM_DIR=/home/cc/tmpfs
 
 function test_case() {

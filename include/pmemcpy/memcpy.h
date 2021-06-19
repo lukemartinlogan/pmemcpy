@@ -12,6 +12,25 @@
 #include <string>
 #include <memory>
 
+#ifdef PMEMULATION
+#define DRAM_BW 68.0
+#define DRAM_LATENCY 100
+#define PMEM_READ_BW 30
+#define PMEM_WRITE_BW 7.8
+#define PMEM_READ_LATENCY 300
+#define PMEM_WRITE_LATENCY 125
+inline void nsleep(long delay) {
+    struct timespec req;
+    req.tv_nsec = delay;
+    nanosleep(&req, NULL);
+}
+#define ADD_READ_PENALTY(size) nsleep((PMEM_READ_LATENCY - DRAM_LATENCY) + (size/PMEM_READ_BW - size/DRAM_BW))
+#define ADD_WRITE_PENALTY(size) nsleep((PMEM_WRITE_LATENCY - DRAM_LATENCY) + (size/PMEM_WRITE_BW - size/DRAM_BW))
+#else
+#define ADD_READ_PENALTY(size)
+#define ADD_WRITE_PENALTY(size)
+#endif
+
 namespace pmemcpy {
 
 class PMEM {
@@ -35,11 +54,13 @@ public:
     template<typename T>
     inline void store(std::string id, T &src) {
         std::string serial = SerializerFactory<T>::get(serializer_)->serialize(src);
+        ADD_WRITE_PENALTY(serial.size());
         storage_->store(id, serial);
     }
     template<typename T>
     inline void store(std::string id, T *src, Dimensions dims) {
         std::string serial = SerializerFactory<T>::get(serializer_)->serialize(src, dims);
+        ADD_WRITE_PENALTY(serial.size());
         storage_->store(id, serial);
     }
     template<typename T>
@@ -49,11 +70,13 @@ public:
     template<typename T>
     inline void load(std::string id, T &dst) {
         std::string serial = storage_->load(id);
+        ADD_READ_PENALTY(serial.size());
         SerializerFactory<T>::get(serializer_)->deserialize(dst, serial);
     }
     template<typename T>
     inline void load(std::string id, T *dst, Dimensions dims) {
         std::string serial = storage_->load(id);
+        ADD_READ_PENALTY(serial.size());
         SerializerFactory<T>::get(serializer_)->deserialize(dst, serial, dims);
     }
     template<typename T>
