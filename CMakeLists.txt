@@ -41,7 +41,7 @@ add_library(pmemcpy SHARED ${CAPNP_SRC_DIR}/basic_capnp.capnp.c++)
 target_link_libraries(pmemcpy pmemlog pmem pmemobj capnp boost_system boost_filesystem)
 
 #Build unit test
-set(TEST_LIBS pmemlog pmem pmemobj msgpackc boost_system boost_filesystem boost_serialization capnp kj mpi)
+set(TEST_LIBS pmemlog pmem pmemobj msgpackc boost_system boost_filesystem boost_serialization capnp kj mpi pthread)
 add_executable(test_parallel_io ${CMAKE_SOURCE_DIR}/test/unit/test_parallel_io.cpp)
 target_link_libraries(test_parallel_io ${TEST_LIBS})
 add_executable(test_vector ${CMAKE_SOURCE_DIR}/test/unit/test_vector.cpp)
@@ -50,7 +50,7 @@ add_executable(test_pmem ${CMAKE_SOURCE_DIR}/test/unit/test_pmem.cpp)
 target_link_libraries(test_pmem ${TEST_LIBS})
 
 add_executable(test_pmemulator ${CMAKE_SOURCE_DIR}/test/unit/test_pmemulator.cpp)
-target_link_libraries(test_pmemulator dl ${TEST_LIBS} mpi)
+target_link_libraries(test_pmemulator dl ${TEST_LIBS})
 target_include_directories(test_pmemulator PUBLIC ${CMAKE_SOURCE_DIR}/test/performance/pmemulator)
 
 #Build performance test and pmemulator

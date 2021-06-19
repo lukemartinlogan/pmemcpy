@@ -9,7 +9,7 @@
 #include <sys/mman.h>
 
 int main(int argc, char **argv) {
-    MPI_Init(NULL,NULL);
+    MPI_Init(&argc,&argv);
     int fd = open("test.txt", O_WRONLY | O_CREAT, 0666);
     write(fd, "hello", 4);
     MPI_Finalize();

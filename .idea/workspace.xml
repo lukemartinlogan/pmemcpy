@@ -39,21 +39,7 @@
     <list default="true" id="cb017e54-6e21-4884-8028-4244ad7d5d3a" name="Default Changelist" comment="``">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_bp.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc4.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc4.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc5.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy_omp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_bp.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc4.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc4.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc5.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/pmemulator/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/test/unit/test_pmemulator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/test_pmemulator.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -734,16 +720,6 @@
           <url>file://$PROJECT_DIR$/test/unit/test_pmem.cpp</url>
           <line>17</line>
           <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.cpp</url>
-          <line>341</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.cpp</url>
-          <line>184</line>
-          <option name="timeStamp" value="87" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
