@@ -12,9 +12,10 @@ find_package(OpenMP)
 
 set(ORIG_LIBS adios adiosread netcdf pnetcdf mpi m pthread z zfp lz4 SZ blosc pmemcpy)
 set(PMEMCPY_LIBS pmemobj msgpackc boost_system boost_serialization capnp kj mpi)
-set(LIBS pmemulator ${ORIG_LIBS} ${PMEMCPY_LIBS})
+set(LIBS ${CMAKE_BINARY_DIR}/test/performance/pmemulator/libpmemulator.so pmemulator dl ${ORIG_LIBS} ${PMEMCPY_LIBS})
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/test/performance/pmemulator)
+link_directories(${CMAKE_BINARY_DIR}/test/performance/pmemulator)
 
 set(TEST_CASES bp nc4 nc5 pmemcpy pmemcpy_omp)
 set(DIMS 3d)

@@ -1,13 +1,4 @@
-/***********************************************************
- *
- * This test program writes a netCDF file using the parallel
- * netCDF library using MPI-IO. 
- *
- **********************************************************/
-/*
-cc test_write_alloc3d.c  -o genarray_pnc -I/ccs/home/sklasky/parallel-netcdf/jaguar/include -L/ccs/home/sklasky/parallel-netcdf/jaguar/lib -lpnetcdf
-*/
-
+#include <pmemulator.h>
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +9,8 @@ cc test_write_alloc3d.c  -o genarray_pnc -I/ccs/home/sklasky/parallel-netcdf/jag
 /* Prototype for functions used only in this file */
 
 int main(int argc, char **argv) {
+    init_pmemulator();
+
     int status;
     int nprocs;
     uint64_t cube_count[3];

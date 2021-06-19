@@ -13,10 +13,10 @@
 #include <memory>
 
 #ifdef PMEMULATION
-#define DRAM_BW 68.0
+#define DRAM_BW (68.0*(1ul<<30))
 #define DRAM_LATENCY 100
-#define PMEM_READ_BW 30
-#define PMEM_WRITE_BW 7.8
+#define PMEM_READ_BW (30.0*(1ul<<30))
+#define PMEM_WRITE_BW (7.8*(1ul<<30))
 #define PMEM_READ_LATENCY 300
 #define PMEM_WRITE_LATENCY 125
 inline void nsleep(long delay) {

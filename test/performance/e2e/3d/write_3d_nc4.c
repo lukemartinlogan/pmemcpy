@@ -1,13 +1,4 @@
-/***********************************************************
- *
- * This test program writes a netCDF file using the parallel
- * netCDF library using MPI-IO. 
- *
- **********************************************************/
-/*
-cc test_writeoc3d4.c  -o genarray_pnc4 ${NETCDF_INCLUDE_OPTS} -L${NETCDF_DIR}/lib/netcdf 
-*/
-
+#include <pmemulator.h>
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,11 +6,10 @@ cc test_writeoc3d4.c  -o genarray_pnc4 ${NETCDF_INCLUDE_OPTS} -L${NETCDF_DIR}/li
 #include <netcdf_par.h>
 #include <string.h>
 
-/* Prototype for functions used only in this file */
-static void handle_error(int status);
-
 int main(int argc, char **argv)
 {
+    init_pmemulator();
+
   int i, j, k,l;
   int status;
   int ncid;

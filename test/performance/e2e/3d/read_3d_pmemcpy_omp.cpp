@@ -1,10 +1,4 @@
-// read patterns:
-// 1. all vars (use restart)
-// 2. all of 1 var
-// 3. all of a few vars (3 for 3-d, for example)
-// 4. 1 plane in each dimension for 1 variable
-// 5. an arbitrary rectangular area (full dimensions)
-// 6. an arbitrary area on an orthogonal plane (decomposition dimensions)
+#include <pmemulator.h>
 #include <mpi.h>
 #include <pmemcpy/memcpy.h>
 #include <stdio.h>
@@ -15,6 +9,8 @@
 // 3. all of a few vars (3 for 3-d, for example)
 int read_pattern_3 (int argc, char ** argv)
 {
+    init_pmemulator();
+
     int nc_err;
     int ncid;
     char filename [256];

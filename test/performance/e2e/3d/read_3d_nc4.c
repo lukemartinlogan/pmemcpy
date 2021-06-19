@@ -1,3 +1,4 @@
+#include <pmemulator.h>
 #include <mpi.h>
 #include <netcdf.h>
 #include <stdio.h>
@@ -7,6 +8,8 @@
 
 // 3. all of a few vars (3 for 3-d, for example)
 int read_pattern_3 (int argc, char ** argv) {
+    init_pmemulator();
+
     int nc_err;
     int ncid;
     char filename[256], nx_str[256], ny_str[256], nz_str[256];

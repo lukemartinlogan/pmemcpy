@@ -96,6 +96,7 @@ namespace pmemcpy {
         Arg(float num) : type_(6) { num_.f32 = num; }
         Arg(double num) : type_(7) { num_.f64 = num; }
         Arg(long double num) : type_(8) { num_.f96 = num; }
+        Arg(char *str) : type_(9) { if(str) str_ = std::string(str); else str_ = ""; }
         Arg(const char *str) : type_(9) { if(str) str_ = std::string(str); else str_ = ""; }
         Arg(std::string str) : type_(9) { str_ = str; }
         Arg(Serializeable *obj) : type_(10) { obj_ = obj; }

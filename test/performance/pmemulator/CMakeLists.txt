@@ -17,5 +17,10 @@ foreach(SYSCALL IN LISTS POSIX_SYSCALLS)
     set(SYSCALL_WRAP "${SYSCALL_WRAP},--wrap=${SYSCALL}")
 endforeach()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_library(pmemulator SHARED pmemulator-posix.cpp)
 set_target_properties(pmemulator PROPERTIES COMPILE_FLAGS "${SYSCALL_WRAP}")
+target_compile_definitions(pmemulator PUBLIC DEBUG)
+
+install(TARGETS pmemulator LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES "pmemulator.h" DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
