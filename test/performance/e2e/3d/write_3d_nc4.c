@@ -1,4 +1,3 @@
-#include <pmemulator.h>
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,8 +7,6 @@
 
 int main(int argc, char **argv)
 {
-    init_pmemulator();
-
   int i, j, k,l;
   int status;
   int ncid;

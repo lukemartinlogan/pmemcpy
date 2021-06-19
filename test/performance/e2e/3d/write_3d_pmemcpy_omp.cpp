@@ -1,4 +1,3 @@
-#include <pmemulator.h>
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,8 +8,7 @@
 /* Prototype for functions used only in this file */
 
 int main(int argc, char **argv) {
-    init_pmemulator();
-
+    MPI_Init(&argc, &argv);
     int status;
     int nprocs;
     uint64_t cube_count[3];
@@ -124,6 +122,7 @@ int main(int argc, char **argv) {
            size_per_proc, agg_size,
            end_time - start_time,
            argv[8], argv[9]);
+    MPI_Finalize();
     return 0;
 }
 

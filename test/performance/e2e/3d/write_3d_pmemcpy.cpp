@@ -1,4 +1,3 @@
-#include <pmemulator.h>
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,8 +7,6 @@
 /* Prototype for functions used only in this file */
 
 int main(int argc, char **argv) {
-    init_pmemulator();
-
     int status, nodecomm, nodesize, noderank;
     int rank;
     int nprocs;

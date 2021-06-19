@@ -1,4 +1,3 @@
-#include <pmemulator.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,8 +8,6 @@
 #include <adios_read_v1.h>
 
 int read_pattern_3(int argc, char ** argv) {
-    init_pmemulator();
-
     int adios_err;
     ADIOS_FILE *adios_handle;
     ADIOS_GROUP *group_handle;

@@ -1,4 +1,3 @@
-#include <pmemulator.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,8 +7,6 @@
 
 int main(int argc, char **argv)
 {
-    init_pmemulator();
-
     int i, j, k, l;
     int cube_dim[3] ;
     int npx, npy, npz, ndx, ndy, ndz, nx, ny, nz;

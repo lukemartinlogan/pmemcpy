@@ -50,12 +50,11 @@ add_executable(test_pmem ${CMAKE_SOURCE_DIR}/test/unit/test_pmem.cpp)
 target_link_libraries(test_pmem ${TEST_LIBS})
 
 add_executable(test_pmemulator ${CMAKE_SOURCE_DIR}/test/unit/test_pmemulator.cpp)
-add_dependencies(test_pmemulator pmemulator)
-target_link_libraries(test_pmemulator pmemulator dl ${TEST_LIBS})
+target_link_libraries(test_pmemulator dl ${TEST_LIBS} mpi)
 target_include_directories(test_pmemulator PUBLIC ${CMAKE_SOURCE_DIR}/test/performance/pmemulator)
 
 #Build performance test and pmemulator
 add_subdirectory(test/performance)
 
-install(TARGETS pmemcpy LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(TARGETS pmemcpy LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})

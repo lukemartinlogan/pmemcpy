@@ -5,7 +5,7 @@
 #define _XOPEN_SOURCE 500
 #define _GNU_SOURCE
 
-#include "pmemulator.h"
+#include <mpi.h>
 #include <dlfcn.h>
 #include <pmemcpy/util/trace.h>
 #include <stdio.h>
@@ -35,8 +35,10 @@ inline void nsleep(long delay) {
 }
 #define READ_PENALTY(size) ((PMEM_READ_LATENCY - DRAM_LATENCY) + ((size)/PMEM_READ_BW - (size)/DRAM_BW))
 #define WRITE_PENALTY(size) ((PMEM_WRITE_LATENCY - DRAM_LATENCY) + ((size)/PMEM_WRITE_BW - (size)/DRAM_BW))
-#define ADD_READ_PENALTY(size) nsleep(READ_PENALTY(size))
-#define ADD_WRITE_PENALTY(size) nsleep(WRITE_PENALTY(size))
+//#define ADD_READ_PENALTY(size) nsleep(READ_PENALTY(size))
+//#define ADD_WRITE_PENALTY(size) nsleep(WRITE_PENALTY(size))
+#define ADD_READ_PENALTY(size)
+#define ADD_WRITE_PENALTY(size)
 inline size_t IOV_COUNT(const struct iovec *iov, int iovcnt) {
     size_t count = 0;
     for(int i = 0; i < iovcnt; ++i) { count += iov->iov_len; }
@@ -59,6 +61,7 @@ inline size_t IOV_COUNT(const struct iovec *iov, int iovcnt) {
 #define GETFUN(T, fname, ...) \
     REAL_FUN(fname) = (FNAME_TYPE(T, fname, __VA_ARGS__))dlsym(RTLD_NEXT, #fname);
 
+FORWARD_DECL(int, MPI_Init, int *argc, char ***argv)
 FORWARD_DECL(int, open, const char *path, int flags, ...)
 FORWARD_DECL(int, __open_2, const char *path, int oflag)
 FORWARD_DECL(int, open64, const char *path, int flags, ...)
@@ -118,7 +121,8 @@ FORWARD_DECL(int, rename, const char *oldpath, const char *newpath)
  * INIT FUNCTIONS
  * */
 
-void init_pmemulator(void) {
+void WRAPPER_FUN(init_pmemulator)(void) {
+    AUTO_TRACE("init_pmemulator");
     GETFUN(int, open, const char *path, int flags, ...)
     GETFUN(int, __open_2, const char *path, int oflag)
     GETFUN(int, open64, const char *path, int flags, ...)
@@ -177,7 +181,11 @@ void init_pmemulator(void) {
 /**
  * WRAPPER FUNCTIONS
  * */
-
+int WRAPPER_FUN(MPI_Init)(int *argc, char ***argv) {
+    init_pmemulator();
+    GETFUN(int, MPI_Init, int *argc, char ***argv);
+    return REAL_FUN(MPI_Init)(argc, argv);
+}
 
 int WRAPPER_FUN(open)(const char *path, int flags, ...)
 {

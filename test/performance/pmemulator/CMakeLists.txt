@@ -19,8 +19,9 @@ endforeach()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_library(pmemulator SHARED pmemulator-posix.cpp)
+target_link_libraries(pmemulator dl)
 set_target_properties(pmemulator PROPERTIES COMPILE_FLAGS "${SYSCALL_WRAP}")
 target_compile_definitions(pmemulator PUBLIC DEBUG)
 
-install(TARGETS pmemulator LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(TARGETS pmemulator LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 install(FILES "pmemulator.h" DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
