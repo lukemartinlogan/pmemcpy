@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <pnetcdf.h>
 #include <string.h>
+#define _GNU_SOURCE
+#include <unistd.h>
 
 /* Prototype for functions used only in this file */
 static void handle_error(int status);
@@ -117,8 +119,8 @@ int main(int argc, char **argv) {
      status = ncmpi_def_var (ncid, "I", NC_DOUBLE, 3, cube_dim, &cube9_id);
      status = ncmpi_def_var (ncid, "J", NC_DOUBLE, 3, cube_dim, &cube10_id);
      status = ncmpi_enddef(ncid);
-     
-    
+
+     printf("STARTING WRITE: pid=%d, tid=%d!!!\n", getpid(), gettid());
      status = ncmpi_put_vara_double_all(ncid, cube1_id,
 				       cube_start, cube_count,
 				    (const void *)&(ddata[0]));

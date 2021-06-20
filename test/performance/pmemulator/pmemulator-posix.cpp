@@ -6,6 +6,25 @@
 #define _GNU_SOURCE
 
 #include <mpi.h>
+
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdarg.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <sys/mman.h>
+#include <search.h>
+#include <assert.h>
+#include <libgen.h>
+#include <pthread.h>
+#include <stdint.h>
+#include <limits.h>
+
 #include <dlfcn.h>
 #include <pmemcpy/util/trace.h>
 #include <stdio.h>
@@ -45,7 +64,7 @@ inline size_t IOV_COUNT(const struct iovec *iov, int iovcnt) {
 #define AIO_COUNT(aiocbp) aiocbp->aio_nbytes
 
 
-
+size_t netsize = 0;
 
 /**
  * PROTOTYPES
@@ -58,6 +77,13 @@ inline size_t IOV_COUNT(const struct iovec *iov, int iovcnt) {
     T (*REAL_FUN(fname))(__VA_ARGS__) = NULL;
 #define GETFUN(T, fname, ...) \
     if(!REAL_FUN(fname)) { REAL_FUN(fname) = (FNAME_TYPE(T, fname, __VA_ARGS__))dlsym(RTLD_NEXT, #fname); }
+
+FORWARD_DECL(size_t, fwrite, const void *ptr, size_t size, size_t nmemb, FILE *stream)
+FORWARD_DECL(size_t, fread, void *ptr, size_t size, size_t nmemb, FILE *stream)
+FORWARD_DECL(int, fputc, int c, FILE *stream)
+FORWARD_DECL(int, putw, int w, FILE *stream)
+FORWARD_DECL(int, fgetc, FILE *stream)
+FORWARD_DECL(int, getw, FILE *stream)
 
 FORWARD_DECL(ssize_t, read, int fd, void *buf, size_t count)
 FORWARD_DECL(ssize_t, write, int fd, const void *buf, size_t count)
@@ -84,14 +110,55 @@ FORWARD_DECL(ssize_t, aio_return64, struct aiocb64 *aiocbp)
 FORWARD_DECL(int, lio_listio, int mode, struct aiocb *const aiocb_list[], int nitems, struct sigevent *sevp)
 FORWARD_DECL(int, lio_listio64, int mode, struct aiocb64 *const aiocb_list[], int nitems, struct sigevent *sevp)
 
+size_t write_size = 0;
+
 /**
- * I/O FUNCTIONS
+ * STDIO FUNCTIONS
+ * */
+
+size_t WRAPPER_FUN(fwrite)(const void *ptr, size_t size, size_t nmemb, FILE *stream) {
+    AUTO_TRACE("fwrite: size={}, penalty={}ns", pmemcpy::SizeType(size*nmemb, pmemcpy::SizeType::MB), READ_PENALTY(size*nmemb));
+    ADD_WRITE_PENALTY(size*nmemb);
+    GETFUN(size_t, fwrite, const void *ptr, size_t size, size_t nmemb, FILE *stream)
+    return REAL_FUN(fwrite)(ptr, size, nmemb, stream);
+}
+
+size_t WRAPPER_FUN(fread)(void *ptr, size_t size, size_t nmemb, FILE *stream) {
+    AUTO_TRACE("fread: size={}, penalty={}ns", pmemcpy::SizeType(size*nmemb, pmemcpy::SizeType::MB), READ_PENALTY(size*nmemb));
+    ADD_READ_PENALTY(size*nmemb);
+    GETFUN(size_t, fread, void *ptr, size_t size, size_t nmemb, FILE *stream)
+    return REAL_FUN(fread)(ptr, size, nmemb, stream);
+}
+
+int WRAPPER_FUN(fputc)(int c, FILE *stream) {
+    AUTO_TRACE("fputc");
+    GETFUN(int, fputc, int c, FILE *stream)
+    return REAL_FUN(fputc)(c, stream);
+}
+int WRAPPER_FUN(putw)(int w, FILE *stream) {
+    AUTO_TRACE("putw");
+    GETFUN(int, putw, int w, FILE *stream)
+    return REAL_FUN(putw)(w, stream);
+}
+int WRAPPER_FUN(fgetc)(FILE *stream) {
+    AUTO_TRACE("fgetc");
+    GETFUN(int, fgetc, FILE *stream)
+    return REAL_FUN(fgetc)(stream);
+}
+int WRAPPER_FUN(getw)(FILE *stream) {
+    AUTO_TRACE("getw");
+    GETFUN(int, getw, FILE *stream)
+    return REAL_FUN(getw)(stream);
+}
+
+/**
+ * POSIX FUNCTIONS
  * */
 
 
 ssize_t WRAPPER_FUN(read)(int fd, void *buf, size_t count)
 {
-    AUTO_TRACE("read: fd={}, size={}, penalty={}ns", fd, pmemcpy::SizeType(count, pmemcpy::SizeType::MB), READ_PENALTY(count));
+    //AUTO_TRACE("read: fd={}, size={}, penalty={}ns", fd, pmemcpy::SizeType(count, pmemcpy::SizeType::MB), READ_PENALTY(count));
     ADD_READ_PENALTY(count);
     GETFUN(ssize_t, read, int fd, void *buf, size_t count)
     return REAL_FUN(read)(fd, buf, count);
@@ -99,7 +166,8 @@ ssize_t WRAPPER_FUN(read)(int fd, void *buf, size_t count)
 
 ssize_t WRAPPER_FUN(write)(int fd, const void *buf, size_t count)
 {
-    AUTO_TRACE("write: fd={}, size={}, penalty={}ns", fd, pmemcpy::SizeType(count, pmemcpy::SizeType::MB), WRITE_PENALTY(count));
+    netsize += count;
+    AUTO_TRACE("write: fd={}, size={} vs {}, total_size={}, penalty={}ns", fd, pmemcpy::SizeType(count, pmemcpy::SizeType::MB), count, netsize, WRITE_PENALTY(count));
     ADD_WRITE_PENALTY(count);
     GETFUN(ssize_t, write, int fd, const void *buf, size_t count)
     return REAL_FUN(write)(fd, buf, count);
