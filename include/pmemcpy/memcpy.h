@@ -13,10 +13,10 @@
 #include <memory>
 
 #ifdef PMEMULATION
-#define DRAM_BW (68.0*(1ul<<30))
+#define DRAM_BW 68
 #define DRAM_LATENCY 100
-#define PMEM_READ_BW (30.0*(1ul<<30))
-#define PMEM_WRITE_BW (7.8*(1ul<<30))
+#define PMEM_READ_BW 30
+#define PMEM_WRITE_BW 8
 #define PMEM_READ_LATENCY 300
 #define PMEM_WRITE_LATENCY 125
 inline void nsleep(long delay) {
@@ -24,8 +24,10 @@ inline void nsleep(long delay) {
     req.tv_nsec = delay;
     nanosleep(&req, NULL);
 }
-#define ADD_READ_PENALTY(size) nsleep((PMEM_READ_LATENCY - DRAM_LATENCY) + (size/PMEM_READ_BW - size/DRAM_BW))
-#define ADD_WRITE_PENALTY(size) nsleep((PMEM_WRITE_LATENCY - DRAM_LATENCY) + (size/PMEM_WRITE_BW - size/DRAM_BW))
+#define READ_PENALTY(size) (long)((PMEM_READ_LATENCY - DRAM_LATENCY) + ((size)/PMEM_READ_BW - (size)/DRAM_BW))
+#define WRITE_PENALTY(size) (long)((PMEM_WRITE_LATENCY - DRAM_LATENCY) + ((size)/PMEM_WRITE_BW - (size)/DRAM_BW))
+#define ADD_READ_PENALTY(size) nsleep(READ_PENALTY(size))
+#define ADD_WRITE_PENALTY(size) nsleep(WRITE_PENALTY(size))
 #else
 #define ADD_READ_PENALTY(size)
 #define ADD_WRITE_PENALTY(size)

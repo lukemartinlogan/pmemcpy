@@ -85,12 +85,7 @@ int main(int argc, char **argv) {
   cube_count[0] = ndx;
   cube_count[1] = ndy;
   cube_count[2] = ndz;
-// I will need the number of procs divisible by 8
 
-//printf ("%03d start(0) %3d start(1) %3d start(2) %3d size(0) %3d size(1) %3d size(2) %3d\n", rank, cube_start[0], cube_start[1], cube_start[2], cube_count[0], cube_count[1], cube_count[2]);
-
-// start the timing now.
-  
      status = MPI_Barrier(MPI_COMM_WORLD);
      start_time = MPI_Wtime();
    
@@ -120,7 +115,6 @@ int main(int argc, char **argv) {
      status = ncmpi_def_var (ncid, "J", NC_DOUBLE, 3, cube_dim, &cube10_id);
      status = ncmpi_enddef(ncid);
 
-     printf("STARTING WRITE: pid=%d, tid=%d!!!\n", getpid(), gettid());
      status = ncmpi_put_vara_double_all(ncid, cube1_id,
 				       cube_start, cube_count,
 				    (const void *)&(ddata[0]));

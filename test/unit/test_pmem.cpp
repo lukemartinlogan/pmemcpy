@@ -67,7 +67,8 @@ int main(int argc, char **argv)
     if(mode == 0 && boost::filesystem::exists(path)) {
         pmem.release(path);
     }
-    pmem.mmap(argv[1], 100*(1<<20));
+    printf("EXISTS: %d\n", boost::filesystem::exists(path));
+    pmem.mmap(path, 100*(1<<20));
 
     //Perform I/O
     switch(mode) {

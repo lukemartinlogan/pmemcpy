@@ -45,12 +45,12 @@ namespace pmemcpy {
         dst = num.get##CT();\
     }\
     inline void _deserialize(T *dst, const std::string src, Dimensions dims) {\
-        AUTO_TRACE("pmemcpy::capnp::deserialize::array size={}", SizeType(src.size(), SizeType::MB));\
+        AUTO_TRACE("pmemcpy::capnp::deserialize::array size={}", SizeType(src.size(), SizeType::MB));             \
         kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src.c_str(), src.size()));\
         capnp::ReaderOptions opts;\
         opts.traversalLimitInWords = ~0ul;\
         capnp::PackedMessageReader message(input, opts);\
-        PrimitiveData::Reader nums = message.getRoot<PrimitiveData>();\
+        PrimitiveData::Reader nums = message.getRoot<PrimitiveData>(); \
         capnp::List<T>::Reader temp = nums.get##CT##Arr();\
         for(size_t i = 0; i < temp.size(); ++i) { dst[i] = temp[i]; }\
     }

@@ -49,10 +49,6 @@ target_link_libraries(test_vector ${TEST_LIBS})
 add_executable(test_pmem ${CMAKE_SOURCE_DIR}/test/unit/test_pmem.cpp)
 target_link_libraries(test_pmem ${TEST_LIBS})
 
-add_executable(test_pmemulator ${CMAKE_SOURCE_DIR}/test/unit/test_pmemulator.cpp)
-target_link_libraries(test_pmemulator dl ${TEST_LIBS})
-target_include_directories(test_pmemulator PUBLIC ${CMAKE_SOURCE_DIR}/test/performance/pmemulator)
-
 #Build performance test and pmemulator
 add_subdirectory(test/performance)
 

@@ -19,6 +19,7 @@
  *	(jj@sunsite.ms.mff.cuni.cz)
  */
 
+#include "pmemulator.h"
 #include <linux/time.h>
 #include <linux/fs.h>
 #include <linux/iomap.h>
@@ -65,6 +66,8 @@ static ssize_t ext4_dax_read_iter(struct kiocb *iocb, struct iov_iter *to)
 
 static ssize_t ext4_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
 {
+    DEBUG_READ(to);
+    ADD_READ_PENALTY(to);
 	if (unlikely(ext4_forced_shutdown(EXT4_SB(file_inode(iocb->ki_filp)->i_sb))))
 		return -EIO;
 
@@ -224,6 +227,9 @@ ext4_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
 	int unaligned_aio = 0;
 	int overwrite = 0;
 	ssize_t ret;
+
+    DEBUG_WRITE(from);
+    ADD_WRITE_PENALTY(from);
 
 	if (unlikely(ext4_forced_shutdown(EXT4_SB(inode->i_sb))))
 		return -EIO;

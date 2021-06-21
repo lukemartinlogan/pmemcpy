@@ -34,32 +34,33 @@ function test_case() {
 STORAGE=("POSIX" "PMDK_HASHTABLE")
 SERIALIZERS=("CAPNPROTO" "BOOST" "MSGPACK" "CEREAL")
 
+#(x)^3 * 48 = (y^3)*40
+
 SUFFIXES=("bp" "nc4" "nc5")
-#for SUFFIX in ${SUFFIXES[@]}; do
-  #test_case ${SUFFIX} 8 2 2 2 192 192 192
-  #test_case ${SUFFIX} 16 4 2 2 192 192 192
-  #test_case ${SUFFIX} 24 4 2 3 192 192 192
-  #test_case ${SUFFIX} 32 4 4 2 192 192 192
-  #test_case ${SUFFIX} 40 2 4 5 192 192 192
-  #test_case ${SUFFIX} 48 4 4 3 192 192 192
-#done
+for SUFFIX in ${SUFFIXES[@]}; do
+  test_case ${SUFFIX} 8 2 2 2 1152 192 192
+  test_case ${SUFFIX} 16 4 2 2 576 192 192
+  test_case ${SUFFIX} 24 4 2 3 384 192 192
+  test_case ${SUFFIX} 32 4 4 2 288 192 192
+  test_case ${SUFFIX} 48 4 4 3 192 192 192
+done
+
+exit
 
 STORAGE_TYPES=("PMDK_HASHTABLE" "POSIX")
 for STORAGE_TYPE in ${STORAGE_TYPES[@]}; do
-  #test_case "pmemcpy_omp" 8 2 2 2 192 192 192 ${STORAGE_TYPE} "CAPNPROTO"
-  #test_case "pmemcpy_omp" 16 4 2 2 192 192 192 ${STORAGE_TYPE} "CAPNPROTO"
-  #test_case "pmemcpy_omp" 24 4 2 3 192 192 192 ${STORAGE_TYPE} "CAPNPROTO"
-  #test_case "pmemcpy_omp" 32 4 4 2 192 192 192 ${STORAGE_TYPE} "CAPNPROTO"
-  #test_case "pmemcpy_omp" 40 2 4 5 192 192 192 ${STORAGE_TYPE} "CAPNPROTO"
+  #test_case "pmemcpy_omp" 8 2 2 2 1152 192 192 ${STORAGE_TYPE} "CAPNPROTO"
+  #test_case "pmemcpy_omp" 16 4 2 2 576 192 192 ${STORAGE_TYPE} "CAPNPROTO"
+  #test_case "pmemcpy_omp" 24 4 2 3 384 192 192 ${STORAGE_TYPE} "CAPNPROTO"
+  #test_case "pmemcpy_omp" 32 4 4 2 288 192 192 ${STORAGE_TYPE} "CAPNPROTO"
   test_case "pmemcpy_omp" 48 4 4 3 192 192 192 ${STORAGE_TYPE} "CAPNPROTO"
 done
 
 SERIALIZER_TYPES=("CAPNPROTO" "MSGPACK" "BOOST" "CEREAL")
-#for SERIALIZER_TYPE in ${SERIALIZER_TYPES[@]}; do
-  #test_case "pmemcpy_omp" 8 2 2 2 192 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
-  #test_case "pmemcpy_omp" 16 4 2 2 192 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
-  #test_case "pmemcpy_omp" 24 4 2 3 192 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
-  #test_case "pmemcpy_omp" 32 4 4 2 192 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
-  #test_case "pmemcpy_omp" 40 2 4 5 192 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
-  #test_case "pmemcpy_omp" 48 4 4 3 192 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
-#done
+for SERIALIZER_TYPE in ${SERIALIZER_TYPES[@]}; do
+  #test_case "pmemcpy_omp" 8 2 2 2 1152 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
+  #test_case "pmemcpy_omp" 16 4 2 2 576 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
+  #test_case "pmemcpy_omp" 24 4 2 3 384 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
+  #test_case "pmemcpy_omp" 32 4 4 2 288 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
+  test_case "pmemcpy_omp" 48 4 4 3 192 192 192 "PMDK_HASHTABLE" ${SERIALIZER_TYPE}
+done
