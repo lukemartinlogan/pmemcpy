@@ -5,6 +5,8 @@
 #ifndef PMEMCPY_H
 #define PMEMCPY_H
 
+#define BOOST_USE_VALGRIND
+
 #include <pmemcpy/util/errors.h>
 #include <pmemcpy/util/trace.h>
 #include <pmemcpy/serialize/serializer_factory.h>
@@ -40,7 +42,7 @@ private:
     SerializerType serializer_;
     std::shared_ptr<Storage> storage_;
 public:
-    PMEM(StorageType storage=StorageType::PMDK_LIST, SerializerType serializer=SerializerType::MSGPACK) : serializer_(serializer) {
+    PMEM(StorageType storage=StorageType::PMDK_HASHTABLE, SerializerType serializer=SerializerType::CAPNPROTO) : serializer_(serializer) {
         storage_ = StorageFactory::get(storage);
     }
 
@@ -55,13 +57,13 @@ public:
     }
     template<typename T>
     inline void store(std::string id, T &src) {
-        std::string serial = SerializerFactory<T>::get(serializer_)->serialize(src);
+        pmemcpy::buffer serial = SerializerFactory<T>::get(serializer_)->serialize(src);
         ADD_WRITE_PENALTY(serial.size());
         storage_->store(id, serial);
     }
     template<typename T>
     inline void store(std::string id, T *src, Dimensions dims) {
-        std::string serial = SerializerFactory<T>::get(serializer_)->serialize(src, dims);
+        pmemcpy::buffer serial = SerializerFactory<T>::get(serializer_)->serialize(src, dims);
         ADD_WRITE_PENALTY(serial.size());
         storage_->store(id, serial);
     }
@@ -71,13 +73,13 @@ public:
     }
     template<typename T>
     inline void load(std::string id, T &dst) {
-        std::string serial = storage_->load(id);
+        pmemcpy::buffer serial = storage_->load(id);
         ADD_READ_PENALTY(serial.size());
         SerializerFactory<T>::get(serializer_)->deserialize(dst, serial);
     }
     template<typename T>
     inline void load(std::string id, T *dst, Dimensions dims) {
-        std::string serial = storage_->load(id);
+        pmemcpy::buffer serial = storage_->load(id);
         ADD_READ_PENALTY(serial.size());
         SerializerFactory<T>::get(serializer_)->deserialize(dst, serial, dims);
     }

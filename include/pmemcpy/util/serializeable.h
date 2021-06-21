@@ -22,6 +22,60 @@ namespace pmemcpy {
         virtual size_t serialize(char *buf) = 0;
     };
 
+    struct buffer {
+    public:
+        int *refcountp_;
+        char *buf_;
+        size_t size_;
+
+        buffer() : buf_(nullptr), size_(0), refcountp_(nullptr) {}
+        buffer(char *buf, size_t size) : buf_(buf), size_(size) {
+            buf_ = (char*)malloc(size);
+            memcpy(buf_, buf, size);
+            init_refcount();
+        }
+        buffer(std::string str) : size_(str.size()) {
+            buf_ = (char*)malloc(str.size());
+            memcpy(buf_, str.c_str(), str.size());
+            init_refcount();
+        }
+        buffer(size_t size) : size_(size) {
+            buf_ = (char*)malloc(size);
+            init_refcount();
+        }
+        buffer(const buffer& old) {
+            refcountp_ = old.refcountp_;
+            buf_ = old.c_str();
+            size_ = old.size();
+            ++(*refcountp_);
+        }
+        buffer(buffer&& old) {
+            refcountp_ = old.refcountp_;
+            buf_ = old.c_str();
+            size_ = old.size();
+            old.buf_ = nullptr;
+            old.size_ = 0;
+            old.refcountp_ = nullptr;
+        }
+        ~buffer() {
+            if(!refcountp_) { return; }
+            --(*refcountp_);
+            if((*refcountp_) == 0 && buf_) {
+                free(buf_);
+            }
+        }
+
+        inline void alloc(size_t size) { buf_ = (char*)malloc(size); }
+        inline size_t size() const { return size_; }
+        inline char *c_str() const { return (char*)buf_; }
+        char& operator [](int i) { return buf_[i]; }
+    private:
+        void init_refcount(void) {
+            refcountp_ = (int*)malloc(sizeof(int));
+            (*refcountp_) = 1;
+        }
+    };
+
     class SizeType : public Serializeable {
     public:
         double num_;

@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
     ddata = (double *) malloc(sizeof(double *) * ndx * ndy * ndz);
 
     for (int i = 0; i < ndx * ndy * ndz; i++) {
-        ddata[i] = rank;
+        ddata[i] = rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank;
     }
 
     cube_start[0] = offx;
@@ -64,11 +64,8 @@ int main(int argc, char **argv) {
     cube_count[1] = ndy;
     cube_count[2] = ndz;
 
-    //Node-local communicator
-
-
     pmemcpy::PMEM pmem(pmemcpy::StorageType::PMDK_HASHTABLE, pmemcpy::SerializerType::CAPNPROTO);
-    pmem.mmap(filename, 8 * (1 << 20));
+    pmem.mmap(filename, 70* (1 << 30));
 
     if (rank == 0) {
         status = MPI_Barrier(MPI_COMM_WORLD);
@@ -81,16 +78,16 @@ int main(int argc, char **argv) {
         pmem.store<uint64_t>("nz", nz);
     }
 
-    pmem.store("A" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("B" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("C" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("D" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("E" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("F" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("G" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("H" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("I" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
-    pmem.store("J" + std::to_string(rank), &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("A", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("B", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("C", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("D", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("E", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("F", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("G", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("H", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("I", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
+    pmem.store("J", &ddata[0], pmemcpy::Dimensions(ndx, ndy, ndz));
 
     status = MPI_Barrier(MPI_COMM_WORLD);
     if (rank == 0) {

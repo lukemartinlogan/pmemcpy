@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 
   for (i=0;i<ndx*ndy*ndz;i++)
   {
-    ddata [i] = rank;
+    ddata [i] = rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank;
   } 
   
   

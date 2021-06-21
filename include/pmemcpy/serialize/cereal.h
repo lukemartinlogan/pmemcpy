@@ -33,13 +33,14 @@
 #include <cereal/archives/binary.hpp>
 #include <cereal/archives/portable_binary.hpp>
 #include <string>
+#include <sstream>
 
 namespace pmemcpy {
 
 template<typename T>
 class CerealSerializer : public Serializer<T> {
 public:
-    inline std::string serialize(T &src) {
+    inline pmemcpy::buffer serialize(T &src) {
         std::stringstream ss;
         cereal::PortableBinaryOutputArchive oarchive(ss);
         oarchive(src);
@@ -47,7 +48,7 @@ public:
         return ss.str();
     }
 
-    inline std::string serialize(T *src, Dimensions dims) {
+    inline pmemcpy::buffer serialize(T *src, Dimensions dims) {
         std::stringstream ss;
         cereal::PortableBinaryOutputArchive oarchive(ss);
         oarchive(cereal::binary_data(src, sizeof(T) * dims.count()));
@@ -55,17 +56,19 @@ public:
         return ss.str();
     }
 
-    inline void deserialize(T &dst, const std::string src) {
+    inline void deserialize(T &dst, pmemcpy::buffer src) {
         AUTO_TRACE("pmemcpy::cereal::deserialize::single size={}", SizeType(src.size(), SizeType::MB));
-        std::stringstream ss(src);
+        std::stringstream ss(src.c_str());
         cereal::PortableBinaryInputArchive iarchive(ss);
+        //cereal::PortableBinaryInputArchive iarchive(src.c_str(), src.size());
         iarchive(dst);
     }
 
-    inline void deserialize(T *dst, const std::string src, Dimensions dims) {
+    inline void deserialize(T *dst, pmemcpy::buffer src, Dimensions dims) {
         AUTO_TRACE("pmemcpy::cereal::deserialize::array size={}", SizeType(src.size(), SizeType::MB));
-        std::stringstream ss(src);
+        std::stringstream ss(src.c_str());
         cereal::PortableBinaryInputArchive iarchive(ss);
+        //cereal::PortableBinaryInputArchive iarchive(src.c_str(), src.size());
         iarchive(cereal::binary_data(dst, sizeof(T) * dims.count()));
     }
 };

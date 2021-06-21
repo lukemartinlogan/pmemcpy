@@ -5,6 +5,7 @@
 #ifndef PMEMCPY_POSIX_H
 #define PMEMCPY_POSIX_H
 
+#include <mpi.h>
 #include <pmemcpy/util/errors.h>
 #include <pmemcpy/storage/storage.h>
 #include <boost/filesystem.hpp>
@@ -34,19 +35,14 @@ public:
 
     void release(std::string path) {}
 
-    void store(std::string id, pmemcpy::buffer &src) {
+    void store(std::string id, std::string &src) {
+        MPI_File fh;
         std::string path = path_prefix_ + "/" + id;
-        int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0666);
-        if(fd < 0) {
-            throw POSIX_WRITE_FAILED.format(fd, path_prefix_, id, fd, std::string(strerror(errno)));
-        }
-        size_t ret = write(fd, src.c_str(), src.size());
-        if(src.size() != ret) {
-            throw POSIX_WRITE_FAILED.format(src.size(), path_prefix_, id, ret, std::string(strerror(errno)));
-        }
+        MPI_File_open(MPI_COMM_WORLD, path.c_str(), MPI_MODE_CREATE | MPI_MODE_SEQUENTIAL | MPI_MODE_WRONLY, &fh);
+        MPI_File_write();
     }
 
-    pmemcpy::buffer load(std::string id) {
+    std::string load(std::string id) {
         std::string path = path_prefix_ + "/" + id;
         int fd = open(path.c_str(), O_RDONLY | O_CREAT, 0666);
         if(fd < 0) {
@@ -58,7 +54,7 @@ public:
         if(len != ret) {
             throw POSIX_READ_FAILED.format(len, path_prefix_, id, ret, std::string(strerror(errno)));
         }
-        return pmemcpy::buffer(buffer, len);
+        return std::string(buffer, len);
     }
 
     void free(std::string id) {

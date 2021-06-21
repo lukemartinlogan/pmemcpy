@@ -18,30 +18,30 @@ namespace pmemcpy {
 template<typename T>
 class MsgpackSerializer : public Serializer<T> {
 public:
-    inline std::string serialize(T &src) {
+    inline pmemcpy::buffer serialize(T &src) {
         std::stringstream ss;
         msgpack::pack(ss, src);
         AUTO_TRACE("pmemcpy::msgpack::serialize::single size={}", SizeType(ss.str().size(), SizeType::MB));
-        return ss.str();
+        return pmemcpy::buffer(ss.str());
     }
 
-    inline std::string serialize(T *src, Dimensions dims) {
+    inline pmemcpy::buffer serialize(T *src, Dimensions dims) {
         std::vector<T, NoAllocator<T>> temp_(NoAllocator<T>(src, dims.count()));
         temp_.resize(dims.count());
         std::stringstream ss;
         msgpack::pack(ss, temp_);
         AUTO_TRACE("pmemcpy::msgpack::serialize::array size={}", SizeType(ss.str().size(), SizeType::MB));
-        return ss.str();
+        return pmemcpy::buffer(ss.str());
     }
 
-    inline void deserialize(T &dst, const std::string src) {
+    inline void deserialize(T &dst, const pmemcpy::buffer src) {
         AUTO_TRACE("pmemcpy::msgpack::deserialize::single size={}", SizeType(src.size(), SizeType::MB));
         msgpack::object_handle oh = msgpack::unpack(src.c_str(), src.size());
         msgpack::object deserialized = oh.get();
         deserialized.convert(dst);
     }
 
-    inline void deserialize(T *dst, const std::string src, Dimensions dims) {
+    inline void deserialize(T *dst, const pmemcpy::buffer src, Dimensions dims) {
         AUTO_TRACE("pmemcpy::msgpack::deserialize::array size={}", SizeType(src.size(), SizeType::MB));
         std::vector<T, NoAllocator<T>> temp_(NoAllocator<T>(dst, dims.count()));
         temp_.resize(dims.count());

@@ -27,14 +27,14 @@ POBJ_LAYOUT_END(objstore)
 
 struct PMEMListArgs {
     size_t id_len;
-    TOID(char) id;
+    std::string *id;
     size_t len;
     TOID(char) data;
 };
 struct PMEMPointer {
     POBJ_LIST_ENTRY(struct PMEMPointer) neighbors;
     uint64_t id_len;
-    TOID(char) id;
+    char id[512];
     uint64_t len;
     TOID(char) data;
 };
@@ -98,7 +98,7 @@ private:
         struct PMEMListArgs *info = (struct PMEMListArgs *)arg;
         AUTO_TRACE("pmemcpy::PMDKHashtableStorage::_add id_len={} data_len={}", SizeType(info->id_len, SizeType::MB), SizeType(info->len, SizeType::MB));
         pmemobj_memcpy_persist(ppool, &bucket_entry->id_len, &info->id_len, sizeof(uint64_t));
-        pmemobj_memcpy_persist(ppool, &bucket_entry->id, &info->id, sizeof(TOID(char)));
+        pmemobj_memcpy_persist(ppool, bucket_entry->id, info->id->c_str(), info->id_len);
         pmemobj_memcpy_persist(ppool, &bucket_entry->len, &info->len, sizeof(uint64_t));
         pmemobj_memcpy_persist(ppool, &bucket_entry->data, &info->data, sizeof(TOID(char)));
         return 0;
@@ -107,12 +107,12 @@ private:
     static int
     _alloc_str(PMEMobjpool *ppool, void *ptr, void *arg) {
         char *data_dst = (char*)ptr;
-        std::string *data_src = (std::string*)arg;
+        pmemcpy::buffer *data_src = (pmemcpy::buffer*)arg;
         pmemobj_memcpy_persist(ppool, data_dst, data_src->c_str(), data_src->size());
         return 0;
     }
 
-    TOID(char) _stralloc(std::string *str) {
+    TOID(char) _stralloc(pmemcpy::buffer *str) {
         TOID(char) id_pmem;
         int ret = POBJ_ALLOC(ppool_, &id_pmem, char, str->size(), _alloc_str, str);
         if(ret < 0) {
@@ -127,7 +127,7 @@ private:
         POBJ_LIST_FOREACH(list_entry, BUCKET_RW(root_, hash), neighbors) {
             uint64_t entry_id_len = D_RO(list_entry)->id_len;
             if(entry_id_len == id.size()) {
-                if (strncmp(D_RO(D_RO(list_entry)->id), id.c_str(), entry_id_len) == 0) {
+                if (strncmp(D_RO(list_entry)->id, id.c_str(), entry_id_len) == 0) {
                     return list_entry;
                 }
             }
@@ -141,12 +141,7 @@ private:
     }
 
 public:
-    PMDKHashtableStorage() : ppool_(nullptr) {
-        /*MPI_Comm_split_type(MPI_COMM_WORLD, MPI_COMM_TYPE_SHARED, rank,
-                            MPI_INFO_NULL, &nodecomm_);
-        MPI_Comm_size(nodecomm_, &nodesize_);
-        MPI_Comm_rank(nodecomm_, &noderank_);*/
-    }
+    PMDKHashtableStorage() : ppool_(nullptr) {}
     ~PMDKHashtableStorage() { munmap(); }
 
     void mmap(std::string path, uint64_t size = 0) {
@@ -169,14 +164,14 @@ public:
         remove(path.c_str());
     }
 
-    void store(std::string id, std::string &src) {
+    void store(std::string id, pmemcpy::buffer &src) {
         AUTO_TRACE("pmemcpy::PMDKHashtableStorage::store id={} src_len={}", id, SizeType(src.size(), SizeType::MB));
         uint64_t hash = _hashfun(id);
         struct PMEMListArgs info;
 
         //Allocate string and ID in PMEM
         info.id_len = id.size();
-        info.id = _stralloc(&id);
+        info.id = &id;
         info.len = src.size();
         info.data = _stralloc(&src);
 
@@ -187,7 +182,7 @@ public:
         }
     }
 
-    std::string load(std::string id) {
+    pmemcpy::buffer load(std::string id) {
         AUTO_TRACE("pmemcpy::PMDKHashtableStorage::store id={}", id);
         std::string str;
         char *buffer;
@@ -196,34 +191,15 @@ public:
         len = D_RO(bucket_entry)->len;
         buffer = (char*)malloc(len);
         std::memcpy(buffer, D_RO(D_RO(bucket_entry)->data), len);
-        /*TX_BEGIN(ppool_) {
-            TX_ADD(root_);
-            TOID(struct PMEMPointer) bucket_entry = _find(id);
-            len = D_RO(bucket_entry)->len;
-            buffer = (char*)malloc(len);
-            std::memcpy(buffer, D_RO(D_RO(bucket_entry)->data), len);
-        } TX_ONABORT {
-            throw PMDK_LOAD_FAILED.format(pmemobj_errormsg());
-        } TX_END*/
-        return std::string(buffer, len);
+        return pmemcpy::buffer(buffer, len);
     }
 
     void free(std::string id) {
         AUTO_TRACE("pmemcpy::PMDKHashtableStorage::free id={}", id);
         uint64_t hash;
         TOID(struct PMEMPointer) bucket_entry = _find(id, hash);
-        POBJ_FREE(&D_RO(bucket_entry)->id);
         POBJ_FREE(&D_RO(bucket_entry)->data);
         POBJ_LIST_REMOVE_FREE(ppool_, BUCKET_RW(root_, hash), bucket_entry, neighbors);
-        /*TX_BEGIN(ppool_) {
-            TX_ADD(root_);
-            TOID(struct PMEMPointer) bucket_entry = _find(id, hash);
-            POBJ_FREE(&D_RO(bucket_entry)->id);
-            POBJ_FREE(&D_RO(bucket_entry)->data);
-            POBJ_LIST_REMOVE_FREE(ppool_, BUCKET_RW(root_, hash), bucket_entry, neighbors);
-        } TX_ONABORT {
-            throw PMDK_FREE_FAILED.format(pmemobj_errormsg());
-        } TX_END*/
     }
 };
 

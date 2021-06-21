@@ -33,10 +33,10 @@ public:
 template<typename T>
 class Serializer {
 public:
-    inline virtual std::string serialize(T &src) = 0;
-    inline virtual std::string serialize(T *src, Dimensions dims) = 0;
-    inline virtual void deserialize(T &dst, const std::string src) = 0;
-    inline virtual void deserialize(T *dst, const std::string src, Dimensions dims) = 0;
+    inline virtual pmemcpy::buffer serialize(T &src) = 0;
+    inline virtual pmemcpy::buffer serialize(T *src, Dimensions dims) = 0;
+    inline virtual void deserialize(T &dst, const pmemcpy::buffer src) = 0;
+    inline virtual void deserialize(T *dst, const pmemcpy::buffer src, Dimensions dims) = 0;
 };
 
 }

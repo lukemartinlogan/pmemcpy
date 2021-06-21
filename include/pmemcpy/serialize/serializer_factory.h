@@ -10,11 +10,9 @@
 #include <pmemcpy/serialize/msgpack.h>
 #include <pmemcpy/serialize/cereal.h>
 #include <pmemcpy/serialize/boost.h>
-
-#ifdef VECTOR_TEST
-#else
 #include <pmemcpy/serialize/capnproto.h>
-#endif
+#include <pmemcpy/serialize/capnproto_nocompress.h>
+#include <pmemcpy/serialize/no_serializer.h>
 
 namespace pmemcpy {
 
@@ -22,7 +20,9 @@ enum class SerializerType {
     CEREAL,
     MSGPACK,
     BOOST,
-    CAPNPROTO
+    CAPNPROTO,
+    CAPNPROTO_NOCOMPRESS,
+    NO_SERIALIZER
 };
 
 class SerializerTypeConverter {
@@ -32,6 +32,8 @@ public:
         if(name == "MSGPACK") return SerializerType::MSGPACK;
         if(name == "BOOST") return SerializerType::BOOST;
         if(name == "CAPNPROTO") return SerializerType::CAPNPROTO;
+        if(name == "CAPNPROTO_NOCOMPRESS") return SerializerType::CAPNPROTO_NOCOMPRESS;
+        if(name == "NO_SERIALIZER") return SerializerType::NO_SERIALIZER;
         throw INVALID_SERIALIZER_TYPE.format(name);
     }
     static std::string convert(SerializerType id) {
@@ -40,6 +42,8 @@ public:
             case SerializerType::MSGPACK: return "MSGPACK";
             case SerializerType::BOOST: return "BOOST";
             case SerializerType::CAPNPROTO: return "CAPNPROTO";
+            case SerializerType::CAPNPROTO_NOCOMPRESS: return "CAPNPROTO_NOCOMPRESS";
+            case SerializerType::NO_SERIALIZER: return "NO_SERIALIZER";
         }
     }
 };
@@ -49,22 +53,12 @@ class SerializerFactory {
 public:
     static std::unique_ptr<Serializer<T>> get(SerializerType type) {
         switch(type) {
-            case SerializerType::CEREAL: {
-                return std::unique_ptr<CerealSerializer<T>>(new CerealSerializer<T>());
-            }
-            case SerializerType::MSGPACK: {
-                return std::unique_ptr<MsgpackSerializer<T>>(new MsgpackSerializer<T>());
-            }
-            case SerializerType::BOOST: {
-                return std::unique_ptr<BoostSerializer<T>>(new BoostSerializer<T>());
-            }
-            case SerializerType::CAPNPROTO: {
-#ifdef VECTOR_TEST
-                return nullptr;
-#else
-                return std::unique_ptr<CapnProtoSerializer<T>>(new CapnProtoSerializer<T>());
-#endif
-            }
+            case SerializerType::CEREAL: { return std::unique_ptr<CerealSerializer<T>>(new CerealSerializer<T>()); }
+            case SerializerType::MSGPACK: { return std::unique_ptr<MsgpackSerializer<T>>(new MsgpackSerializer<T>()); }
+            case SerializerType::BOOST: { return std::unique_ptr<BoostSerializer<T>>(new BoostSerializer<T>()); }
+            case SerializerType::CAPNPROTO: { return std::unique_ptr<CapnProtoSerializer<T>>(new CapnProtoSerializer<T>()); }
+            case SerializerType::CAPNPROTO_NOCOMPRESS: return std::unique_ptr<CapnProtoNoCompressSerializer<T>>(new CapnProtoNoCompressSerializer<T>());
+            case SerializerType::NO_SERIALIZER: return std::unique_ptr<NoSerializer<T>>(new NoSerializer<T>());
         }
         return nullptr;
     }

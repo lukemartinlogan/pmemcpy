@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
         ddata = (double *) malloc(sizeof(double) * ndx * ndy * ndz);
 
         for (int i = 0; i < ndx * ndy * ndz; i++) {
-            ddata[i] = rank;
+            ddata[i] = rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank;
         }
 
         cube_start[0] = offx;
@@ -81,12 +81,10 @@ int main(int argc, char **argv) {
             cube_count[2] = ndz;
         }
 
-
+#pragma omp barrier
         if (rank == 0) {
             start_time = MPI_Wtime();
         }
-#pragma omp barrier
-
         if (rank == 0) {
             PMEMCPY_ERROR_HANDLE_START()
             pmem.store<uint64_t>("nx", nx);

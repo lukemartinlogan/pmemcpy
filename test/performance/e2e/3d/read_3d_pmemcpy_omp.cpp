@@ -42,8 +42,6 @@ int read_pattern_3 (int argc, char ** argv)
     pmem.mmap(filename);
     PMEMCPY_ERROR_HANDLE_END()
 
-    start_time = MPI_Wtime ();
-
     omp_set_dynamic(0);
 #pragma omp parallel shared(nproc_x, nproc_y, nproc_z, readsize, nc_err, start_time, end_time, filename, pmem) num_threads(size)
     {
@@ -61,7 +59,11 @@ int read_pattern_3 (int argc, char ** argv)
 
         MPI_Offset start [10];
 
+#pragma omp barrier
         int rank = omp_get_thread_num();
+        if(rank == 0) {
+            start_time = MPI_Wtime();
+        }
 
         PMEMCPY_ERROR_HANDLE_START()
         pmem.load<uint64_t>("nx", nx);
@@ -97,8 +99,13 @@ int read_pattern_3 (int argc, char ** argv)
         pmem.load<double>("F" + std::to_string(rank), grav_z_c,
                           pmemcpy::Dimensions(readsize[0], readsize[1], readsize[2]));
         PMEMCPY_ERROR_HANDLE_END()
+
+#pragma omp barrier
+        if(rank == 0) {
+            end_time = MPI_Wtime ();
+        }
     }
-    end_time = MPI_Wtime ();
+
     //io_type method size ndx ndy ndz size_per_proc agg_size time storage serializer
     size_t size_per_proc = 3*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
     size_t agg_size = size_per_proc*size;
