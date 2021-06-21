@@ -4,19 +4,25 @@
     <generated>
       <config projectName="pm" targetName="write_3d_pmemcpy" />
       <config projectName="pm" targetName="read_3d_nc5" />
-      <config projectName="pm" targetName="read_3d_bp" />
       <config projectName="pm" targetName="read_3d_nc4" />
-      <config projectName="pm" targetName="test_parallel_io" />
-      <config projectName="pm" targetName="read_3d_pmemcpy" />
-      <config projectName="pm" targetName="write_3d_bp" />
+      <config projectName="pm" targetName="check-pmemulator" />
       <config projectName="pm" targetName="write_3d_pmemcpy_omp" />
       <config projectName="pm" targetName="test_pmemulator" />
-      <config projectName="pm" targetName="pmemcpy" />
+      <config projectName="pm" targetName="build-pmemulator" />
       <config projectName="pm" targetName="read_3d_pmemcpy_omp" />
-      <config projectName="pm" targetName="test_pmem" />
-      <config projectName="pm" targetName="pmemulator" />
-      <config projectName="pm" targetName="write_3d_nc4" />
+      <config projectName="pm" targetName="check-klog" />
+      <config projectName="pm" targetName="clean-klog" />
+      <config projectName="pm" targetName="rm-pmemulator" />
       <config projectName="pm" targetName="test_vector" />
+      <config projectName="pm" targetName="read_3d_bp" />
+      <config projectName="pm" targetName="test_parallel_io" />
+      <config projectName="pm" targetName="insert-pmemulator" />
+      <config projectName="pm" targetName="clean-pmemulator" />
+      <config projectName="pm" targetName="read_3d_pmemcpy" />
+      <config projectName="pm" targetName="write_3d_bp" />
+      <config projectName="pm" targetName="pmemcpy" />
+      <config projectName="pm" targetName="test_pmem" />
+      <config projectName="pm" targetName="write_3d_nc4" />
       <config projectName="pm" targetName="write_3d_nc5" />
     </generated>
   </component>
@@ -38,10 +44,9 @@
   <component name="ChangeListManager">
     <list default="true" id="cb017e54-6e21-4884-8028-4244ad7d5d3a" name="Default Changelist" comment="``">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/util/trace.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/util/trace.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc5.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/test_pmemulator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/test_pmemulator.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/pmemulator/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/gwrite_particles.ch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/pmemulator/pmemulator-posix.cpp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,12 +109,42 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.write_3d_nc5_mpi">
-    <configuration name="pmemcpy" type="CMakeRunConfiguration" factoryName="Application" folderName="other" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="pmemcpy" CONFIG_NAME="Debug">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="pmemulator" type="CMakeRunConfiguration" factoryName="Application" folderName="other" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="pmemulator" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pm" RUN_TARGET_NAME="test_pmemulator">
+    <configuration name="build-pmemulator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="build-pmemulator" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="check-klog" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="check-klog" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="check-pmemulator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="check-pmemulator" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="clean-klog" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="clean-klog" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="clean-pmemulator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="clean-pmemulator" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="insert-pmemulator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="insert-pmemulator" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="pmemcpy" type="CMakeRunConfiguration" factoryName="Application" folderName="other" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="pmemcpy" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -295,6 +330,11 @@
         <env name="LD_PRELOAD" value="$PROJECT_DIR$/cmake-build-debug/test/performance/pmemulator/libpmemulator.so" />
         <env name="PATH" value="$PROJECT_DIR$/../scspkg/packages/pmemcpy/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/sz-1.4.12.3-qcsrxp2gj6tcejtcjs6h4fibxulacjft/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/lz4-1.9.2-pe3gznzybsegai7ikcckyws3oy326a6j/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/openmpi-3.1.6-fudbchuusfasnbeu3s3q472y6dyyuned/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/parallel-netcdf-1.12.1-3gtzbcsmkiix76lp7ybwqj7pxajte7o5/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/mxml-2.10-cpcdkki6cfiygznnvzxvwn72yv2vijza/bin:$PROJECT_DIR$/../scspkg/packages/pmdk/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/capnproto-0.7.0-je56lj4s5bgincybicviilexjeevqjcx/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/adios-1.13.1-rjcwbpi6fpihml3c4r2mxxejra4zvflq/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/netcdf-c-4.7.4-pp7ummgtc6rp4dsxv4udhgmcntkhgykw/bin:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/mpich-3.3.2-mrb5naabd33wnlxywz4ldnfm2nubs3lt/bin:$USER_HOME$/spack/bin:$PROJECT_DIR$/../scspkg/packages/modules/bin:$PROJECT_DIR$/../scspkg/bin:$PROJECT_DIR$/../scspkg/bin:$PROJECT_DIR$/../scspkg/bin:/bin:$USER_HOME$/install/bin:$USER_HOME$/install/lib:$USER_HOME$/install/lib64:$USER_HOME$/install/include:/bin:$USER_HOME$/install/bin:$USER_HOME$/install/lib:$USER_HOME$/install/lib64:$USER_HOME$/install/include:/bin:$USER_HOME$/install/bin:$USER_HOME$/install/lib:$USER_HOME$/install/lib64:$USER_HOME$/install/include:$USER_HOME$/install/bin:$USER_HOME$/install/lib:$USER_HOME$/install/lib64:$USER_HOME$/install/include:$USER_HOME$/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin" />
       </envs>
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rm-pmemulator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="rm-pmemulator" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -604,7 +644,6 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.pmemulator" />
       <item itemvalue="CMake Application.pmemcpy" />
       <item itemvalue="CMake Application.test_vector" />
       <item itemvalue="CMake Application.read_1d_bp" />
@@ -645,6 +684,13 @@
       <item itemvalue="CMake Application.test_parallel_posix" />
       <item itemvalue="CMake Application.test_parallel_pmdk" />
       <item itemvalue="CMake Application.test_pmdk" />
+      <item itemvalue="CMake Application.build-pmemulator" />
+      <item itemvalue="CMake Application.check-klog" />
+      <item itemvalue="CMake Application.check-pmemulator" />
+      <item itemvalue="CMake Application.clean-klog" />
+      <item itemvalue="CMake Application.clean-pmemulator" />
+      <item itemvalue="CMake Application.insert-pmemulator" />
+      <item itemvalue="CMake Application.rm-pmemulator" />
       <item itemvalue="CMake Application.test_pmemulator" />
     </list>
   </component>
@@ -670,7 +716,7 @@
       <workItem from="1623646841514" duration="73357000" />
       <workItem from="1624011993424" duration="6703000" />
       <workItem from="1624118829851" duration="6018000" />
-      <workItem from="1624176298334" duration="615000" />
+      <workItem from="1624176298334" duration="4870000" />
     </task>
     <servers />
   </component>
