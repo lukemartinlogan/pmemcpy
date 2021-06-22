@@ -50,8 +50,8 @@ int main(int argc, char **argv)
 {
     pmemcpy::StorageType storage_t;
     pmemcpy::SerializerType serializer_t;
-    if(argc != 5) {
-        printf("USAGE: test_pmem [pool-path] [i/o mode] [storage_type] [serializer_type]");
+    if(argc != 6) {
+        printf("USAGE: test_pmem [pool-path] [i/o mode] [storage_type] [serializer_type] [use-mmap]");
         return -1;
     }
     char *path = argv[1];
@@ -60,9 +60,10 @@ int main(int argc, char **argv)
     storage_t = pmemcpy::StorageTypeConverter::convert(argv[3]);
     serializer_t = pmemcpy::SerializerTypeConverter::convert(argv[4]);
     PMEMCPY_ERROR_HANDLE_END()
+    int use_mmap = atoi(argv[5]);
 
     //Test create
-    pmemcpy::PMEM pmem(storage_t, serializer_t);
+    pmemcpy::PMEM pmem(storage_t, serializer_t, use_mmap);
     PMEMCPY_ERROR_HANDLE_START()
     if(mode == 0 && boost::filesystem::exists(path)) {
         pmem.release(path);

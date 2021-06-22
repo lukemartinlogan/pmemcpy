@@ -18,11 +18,23 @@ namespace pmemcpy {
 
 #define CAPNP_PRIM_SERIAL(T, CT)\
     inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {\
+        kj::ArrayOutputStream output(kj::ArrayPtr<kj::byte>((kj::byte*)buf->c_str(), buf->size()));\
+        capnp::MallocMessageBuilder message;\
+        PrimitiveData::Builder num = message.initRoot<PrimitiveData>();\
+        num.set##CT(src);\
+        capnp::writePackedMessage(output, message.getSegmentsForOutput()); \
+        AUTO_TRACE("pmemcpy::capnp::serialize::single buf size={}", SizeType(output.getArray().size(), SizeType::MB));\
     }\
-    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {\
+    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, size_t count) {\
+        kj::ArrayOutputStream output(kj::ArrayPtr<kj::byte>((kj::byte*)buf->c_str(), buf->size()));\
+        capnp::MallocMessageBuilder message;\
+        PrimitiveData::Builder nums = message.initRoot<PrimitiveData>();\
+        nums.set##CT##Arr(kj::ArrayPtr<T>(src, count));\
+        capnp::writePackedMessage(output, message.getSegmentsForOutput()); \
+        AUTO_TRACE("pmemcpy::capnp::serialize::single buf size={}", SizeType(output.getArray().size(), SizeType::MB));\
     }\
     inline std::shared_ptr<pmemcpy::generic_buffer> _serialize(T &src) { \
-        kj::VectorOutputStream output(sizeof(T));\
+        kj::VectorOutputStream output(est_encoded_size(sizeof(T)));\
         capnp::MallocMessageBuilder message;\
         PrimitiveData::Builder num = message.initRoot<PrimitiveData>();\
         num.set##CT(src);\
@@ -31,7 +43,7 @@ namespace pmemcpy {
         return std::shared_ptr<pmemcpy::malloc_buffer>(new pmemcpy::malloc_buffer((char*)output.getArray().begin(), output.getArray().size()));\
     }\
     inline std::shared_ptr<pmemcpy::generic_buffer> _serialize(T *src, size_t count) {\
-        kj::VectorOutputStream output(count*sizeof(T));\
+        kj::VectorOutputStream output(est_encoded_size(count*sizeof(T)));\
         capnp::MallocMessageBuilder message;\
         PrimitiveData::Builder nums = message.initRoot<PrimitiveData>();\
         nums.set##CT##Arr(kj::ArrayPtr<T>(src, count));\
@@ -75,13 +87,15 @@ namespace pmemcpy {
 
     public:
         inline size_t est_encoded_size(size_t size) {
-            return 0;
+            return size*1.1 + 24;
         }
 
         inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+            return _serialize(buf, src);
         }
 
         inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+            return _serialize(buf, src, dims.count());
         }
 
         inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T &src) {

@@ -67,14 +67,14 @@ public:
     }
 
     inline void deserialize(T &dst, std::shared_ptr<pmemcpy::generic_buffer> src) {
-        AUTO_TRACE("pmemcpy::cereal::deserialize::single size={}", SizeType(src.size(), SizeType::MB));
+        AUTO_TRACE("pmemcpy::cereal::deserialize::single size={}", SizeType(src->size(), SizeType::MB));
         std::stringstream ss(src->c_str());
         cereal::PortableBinaryInputArchive iarchive(ss);
         iarchive(dst);
     }
 
     inline void deserialize(T *dst, std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {
-        AUTO_TRACE("pmemcpy::cereal::deserialize::array size={}", SizeType(src.size(), SizeType::MB));
+        AUTO_TRACE("pmemcpy::cereal::deserialize::array size={}", SizeType(src->size(), SizeType::MB));
         std::stringstream ss(src->c_str());
         cereal::PortableBinaryInputArchive iarchive(ss);
         iarchive(cereal::binary_data(dst, sizeof(T) * dims.count()));

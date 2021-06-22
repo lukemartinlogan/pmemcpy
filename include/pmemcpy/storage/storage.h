@@ -2,11 +2,6 @@
 // Created by lukemartinlogan on 5/28/21.
 //
 
-/**
- * This file loads/stores serialized data into PMEM
- * It implements data layout policies
- * */
-
 #ifndef PMEMCPY_STORAGE_H
 #define PMEMCPY_STORAGE_H
 

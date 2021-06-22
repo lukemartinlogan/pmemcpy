@@ -194,7 +194,7 @@ public:
     }
 
     void store(std::string id, std::shared_ptr<pmemcpy::generic_buffer> &src) {
-        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::store id={} src_len={}", id, SizeType(src.size(), SizeType::MB));
+        AUTO_TRACE("pmemcpy::PMDKHashtableStorage::store id={} src_len={}", id, SizeType(src->size(), SizeType::MB));
         uint64_t hash = _hashfun(id);
         struct PMEMListArgs info;
 

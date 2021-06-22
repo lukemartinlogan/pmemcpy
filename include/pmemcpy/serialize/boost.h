@@ -27,6 +27,8 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/stream.hpp>
 #include <string>
 #include <sstream>
 
@@ -69,7 +71,7 @@ public:
     }
 
     inline void deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) {
-        AUTO_TRACE("pmemcpy::boost::deserialize::single size={}", SizeType(src.size(), SizeType::MB));
+        AUTO_TRACE("pmemcpy::boost::deserialize::single size={}", SizeType(src->size(), SizeType::MB));
         std::stringstream ss(src->c_str());
         boost::archive::binary_iarchive iarch(ss);
         //boost::archive::binary_iarchive iarch(src.c_str());
@@ -77,7 +79,7 @@ public:
     }
 
     inline void deserialize(T *dst, const std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {
-        AUTO_TRACE("pmemcpy::boost::deserialize::array size={}", SizeType(src.size(), SizeType::MB));
+        AUTO_TRACE("pmemcpy::boost::deserialize::array size={}", SizeType(src->size(), SizeType::MB));
         std::vector<T, NoAllocator<T>> temp_(NoAllocator<T>(dst, dims.count()));
         temp_.resize(dims.count());
         std::stringstream ss(src->c_str());

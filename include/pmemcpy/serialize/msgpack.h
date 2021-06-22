@@ -45,14 +45,14 @@ public:
     }
 
     inline void deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) {
-        AUTO_TRACE("pmemcpy::msgpack::deserialize::single size={}", SizeType(src.size(), SizeType::MB));
+        AUTO_TRACE("pmemcpy::msgpack::deserialize::single size={}", SizeType(src->size(), SizeType::MB));
         msgpack::object_handle oh = msgpack::unpack(src->c_str(), src->size());
         msgpack::object deserialized = oh.get();
         deserialized.convert(dst);
     }
 
     inline void deserialize(T *dst, const std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {
-        AUTO_TRACE("pmemcpy::msgpack::deserialize::array size={}", SizeType(src.size(), SizeType::MB));
+        AUTO_TRACE("pmemcpy::msgpack::deserialize::array size={}", SizeType(src->size(), SizeType::MB));
         std::vector<T, NoAllocator<T>> temp_(NoAllocator<T>(dst, dims.count()));
         temp_.resize(dims.count());
         msgpack::object_handle oh = msgpack::unpack(src->c_str(), src->size());

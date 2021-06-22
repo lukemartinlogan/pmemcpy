@@ -22,6 +22,12 @@ int read_pattern_3 (int argc, char ** argv)
     double start_time, end_time;
     pmemcpy::StorageType storage_t;
     pmemcpy::SerializerType serializer_t;
+    int use_mmap;
+
+    if(argc != 8) {
+        printf("USAGE: filename npx npy npz storage_type serializer_type use_mmap\n");
+        exit(1);
+    }
 
     nproc_x = atoi ( argv [2]);
     nproc_y = atoi (argv [3]);
@@ -30,6 +36,7 @@ int read_pattern_3 (int argc, char ** argv)
     storage_t = pmemcpy::StorageTypeConverter::convert(argv[5]);
     serializer_t = pmemcpy::SerializerTypeConverter::convert(argv[6]);
     PMEMCPY_ERROR_HANDLE_END()
+    use_mmap = atoi(argv[7]);
     size = nproc_x * nproc_y * nproc_z;
     if(storage_t == pmemcpy::StorageType::POSIX) {
         sprintf (filename, "%s", argv [1]);

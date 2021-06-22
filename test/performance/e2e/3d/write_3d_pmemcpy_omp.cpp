@@ -19,6 +19,12 @@ int main(int argc, char **argv) {
     double start_time, end_time;
     pmemcpy::StorageType storage_t;
     pmemcpy::SerializerType serializer_t;
+    int use_mmap;
+
+    if(argc != 11) {
+        printf("USAGE: npx npy npz ndx ndy ndz storage_type serializer_type use_mmap\n");
+        exit(1);
+    }
 
     npx = atoi(argv[2]);
     npy = atoi(argv[3]);
@@ -30,6 +36,7 @@ int main(int argc, char **argv) {
     storage_t = pmemcpy::StorageTypeConverter::convert(argv[8]);
     serializer_t = pmemcpy::SerializerTypeConverter::convert(argv[9]);
     PMEMCPY_ERROR_HANDLE_END()
+    use_mmap = atoi(argv[10]);
     nprocs = npx*npy*npz;
 
     if(storage_t == pmemcpy::StorageType::POSIX) {
@@ -42,7 +49,7 @@ int main(int argc, char **argv) {
     ny = npy * ndy;
     nz = npz * ndz;
 
-    pmemcpy::PMEM pmem(storage_t, serializer_t);
+    pmemcpy::PMEM pmem(storage_t, serializer_t, use_mmap);
     PMEMCPY_ERROR_HANDLE_START()
     pmem.mmap(filename, (size_t) (70 * pmemcpy::SizeType::GB));
     //pmem.mmap(filename, (size_t) (15 * pmemcpy::SizeType::GB));

@@ -14,8 +14,13 @@ namespace pmemcpy {
 
 #define NO_SERIALIZER(T, CT)\
     inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {\
+    AUTO_TRACE("pmemcpy::no_serializer::serialize::single buf size={}", SizeType(sizeof(T), SizeType::MB)); \
+        memcpy((void*)buf->c_str(), (void*)&src, sizeof(T)); \
     }\
-    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {\
+    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, size_t count) {\
+        size_t size = sizeof(T)*count; \
+        AUTO_TRACE("pmemcpy::no_serializer::serialize::array buf size={}", SizeType(size, SizeType::MB));\
+        memcpy((void*)buf->c_str(), (void*)src, size); \
     }\
     inline std::shared_ptr<pmemcpy::generic_buffer> _serialize(T &src) { \
         AUTO_TRACE("pmemcpy::no_serializer::serialize::single size={}", SizeType(sizeof(T), SizeType::MB)); \
@@ -31,11 +36,11 @@ namespace pmemcpy {
         return buf;\
     }\
     inline void _deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) {\
-        AUTO_TRACE("pmemcpy::no_serializer::deserialize::single size={}", SizeType(src.size(), SizeType::MB)); \
+        AUTO_TRACE("pmemcpy::no_serializer::deserialize::single size={}", SizeType(src->size(), SizeType::MB)); \
         memcpy((void*)&dst, (void*)src->c_str(), src->size());\
     }\
     inline void _deserialize(T *dst, const std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {\
-        AUTO_TRACE("pmemcpy::no_serializer::deserialize::array size={}", SizeType(src.size(), SizeType::MB));             \
+        AUTO_TRACE("pmemcpy::no_serializer::deserialize::array size={}", SizeType(src->size(), SizeType::MB));             \
         memcpy((void*)dst, (void*)src->c_str(), src->size());\
     }
 
@@ -55,13 +60,15 @@ namespace pmemcpy {
 
     public:
         inline size_t est_encoded_size(size_t size) {
-            return 0;
+            return size;
         }
 
         inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+            return _serialize(buf, src);
         }
 
         inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+            return _serialize(buf, src, dims.count());
         }
 
         inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T &src) {
