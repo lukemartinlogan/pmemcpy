@@ -44,7 +44,7 @@ int read_pattern_3 (int argc, char ** argv)
         sprintf (filename, "%s.pmemcpy_omp", argv [1]);
     }
 
-    pmemcpy::PMEM pmem(storage_t, serializer_t);
+    pmemcpy::PMEM pmem(storage_t, serializer_t, use_mmap);
     PMEMCPY_ERROR_HANDLE_START()
     pmem.mmap(filename);
     PMEMCPY_ERROR_HANDLE_END()
@@ -60,9 +60,9 @@ int read_pattern_3 (int argc, char ** argv)
         int z_min;       // offset for local z
         uint64_t nx, ny, nz;
 
+        MPI_Offset local_readsize[10];
+        std::string tags[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
         double * grav_x_c;
-        double * grav_y_c;
-        double * grav_z_c;
 
         MPI_Offset start [10];
 
@@ -92,19 +92,17 @@ int read_pattern_3 (int argc, char ** argv)
             readsize[1] = my_y_dim;
             readsize[2] = my_z_dim;
         }
-#pragma omp barrier
+        local_readsize[0] = my_x_dim;
+        local_readsize[1] = my_y_dim;
+        local_readsize[2] = my_z_dim;
 
-        grav_x_c = (double *) malloc(sizeof(double) * readsize[0] * readsize[1] * readsize[2]);
-        grav_y_c = (double *) malloc(sizeof(double) * readsize[0] * readsize[1] * readsize[2]);
-        grav_z_c = (double *) malloc(sizeof(double) * readsize[0] * readsize[1] * readsize[2]);
+        grav_x_c = (double *) malloc(sizeof(double) * local_readsize[0] * local_readsize[1] * local_readsize[2]);
 
         PMEMCPY_ERROR_HANDLE_START()
-        pmem.load<double>("D" + std::to_string(rank), grav_x_c,
-                          pmemcpy::Dimensions(readsize[0], readsize[1], readsize[2]));
-        pmem.load<double>("E" + std::to_string(rank), grav_y_c,
-                          pmemcpy::Dimensions(readsize[0], readsize[1], readsize[2]));
-        pmem.load<double>("F" + std::to_string(rank), grav_z_c,
-                          pmemcpy::Dimensions(readsize[0], readsize[1], readsize[2]));
+        for(int i = 0; i < 10; ++i) {
+            pmem.load<double>(tags[i] + std::to_string(rank), grav_x_c,
+                              pmemcpy::Dimensions(local_readsize[0], local_readsize[1], local_readsize[2]));
+        }
         PMEMCPY_ERROR_HANDLE_END()
 
 #pragma omp barrier
@@ -114,7 +112,7 @@ int read_pattern_3 (int argc, char ** argv)
     }
 
     //io_type method size ndx ndy ndz size_per_proc agg_size time storage serializer
-    size_t size_per_proc = 3*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
+    size_t size_per_proc = 10*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
     size_t agg_size = size_per_proc*size;
     printf("read pmemcpy_omp %d %lld %lld %lld %lu %lu %lf %s %s\n",
            size, readsize[0], readsize[1], readsize[2],

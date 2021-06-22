@@ -13,10 +13,10 @@ int read_pattern_3 (int argc, char ** argv)
     char dim_name [100];
     MPI_Offset start [10];
     MPI_Offset readsize [10];
+    char *tags[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    int grav_x_c_varid[10];
 
     int nx_dimid, ny_dimid, nz_dimid;
-
-    int grav_x_c_varid, grav_y_c_varid, grav_z_c_varid;
 
     int rank;
     int size;
@@ -87,19 +87,14 @@ int read_pattern_3 (int argc, char ** argv)
     grav_y_c = malloc (sizeof (double) * readsize [0] * readsize [1] * readsize [2]);
     grav_z_c = malloc (sizeof (double) * readsize [0] * readsize [1] * readsize [2]);
 
-    nc_err = ncmpi_inq_varid (ncid, "D", &grav_x_c_varid);
-    if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror (nc_err)); 
-    nc_err = ncmpi_inq_varid (ncid, "E", &grav_y_c_varid);
-    if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror (nc_err)); 
-    nc_err = ncmpi_inq_varid (ncid, "F", &grav_z_c_varid);
-    if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror (nc_err)); 
-
-    nc_err = ncmpi_get_vara_double_all (ncid, grav_x_c_varid, start, readsize, grav_x_c);
-    if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror (nc_err)); 
-    nc_err = ncmpi_get_vara_double_all (ncid, grav_y_c_varid, start, readsize, grav_y_c);
-    if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror (nc_err)); 
-    nc_err = ncmpi_get_vara_double_all (ncid, grav_z_c_varid, start, readsize, grav_z_c);
-    if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror (nc_err)); 
+    for(int i = 0; i < 10; ++i) {
+        nc_err = ncmpi_inq_varid(ncid, tags[i], &grav_x_c_varid[i]);
+        if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror(nc_err));
+    }
+    for(int i = 0; i < 10; ++i) {
+        nc_err = ncmpi_get_vara_double_all (ncid, grav_x_c_varid[i], start, readsize, grav_x_c);
+        if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror (nc_err));
+    }
 
     nc_err = ncmpi_close (ncid);
     if (nc_err != NC_NOERR) fprintf(stderr, "%d: %s\n", rank, ncmpi_strerror (nc_err)); 
@@ -108,7 +103,7 @@ int read_pattern_3 (int argc, char ** argv)
     end_time = MPI_Wtime ();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
-        size_t size_per_proc = 3*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
+        size_t size_per_proc = 10*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
         size_t agg_size = size_per_proc*size;
         printf("read nc5 %d %lld %lld %lld %lu %lu %lf none none\n", size, readsize[0], readsize[1], readsize[2], size_per_proc, agg_size, end_time - start_time);
     }

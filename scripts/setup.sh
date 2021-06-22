@@ -35,13 +35,21 @@ sudo mount -t pmemulator-ext4 -o dax /dev/pmem0 ~/tmpfs
 sudo chown -R cc ~/tmpfs
 sudo umount ~/tmpfs
 
+#COPY pmemcpy to Chameleon
+ROOT_DIR=../
+tar -czf pmemcpy.tar.gz ${ROOT_DIR}/include ${ROOT_DIR}/src ${ROOT_DIR}/test ${ROOT_DIR}/scripts ${ROOT_DIR}/CMakeLists.txt
+scp pmemcpy.tar.gz cc@129.114.109.179:~/
+
+#DECOMPRESS pmemcpy on Chameleon
+tar -xzf ${HOME}/pmemcpy.tar.gz -C ${HOME}/pmemcpy
+
 #SMALL TEST
-mkdir ~/tmpfs/test
-test/performance/e2e/write_3d_pmemcpy_omp ~/tmpfs/test 4 4 3 192 192 192 POSIX NO_SERIALIZER
-gprof test/performance/e2e/write_3d_pmemcpy_omp
-test/performance/e2e/read_3d_pmemcpy_omp ~/tmpfs/test 4 4 3 POSIX NO_SERIALIZER
-gprof test/performance/e2e/read_3d_pmemcpy_omp
 rm -r ~/tmpfs/*
+mkdir ~/tmpfs/test
+test/performance/e2e/write_3d_pmemcpy_omp ~/tmpfs/test 4 2 3 384 192 192 POSIX NO_SERIALIZER 1
+gprof test/performance/e2e/write_3d_pmemcpy_omp
+test/performance/e2e/read_3d_pmemcpy_omp ~/tmpfs/test 4 2 3 POSIX NO_SERIALIZER 1
+gprof test/performance/e2e/read_3d_pmemcpy_omp
 
 #SMALL TESTS
 bash ~/pmemcpy/scripts/small-test.sh

@@ -5,6 +5,8 @@
 #ifndef PMEMCPY_H
 #define PMEMCPY_H
 
+#define BOOST_USE_VALGRIND
+
 #include <pmemcpy/util/errors.h>
 #include <pmemcpy/util/trace.h>
 #include <pmemcpy/serialize/serializer_factory.h>

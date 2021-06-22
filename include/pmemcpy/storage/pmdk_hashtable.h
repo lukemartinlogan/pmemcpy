@@ -26,9 +26,9 @@ POBJ_LAYOUT_TOID(objstore, char)
 POBJ_LAYOUT_END(objstore)
 
 struct PMEMListArgs {
-    size_t id_len;
+    uint64_t id_len;
     std::string *id;
-    size_t len;
+    uint64_t len;
     TOID(char) data;
 };
 struct PMEMPointer {
@@ -68,7 +68,7 @@ private:
         ppool_ = pmemobj_create(path.c_str(), POBJ_LAYOUT_NAME(objstore), size, 0777);
         nbuckets_ = nbuckets;
         if (ppool_ == nullptr) {
-            throw PMDK_HASH_POOL_FAILED.format(path, size, nbuckets, std::string(strerror(errno)));
+            throw PMDK_HASH_POOL_FAILED.format(path, SizeType(size, SizeType::MB), nbuckets, std::string(strerror(errno)));
         }
         root_ = POBJ_ROOT(ppool_, struct PMEMHeader);
         TX_BEGIN(ppool_) {
@@ -97,10 +97,11 @@ private:
         struct PMEMPointer *bucket_entry = (struct PMEMPointer *)ptr;
         struct PMEMListArgs *info = (struct PMEMListArgs *)arg;
         AUTO_TRACE("pmemcpy::PMDKHashtableStorage::_add id_len={} data_len={}", SizeType(info->id_len, SizeType::MB), SizeType(info->len, SizeType::MB));
-        pmemobj_memcpy_persist(ppool, &bucket_entry->id_len, &info->id_len, sizeof(uint64_t));
-        pmemobj_memcpy_persist(ppool, bucket_entry->id, info->id->c_str(), info->id_len);
-        pmemobj_memcpy_persist(ppool, &bucket_entry->len, &info->len, sizeof(uint64_t));
-        pmemobj_memcpy_persist(ppool, &bucket_entry->data, &info->data, sizeof(TOID(char)));
+        bucket_entry->id_len = info->id_len;
+        bucket_entry->len = info->len;
+        memcpy(bucket_entry->id, info->id->c_str(), info->id_len);
+        bucket_entry->data = info->data;
+        pmemobj_persist(ppool, &bucket_entry, sizeof(struct PMEMPointer));
         return 0;
     }
 
@@ -116,7 +117,7 @@ private:
         TOID(char) id_pmem;
         int ret = POBJ_ALLOC(ppool_, &id_pmem, char, buf->size(), _alloc_str, buf.get());
         if(ret < 0) {
-            throw PMDK_CANT_ALLOCATE_STR.format(buf->size(), pmemobj_errormsg());
+            throw PMDK_CANT_ALLOCATE_STR.format(SizeType(buf->size(), SizeType::MB), pmemobj_errormsg());
         }
         return id_pmem;
     }
@@ -125,7 +126,7 @@ private:
         TOID(char) id_pmem;
         int ret = POBJ_ALLOC(ppool_, &id_pmem, char, size, NULL, NULL);
         if(ret < 0) {
-            throw PMDK_CANT_ALLOCATE_STR.format(size, pmemobj_errormsg());
+            throw PMDK_CANT_ALLOCATE_STR.format(SizeType(size, SizeType::MB), pmemobj_errormsg());
         }
         return id_pmem;
     }
@@ -207,7 +208,7 @@ public:
         //Allocate list entry
         PMEMoid oid = POBJ_LIST_INSERT_NEW_HEAD(ppool_, BUCKET_RW(root_, hash), neighbors, sizeof(struct PMEMPointer), _add, &info);
         if(OID_IS_NULL(oid)) {
-            PMDK_CANT_ALLOCATE_OBJ.format(id, src->size(), pmemobj_errormsg());
+            PMDK_CANT_ALLOCATE_OBJ.format(id, SizeType(src->size(), SizeType::MB), pmemobj_errormsg());
         }
     }
 

@@ -20,33 +20,33 @@ function test_case() {
   rm -rf ${PMEM_DIR}/*
   if [ ${suffix} == "bp" ]; then
     mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/write_3d_${suffix} ${PMEM_DIR}/test ${SOURCE_DIR}/3d.xml ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz}
-    #sudo sync
-    #sudo sysctl -w vm.drop_caches=3
+    sudo sync
+    sudo sysctl -w vm.drop_caches=3 >> /dev/null
     sudo umount ~/tmpfs
     sudo mount -o dax /dev/pmem0 ~/tmpfs
     mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
   elif [ ${suffix} == "pmemcpy_omp" ]; then
     mkdir ${PMEM_DIR}/test
     ${EXEC_DIR}/write_3d_pmemcpy_omp ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz} ${storage} ${serializer} ${use_mmap}
-    #sudo sync
-    #sudo sysctl -w vm.drop_caches=3
+    sudo sync
+    sudo sysctl -w vm.drop_caches=3 >> /dev/null
     ${EXEC_DIR}/read_3d_pmemcpy_omp ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${storage} ${serializer} ${use_mmap}
   else
     mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/write_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz}
-    #sudo sync
-    #sudo sysctl -w vm.drop_caches=3
+    sudo sync
+    sudo sysctl -w vm.drop_caches=3 >> /dev/null
     mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
   fi
   rm -rf ${PMEM_DIR}/*
 }
 
-#SUFFIXES=("bp" "nc4" "nc5")
-SUFFIXES=("nc4" "nc5")
+SUFFIXES=("bp" "nc4" "nc5")
+#SUFFIXES=("nc4" "nc5")
 for SUFFIX in ${SUFFIXES[@]}; do
-  test_case ${SUFFIX} 8 2 2 2 1152 192 192
-  test_case ${SUFFIX} 16 4 2 2 576 192 192
-  test_case ${SUFFIX} 24 4 2 3 384 192 192
-  test_case ${SUFFIX} 32 4 4 2 288 192 192
+#  test_case ${SUFFIX} 8 2 2 2 1152 192 192
+#  test_case ${SUFFIX} 16 4 2 2 576 192 192
+#  test_case ${SUFFIX} 24 4 2 3 384 192 192
+#  test_case ${SUFFIX} 32 4 4 2 288 192 192
   test_case ${SUFFIX} 48 4 4 3 192 192 192
 done
 
@@ -56,10 +56,10 @@ SERIALIZER_TYPES=("NO_SERIALIZER" "CAPNPROTO" "CAPNPROTO_NOCOMPRESS")
 
 for STORAGE_TYPE in ${STORAGE_TYPES[@]}; do
   for SERIALIZER_TYPE in ${SERIALIZER_TYPES[@]}; do
-    test_case "pmemcpy_omp" 8 2 2 2 1152 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE}
-    test_case "pmemcpy_omp" 16 4 2 2 576 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE}
-    test_case "pmemcpy_omp" 24 4 2 3 384 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE}
-    test_case "pmemcpy_omp" 32 4 4 2 288 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE}
-    test_case "pmemcpy_omp" 48 4 4 3 192 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE}
+    #test_case "pmemcpy_omp" 8 2 2 2 1152 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
+    #test_case "pmemcpy_omp" 16 4 2 2 576 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
+    #test_case "pmemcpy_omp" 24 4 2 3 384 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
+    #test_case "pmemcpy_omp" 32 4 4 2 288 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
+    test_case "pmemcpy_omp" 48 4 4 3 192 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
   done
 done

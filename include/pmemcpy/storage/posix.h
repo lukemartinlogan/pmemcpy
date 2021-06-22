@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <sys/mman.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 namespace pmemcpy {
 
@@ -36,7 +37,8 @@ public:
         old.size_ = 0;
     }
     ~mmap_buffer() {
-        if(buf_) {
+        if(buf_ && buf_ != MAP_FAILED) {
+            msync(buf_, size_, MS_SYNC);
             munmap(buf_, size_);
         }
     }
@@ -44,6 +46,9 @@ public:
     inline void alloc(int fd, size_t size) {
         size_ = size;
         buf_ = (char*)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+        if(buf_ == MAP_FAILED) {
+            throw POSIX_MMAP_FAILED.format(SizeType(size, SizeType::MB), fd, std::string(strerror(errno)));
+        }
     }
     inline void load(int fd) {
         size_ = lseek(fd, 0, SEEK_END);
@@ -65,6 +70,9 @@ public:
     ~PosixStorage() {}
 
     void mmap(std::string path, uint64_t size = 0) {
+        if(!boost::filesystem::exists(path)) {
+            mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+        }
         if(!boost::filesystem::is_directory(path)) {
             throw POSIX_PATH_NOT_DIRECTORY.format(path);
         }
@@ -77,7 +85,7 @@ public:
 
     std::shared_ptr<pmemcpy::generic_buffer> alloc(std::string id, size_t size) {
         std::string path = path_prefix_ + "/" + id;
-        int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0666);
+        int fd = open(path.c_str(), O_RDWR | O_CREAT, 0666);
         if(fd < 0) {
             throw POSIX_WRITE_FAILED.format(fd, path_prefix_, id, fd, std::string(strerror(errno)));
         }
@@ -105,9 +113,9 @@ public:
 
     std::shared_ptr<pmemcpy::generic_buffer> find(std::string id) {
         std::string path = path_prefix_ + "/" + id;
-        int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0666);
+        int fd = open(path.c_str(), O_RDWR, 0666);
         if(fd < 0) {
-            throw POSIX_WRITE_FAILED.format(fd, path_prefix_, id, fd, std::string(strerror(errno)));
+            throw POSIX_FIND_FAILED.format(path_prefix_, id, std::string(strerror(errno)));
         }
         std::shared_ptr<pmemcpy::mmap_buffer> buf(new pmemcpy::mmap_buffer(fd));
         close(fd);

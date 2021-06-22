@@ -12,7 +12,7 @@
 #include <pmemcpy/util/serializeable.h>
 
 #define PMEMCPY_ERROR_HANDLE_START() try {
-#define PMEMCPY_ERROR_HANDLE_END() } catch(std::shared_ptr<pmemcpy::Error> &err) { err->print(); exit(1); }
+#define PMEMCPY_ERROR_HANDLE_END() } catch(std::shared_ptr<pmemcpy::Error> &err) { err->print(); exit(err->get_code()); }
 
 namespace pmemcpy {
     class Error {

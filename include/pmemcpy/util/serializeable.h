@@ -260,7 +260,7 @@ namespace pmemcpy {
         template<typename ...Args>
         static std::string format(std::string fmt, Args ...args) {
             ArgPacker params(args...);
-            char *buffer = (char*)calloc(1024, 1);
+            char *buffer = (char*)calloc(8192, 1);
             size_t off = 0;
             int arg = 0;
             for (int i = 0; i < fmt.size(); ++i) {

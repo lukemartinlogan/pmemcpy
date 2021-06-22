@@ -85,7 +85,7 @@ private:
 
 public:
     inline size_t est_encoded_size(size_t size) {
-        return size*1.1 + 24;
+        return size*1.2 + 128;
     }
 
     inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {

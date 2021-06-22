@@ -23,7 +23,7 @@ int read_pattern_3(int argc, char ** argv) {
 
     int nx_dimid, ny_dimid, nz_dimid;
 
-    int grav_x_c_varid, grav_y_c_varid, grav_z_c_varid;
+    char *tags[10] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
     int rank;
     int npx, npy, npz;
@@ -34,8 +34,6 @@ int read_pattern_3(int argc, char ** argv) {
     int nprocs;
 
     double *grav_x_c;
-    double *grav_y_c;
-    double *grav_z_c;
 
     double start_time, end_time;
 
@@ -88,18 +86,24 @@ int read_pattern_3(int argc, char ** argv) {
     readsize[2] = ndz;
 
     grav_x_c = malloc(sizeof(double) * readsize[0] * readsize[1] * readsize[2]);
-    grav_y_c = malloc(sizeof(double) * readsize[0] * readsize[1] * readsize[2]);
-    grav_z_c = malloc(sizeof(double) * readsize[0] * readsize[1] * readsize[2]);
 
-    var_info = adios_inq_var(group_handle, "D");
-    if (!var_info) fprintf(stderr, "%d: %s (8)\n", rank, adios_errmsg());
+    for(int i = 0; i < 10; ++i) {
+        var_info = adios_inq_var(group_handle, tags[i]);
+        if (!var_info) fprintf(stderr, "%d: %s (8)\n", rank, adios_errmsg());
+    }
 
-    read_bytes = adios_read_var(group_handle, "D", start, readsize, grav_x_c);
-    if (!read_bytes) fprintf(stderr, "%d: %s (A)\n", rank, adios_errmsg());
-    read_bytes = adios_read_var(group_handle, "E", start, readsize, grav_y_c);
-    if (!read_bytes) fprintf(stderr, "%d: %s (A)\n", rank, adios_errmsg());
-    read_bytes = adios_read_var(group_handle, "F", start, readsize, grav_z_c);
-    if (!read_bytes) fprintf(stderr, "%d: %s (A)\n", rank, adios_errmsg());
+    for(int i = 0; i < 10; ++i) {
+        read_bytes = adios_read_var(group_handle, tags[i], start, readsize, grav_x_c);
+        if (!read_bytes) fprintf(stderr, "%d: %s (A)\n", rank, adios_errmsg());\
+        /*printf("READ BYTES: %lu\n", read_bytes);
+        if(rank == 0) {
+            for (int j = readsize[0] * readsize[1] * readsize[2] - 10; j < readsize[0] * readsize[1] * readsize[2]; ++j) {
+                printf("%lf\n", grav_x_c[j]);
+            }
+            printf("\n\n");
+        }*/
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
 
     adios_err = adios_gclose(group_handle);
     if (adios_err) fprintf(stderr, "%d: %s (B)\n", rank, adios_errmsg());
@@ -110,7 +114,7 @@ int read_pattern_3(int argc, char ** argv) {
     end_time = MPI_Wtime();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
-        size_t size_per_proc = 3*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
+        size_t size_per_proc = 10*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
         size_t agg_size = size_per_proc*nprocs;
         printf("read bp %lu %lu %lu %lu %lu %lu %lf none none\n", nprocs, readsize[0], readsize[1], readsize[2], size_per_proc, agg_size, end_time - start_time);
     }

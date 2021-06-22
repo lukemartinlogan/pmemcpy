@@ -56,8 +56,14 @@ int main(int argc, char **argv)
 
     ddata = (double *)malloc(sizeof(double)*ndx*ndy*ndz);
 
+    srand(1000);
     for (i=0;i<ndx*ndy*ndz;i++) {
-        ddata [i] = rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank;
+       ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank)*rand();
+       /*if(i >= ndx*ndy*ndz - 10) {
+           if(rank == 0) {
+               printf("%lf\n", ddata[i]);
+           }
+       }*/
     }
 
     A = B = C = D = E = F = G = H = I = J = ddata;
@@ -76,8 +82,6 @@ int main(int argc, char **argv)
     start_time = MPI_Wtime ();
 
     status = adios_open (&adios_handle, "data", filename, "w", comm);
-    adios_group_size (adios_handle, adios_groupsize, &adios_totalsize);
-    printf("%d %d %d %lu\n", ndx, ndy, ndz, adios_totalsize);
 #include "gwrite_data.ch"
     status = adios_close (adios_handle);
 
