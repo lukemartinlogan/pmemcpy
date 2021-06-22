@@ -14,11 +14,8 @@ option(MSGPACK_ENABLED OFF)
 option(BOOST_ENABLED OFF)
 option(CEREAL_ENABLED OFF)
 
-if ( CMAKE_BUILD_TYPE STREQUAL Debug)
-    set( CMAKE_CXX_FLAGS "-g -O0 -pg" )
-elseif ( CMAKE_BUILD_TYPE STREQUAL Release )
-    set( CMAKE_CXX_FLAGS "-g -O3" )
-endif()
+set( CMAKE_C_FLAGS "-g -O3 --fast-math" )
+set( CMAKE_CXX_FLAGS "-g -O3 --fast-math" )
 
 pkg_check_modules( libpmemobj REQUIRED IMPORTED_TARGET )
 

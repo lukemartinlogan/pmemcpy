@@ -13,26 +13,30 @@
 namespace pmemcpy {
 
 #define NO_SERIALIZER(T, CT)\
-    inline pmemcpy::buffer _serialize(T &src) { \
+    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {\
+    }\
+    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {\
+    }\
+    inline std::shared_ptr<pmemcpy::generic_buffer> _serialize(T &src) { \
         AUTO_TRACE("pmemcpy::no_serializer::serialize::single size={}", SizeType(sizeof(T), SizeType::MB)); \
-        pmemcpy::buffer buf(sizeof(T));\
-        memcpy((void*)buf.c_str(), (void*)&src, sizeof(T));\
+        std::shared_ptr<pmemcpy::malloc_buffer> buf(new pmemcpy::malloc_buffer(sizeof(T)));\
+        memcpy((void*)buf->c_str(), (void*)&src, sizeof(T)); \
         return buf;\
     }\
-    inline pmemcpy::buffer _serialize(T *src, size_t count) {\
+    inline std::shared_ptr<pmemcpy::generic_buffer> _serialize(T *src, size_t count) {\
         size_t size = sizeof(T)*count;      \
         AUTO_TRACE("pmemcpy::no_serializer::serialize::array size={}", SizeType(size, SizeType::MB));\
-        T *buf = (T*)malloc(size);\
-        memcpy((void*)buf, (void*)src, size); \
-        return std::string((char*)buf,size);\
+        std::shared_ptr<pmemcpy::malloc_buffer> buf(new pmemcpy::malloc_buffer(size));\
+        memcpy((void*)buf->c_str(), (void*)src, size); \
+        return buf;\
     }\
-    inline void _deserialize(T &dst, const pmemcpy::buffer src) {\
+    inline void _deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) {\
         AUTO_TRACE("pmemcpy::no_serializer::deserialize::single size={}", SizeType(src.size(), SizeType::MB)); \
-        memcpy((void*)&dst, (void*)src.c_str(), src.size());\
+        memcpy((void*)&dst, (void*)src->c_str(), src->size());\
     }\
-    inline void _deserialize(T *dst, const pmemcpy::buffer src, Dimensions dims) {\
+    inline void _deserialize(T *dst, const std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {\
         AUTO_TRACE("pmemcpy::no_serializer::deserialize::array size={}", SizeType(src.size(), SizeType::MB));             \
-        memcpy((void*)dst, (void*)src.c_str(), src.size());\
+        memcpy((void*)dst, (void*)src->c_str(), src->size());\
     }
 
     template<typename T>
@@ -50,19 +54,29 @@ namespace pmemcpy {
         NO_SERIALIZER(double, F64)
 
     public:
-        inline pmemcpy::buffer serialize(T &src) {
+        inline size_t est_encoded_size(size_t size) {
+            return 0;
+        }
+
+        inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+        }
+
+        inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+        }
+
+        inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T &src) {
             return _serialize(src);
         }
 
-        inline pmemcpy::buffer serialize(T *src, Dimensions dims) {
+        inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T *src, Dimensions dims) {
             return _serialize(src, dims.count());
         }
 
-        inline void deserialize(T &dst, const pmemcpy::buffer src) {
+        inline void deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) {
             _deserialize(dst, src);
         }
 
-        inline void deserialize(T *dst, const pmemcpy::buffer src, Dimensions dims) {
+        inline void deserialize(T *dst, const std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {
             _deserialize(dst, src, dims);
         }
     };

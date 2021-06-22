@@ -40,13 +40,13 @@ public:
 
 class StorageFactory {
 public:
-    static std::shared_ptr<Storage> get(StorageType type) {
+    static std::unique_ptr<Storage> get(StorageType type) {
         switch(type) {
             case StorageType::PMDK_HASHTABLE: {
-                return std::shared_ptr<pmdk::hash::PMDKHashtableStorage>(new pmdk::hash::PMDKHashtableStorage());
+                return std::unique_ptr<pmdk::hash::PMDKHashtableStorage>(new pmdk::hash::PMDKHashtableStorage());
             }
             case StorageType::POSIX: {
-                return std::shared_ptr<PosixStorage>(new PosixStorage());
+                return std::unique_ptr<PosixStorage>(new PosixStorage());
             }
         }
         return nullptr;

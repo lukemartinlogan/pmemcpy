@@ -40,35 +40,43 @@ namespace pmemcpy {
 template<typename T>
 class CerealSerializer : public Serializer<T> {
 public:
-    inline pmemcpy::buffer serialize(T &src) {
+    inline size_t est_encoded_size(size_t size) {
+        return 0;
+    }
+
+    inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+    }
+
+    inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+    }
+
+    inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T &src) {
         std::stringstream ss;
         cereal::PortableBinaryOutputArchive oarchive(ss);
         oarchive(src);
         AUTO_TRACE("pmemcpy::cereal::serialize::single size={}", SizeType(ss.str().size(), SizeType::MB));
-        return ss.str();
+        return std::shared_ptr<pmemcpy::string_buffer>(new pmemcpy::string_buffer(ss.str()));
     }
 
-    inline pmemcpy::buffer serialize(T *src, Dimensions dims) {
+    inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T *src, Dimensions dims) {
         std::stringstream ss;
         cereal::PortableBinaryOutputArchive oarchive(ss);
         oarchive(cereal::binary_data(src, sizeof(T) * dims.count()));
         AUTO_TRACE("pmemcpy::cereal::serialize::array size={}", SizeType(ss.str().size(), SizeType::MB));
-        return ss.str();
+        return std::shared_ptr<pmemcpy::string_buffer>(new pmemcpy::string_buffer(ss.str()));
     }
 
-    inline void deserialize(T &dst, pmemcpy::buffer src) {
+    inline void deserialize(T &dst, std::shared_ptr<pmemcpy::generic_buffer> src) {
         AUTO_TRACE("pmemcpy::cereal::deserialize::single size={}", SizeType(src.size(), SizeType::MB));
-        std::stringstream ss(src.c_str());
+        std::stringstream ss(src->c_str());
         cereal::PortableBinaryInputArchive iarchive(ss);
-        //cereal::PortableBinaryInputArchive iarchive(src.c_str(), src.size());
         iarchive(dst);
     }
 
-    inline void deserialize(T *dst, pmemcpy::buffer src, Dimensions dims) {
+    inline void deserialize(T *dst, std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {
         AUTO_TRACE("pmemcpy::cereal::deserialize::array size={}", SizeType(src.size(), SizeType::MB));
-        std::stringstream ss(src.c_str());
+        std::stringstream ss(src->c_str());
         cereal::PortableBinaryInputArchive iarchive(ss);
-        //cereal::PortableBinaryInputArchive iarchive(src.c_str(), src.size());
         iarchive(cereal::binary_data(dst, sizeof(T) * dims.count()));
     }
 };

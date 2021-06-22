@@ -30,6 +30,8 @@
 #include <string>
 #include <sstream>
 
+#include <boost/container/string.hpp>
+
 #include <iostream>
 #include <fstream>
 
@@ -38,39 +40,48 @@ namespace pmemcpy {
 template<typename T>
 class BoostSerializer : public Serializer<T> {
 public:
-    inline pmemcpy::buffer serialize(T &src) {
+    inline size_t est_encoded_size(size_t size) {
+        return 0;
+    }
+
+    inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+    }
+
+    inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+    }
+
+    inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T &src) {
         std::stringstream ss;
         boost::archive::binary_oarchive oarch(ss);
         oarch << src;
         AUTO_TRACE("pmemcpy::boost::serialize::single size={}", SizeType(ss.str().size(), SizeType::MB));
-        return pmemcpy::buffer(ss.str());
+        return std::shared_ptr<pmemcpy::string_buffer>(new pmemcpy::string_buffer(ss.str()));
     }
 
-    inline pmemcpy::buffer serialize(T *src, Dimensions dims) {
+    inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T *src, Dimensions dims) {
         std::vector<T, NoAllocator<T>> temp_(NoAllocator<T>(src, dims.count()));
         temp_.resize(dims.count());
         std::stringstream ss;
         boost::archive::binary_oarchive oarch(ss);
         oarch << temp_;
         AUTO_TRACE("pmemcpy::boost::serialize::array size={}", SizeType(ss.str().size(), SizeType::MB));
-        return pmemcpy::buffer(ss.str());
+        return std::shared_ptr<pmemcpy::string_buffer>(new pmemcpy::string_buffer(ss.str()));
     }
 
-    inline void deserialize(T &dst, const pmemcpy::buffer src) {
+    inline void deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) {
         AUTO_TRACE("pmemcpy::boost::deserialize::single size={}", SizeType(src.size(), SizeType::MB));
-        std::stringstream ss(src.c_str());
+        std::stringstream ss(src->c_str());
         boost::archive::binary_iarchive iarch(ss);
         //boost::archive::binary_iarchive iarch(src.c_str());
         iarch >> dst;
     }
 
-    inline void deserialize(T *dst, const pmemcpy::buffer src, Dimensions dims) {
+    inline void deserialize(T *dst, const std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {
         AUTO_TRACE("pmemcpy::boost::deserialize::array size={}", SizeType(src.size(), SizeType::MB));
         std::vector<T, NoAllocator<T>> temp_(NoAllocator<T>(dst, dims.count()));
         temp_.resize(dims.count());
-        std::stringstream ss(src.c_str());
+        std::stringstream ss(src->c_str());
         boost::archive::binary_iarchive iarch(ss);
-        //boost::archive::binary_iarchive iarch(src.c_str());
         iarch >> temp_;
     }
 };

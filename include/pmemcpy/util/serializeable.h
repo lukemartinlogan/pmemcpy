@@ -22,58 +22,95 @@ namespace pmemcpy {
         virtual size_t serialize(char *buf) = 0;
     };
 
-    struct buffer {
-    public:
-        int *refcountp_;
+    struct generic_buffer {
+        virtual size_t size() const = 0;
+        virtual char* c_str() const = 0;
+        virtual char& operator[](int i) = 0;
+    };
+
+    struct pmem_buffer : public generic_buffer {
         char *buf_;
         size_t size_;
 
-        buffer() : buf_(nullptr), size_(0), refcountp_(nullptr) {}
-        buffer(char *buf, size_t size) : buf_(buf), size_(size) {
-            buf_ = (char*)malloc(size);
-            memcpy(buf_, buf, size);
-            init_refcount();
-        }
-        buffer(std::string str) : size_(str.size()) {
-            buf_ = (char*)malloc(str.size());
-            memcpy(buf_, str.c_str(), str.size());
-            init_refcount();
-        }
-        buffer(size_t size) : size_(size) {
-            buf_ = (char*)malloc(size);
-            init_refcount();
-        }
-        buffer(const buffer& old) {
-            refcountp_ = old.refcountp_;
+        pmem_buffer() : buf_(nullptr), size_(0) {}
+        pmem_buffer(void *buf, size_t size) : buf_((char*)buf), size_(size) {}
+        pmem_buffer(const pmem_buffer& old) {
             buf_ = old.c_str();
             size_ = old.size();
-            ++(*refcountp_);
         }
-        buffer(buffer&& old) {
-            refcountp_ = old.refcountp_;
-            buf_ = old.c_str();
-            size_ = old.size();
-            old.buf_ = nullptr;
-            old.size_ = 0;
-            old.refcountp_ = nullptr;
+        pmem_buffer(pmem_buffer&& old) {
+                buf_ = old.c_str();
+                size_ = old.size();
+                old.buf_ = nullptr;
+                old.size_ = 0;
         }
-        ~buffer() {
-            if(!refcountp_) { return; }
-            --(*refcountp_);
-            if((*refcountp_) == 0 && buf_) {
-                free(buf_);
-            }
-        }
+        ~pmem_buffer() {}
 
         inline void alloc(size_t size) { buf_ = (char*)malloc(size); }
         inline size_t size() const { return size_; }
         inline char *c_str() const { return (char*)buf_; }
         char& operator [](int i) { return buf_[i]; }
-    private:
-        void init_refcount(void) {
-            refcountp_ = (int*)malloc(sizeof(int));
-            (*refcountp_) = 1;
+    };
+
+    struct malloc_buffer : public generic_buffer {
+    public:
+        char *buf_;
+        size_t size_;
+
+        malloc_buffer() : buf_(nullptr), size_(0) {}
+        malloc_buffer(char *buf, size_t size) : size_(size) {
+            buf_ = (char*)malloc(size);
+            memcpy(buf_, buf, size);
         }
+        malloc_buffer(std::string str) : size_(str.size()) {
+            buf_ = (char*)malloc(str.size());
+            memcpy(buf_, str.c_str(), str.size());
+        }
+        malloc_buffer(size_t size) { alloc(size); }
+        malloc_buffer(const malloc_buffer& old) {
+            buf_ = old.c_str();
+            size_ = old.size();
+        }
+        malloc_buffer(malloc_buffer&& old) {
+            buf_ = old.c_str();
+            size_ = old.size();
+            old.buf_ = nullptr;
+            old.size_ = 0;
+        }
+        ~malloc_buffer() {
+            if(buf_) {
+                free(buf_);
+            }
+        }
+
+        inline void alloc(size_t size) {
+            size_ = size;
+            buf_ = (char*)malloc(size);
+        }
+        inline size_t size() const { return size_; }
+        inline char *c_str() const { return (char*)buf_; }
+        char& operator [](int i) { return buf_[i]; }
+
+    };
+
+    struct string_buffer : public generic_buffer {
+    public:
+        std::string buf_;
+
+        string_buffer() {}
+        string_buffer(std::string str) : buf_(std::move(str)) {}
+        string_buffer(const string_buffer& old) {
+            buf_ = old.buf_;
+        }
+        string_buffer(malloc_buffer&& old) {
+            buf_ = std::move(old.buf_);
+        }
+        ~string_buffer() {}
+
+        inline size_t size() const { return buf_.size(); }
+        inline char *c_str() const { return (char*)&buf_[0]; }
+        char& operator [](int i) { return buf_[i]; }
+
     };
 
     class SizeType : public Serializeable {

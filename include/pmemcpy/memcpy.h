@@ -5,8 +5,6 @@
 #ifndef PMEMCPY_H
 #define PMEMCPY_H
 
-#define BOOST_USE_VALGRIND
-
 #include <pmemcpy/util/errors.h>
 #include <pmemcpy/util/trace.h>
 #include <pmemcpy/serialize/serializer_factory.h>
@@ -41,8 +39,9 @@ class PMEM {
 private:
     SerializerType serializer_;
     std::shared_ptr<Storage> storage_;
+    bool use_mmap_;
 public:
-    PMEM(StorageType storage=StorageType::PMDK_HASHTABLE, SerializerType serializer=SerializerType::CAPNPROTO) : serializer_(serializer) {
+    PMEM(StorageType storage=StorageType::PMDK_HASHTABLE, SerializerType serializer=SerializerType::CAPNPROTO, bool use_mmap=false) : serializer_(serializer), use_mmap_(use_mmap) {
         storage_ = StorageFactory::get(storage);
     }
 
@@ -57,15 +56,25 @@ public:
     }
     template<typename T>
     inline void store(std::string id, T &src) {
-        pmemcpy::buffer serial = SerializerFactory<T>::get(serializer_)->serialize(src);
-        ADD_WRITE_PENALTY(serial.size());
-        storage_->store(id, serial);
+        if(use_mmap_) {
+            auto serial = SerializerFactory<T>::get(serializer_);
+            std::shared_ptr<pmemcpy::generic_buffer> buf = storage_->alloc(id, serial->est_encoded_size(sizeof(T)));
+            SerializerFactory<T>::get(serializer_)->serialize(buf, src);
+        } else {
+            std::shared_ptr<pmemcpy::generic_buffer> serial = SerializerFactory<T>::get(serializer_)->serialize(src);
+            storage_->store(id, serial);
+        }
     }
     template<typename T>
     inline void store(std::string id, T *src, Dimensions dims) {
-        pmemcpy::buffer serial = SerializerFactory<T>::get(serializer_)->serialize(src, dims);
-        ADD_WRITE_PENALTY(serial.size());
-        storage_->store(id, serial);
+        if(use_mmap_) {
+            auto serial = SerializerFactory<T>::get(serializer_);
+            std::shared_ptr<pmemcpy::generic_buffer> buf = storage_->alloc(id, serial->est_encoded_size(sizeof(T)*dims.count()));
+            serial->serialize(buf, src, dims);
+        } else {
+            std::shared_ptr<pmemcpy::generic_buffer> serial = SerializerFactory<T>::get(serializer_)->serialize(src, dims);
+            storage_->store(id, serial);
+        }
     }
     template<typename T>
     inline void store(std::string id, T *src, Offsets offsets, Sizes sizes, Dimensions dims) {
@@ -73,18 +82,27 @@ public:
     }
     template<typename T>
     inline void load(std::string id, T &dst) {
-        pmemcpy::buffer serial = storage_->load(id);
-        ADD_READ_PENALTY(serial.size());
-        SerializerFactory<T>::get(serializer_)->deserialize(dst, serial);
+        if(use_mmap_) {
+            std::shared_ptr<pmemcpy::generic_buffer> serial = storage_->find(id);
+            SerializerFactory<T>::get(serializer_)->deserialize(dst, serial);
+        } else {
+            std::shared_ptr<pmemcpy::generic_buffer> serial = storage_->load(id);
+            SerializerFactory<T>::get(serializer_)->deserialize(dst, serial);
+        }
     }
     template<typename T>
     inline void load(std::string id, T *dst, Dimensions dims) {
-        pmemcpy::buffer serial = storage_->load(id);
-        ADD_READ_PENALTY(serial.size());
-        SerializerFactory<T>::get(serializer_)->deserialize(dst, serial, dims);
+        if(use_mmap_) {
+            std::shared_ptr<pmemcpy::generic_buffer> serial = storage_->find(id);
+            SerializerFactory<T>::get(serializer_)->deserialize(dst, serial, dims);
+        } else {
+            std::shared_ptr<pmemcpy::generic_buffer> serial = storage_->load(id);
+            SerializerFactory<T>::get(serializer_)->deserialize(dst, serial, dims);
+        }
     }
     template<typename T>
     inline void load(std::string id, T *dst, Offsets offsets, Sizes sizes, Dimensions dims) {
+        //TODO: Actually use offset information when loading data
         load(id, dst, dims);
     }
     inline void free(std::string id) {

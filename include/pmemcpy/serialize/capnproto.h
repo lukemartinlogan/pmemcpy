@@ -17,36 +17,40 @@
 namespace pmemcpy {
 
 #define CAPNP_PRIM_SERIAL(T, CT)\
-    inline pmemcpy::buffer _serialize(T &src) {\
+    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {\
+    }\
+    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {\
+    }\
+    inline std::shared_ptr<pmemcpy::generic_buffer> _serialize(T &src) { \
         kj::VectorOutputStream output(sizeof(T));\
         capnp::MallocMessageBuilder message;\
         PrimitiveData::Builder num = message.initRoot<PrimitiveData>();\
         num.set##CT(src);\
         capnp::writePackedMessage(output, message.getSegmentsForOutput()); \
         AUTO_TRACE("pmemcpy::capnp::serialize::single size={}", SizeType(output.getArray().size(), SizeType::MB));\
-        return pmemcpy::buffer ((char*)output.getArray().begin(), output.getArray().size());\
+        return std::shared_ptr<pmemcpy::malloc_buffer>(new pmemcpy::malloc_buffer((char*)output.getArray().begin(), output.getArray().size()));\
     }\
-    inline pmemcpy::buffer _serialize(T *src, size_t count) {\
+    inline std::shared_ptr<pmemcpy::generic_buffer> _serialize(T *src, size_t count) {\
         kj::VectorOutputStream output(count*sizeof(T));\
         capnp::MallocMessageBuilder message;\
         PrimitiveData::Builder nums = message.initRoot<PrimitiveData>();\
         nums.set##CT##Arr(kj::ArrayPtr<T>(src, count));\
         capnp::writePackedMessage(output, message.getSegmentsForOutput()); \
         AUTO_TRACE("pmemcpy::capnp::serialize::array size={}", SizeType(output.getArray().size(), SizeType::MB));\
-        return pmemcpy::buffer((char*)output.getArray().begin(), output.getArray().size());\
+        return std::shared_ptr<pmemcpy::malloc_buffer>(new pmemcpy::malloc_buffer((char*)output.getArray().begin(), output.getArray().size()));\
     }\
-    inline void _deserialize(T &dst, const pmemcpy::buffer src) {\
-        AUTO_TRACE("pmemcpy::capnp::deserialize::single size={}", SizeType(src.size(), SizeType::MB));\
-        kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src.c_str(), src.size()));\
+    inline void _deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) {\
+        AUTO_TRACE("pmemcpy::capnp::deserialize::single size={}", SizeType(src->size(), SizeType::MB));\
+        kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src->c_str(), src->size()));\
         capnp::ReaderOptions opts;\
         opts.traversalLimitInWords = ~0ul;\
         capnp::PackedMessageReader message(input, opts);\
         PrimitiveData::Reader num = message.getRoot<PrimitiveData>();\
         dst = num.get##CT();\
     }\
-    inline void _deserialize(T *dst, const pmemcpy::buffer src, Dimensions dims) {\
-        AUTO_TRACE("pmemcpy::capnp::deserialize::array size={}", SizeType(src.size(), SizeType::MB));             \
-        kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src.c_str(), src.size()));\
+    inline void _deserialize(T *dst, const std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {\
+        AUTO_TRACE("pmemcpy::capnp::deserialize::array size={}", SizeType(src->size(), SizeType::MB));             \
+        kj::ArrayInputStream input(kj::ArrayPtr<const unsigned char>((const unsigned char*)src->c_str(), src->size()));\
         capnp::ReaderOptions opts;\
         opts.traversalLimitInWords = ~0ul;\
         capnp::PackedMessageReader message(input, opts);\
@@ -57,7 +61,7 @@ namespace pmemcpy {
 
     template<typename T>
     class CapnProtoSerializer : public Serializer<T> {
-    private:
+    public:
         CAPNP_PRIM_SERIAL(int8_t, D8)
         CAPNP_PRIM_SERIAL(int16_t, D16)
         CAPNP_PRIM_SERIAL(int32_t, D32)
@@ -70,19 +74,29 @@ namespace pmemcpy {
         CAPNP_PRIM_SERIAL(double, F64)
 
     public:
-        inline pmemcpy::buffer serialize(T &src) {
+        inline size_t est_encoded_size(size_t size) {
+            return 0;
+        }
+
+        inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+        }
+
+        inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+        }
+
+        inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T &src) {
             return _serialize(src);
         }
 
-        inline pmemcpy::buffer serialize(T *src, Dimensions dims) {
+        inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T *src, Dimensions dims) {
             return _serialize(src, dims.count());
         }
 
-        inline void deserialize(T &dst, const pmemcpy::buffer src) {
+        inline void deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) {
             _deserialize(dst, src);
         }
 
-        inline void deserialize(T *dst, const pmemcpy::buffer src, Dimensions dims) {
+        inline void deserialize(T *dst, const std::shared_ptr<pmemcpy::generic_buffer> src, Dimensions dims) {
             _deserialize(dst, src, dims);
         }
     };
