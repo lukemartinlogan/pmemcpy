@@ -41,12 +41,11 @@ function test_case() {
 }
 
 SUFFIXES=("bp" "nc4" "nc5")
-#SUFFIXES=("nc4" "nc5")
 for SUFFIX in ${SUFFIXES[@]}; do
-#  test_case ${SUFFIX} 8 2 2 2 1152 192 192
-#  test_case ${SUFFIX} 16 4 2 2 576 192 192
-#  test_case ${SUFFIX} 24 4 2 3 384 192 192
-#  test_case ${SUFFIX} 32 4 4 2 288 192 192
+  test_case ${SUFFIX} 8 2 2 2 1152 192 192
+  test_case ${SUFFIX} 16 4 2 2 576 192 192
+  test_case ${SUFFIX} 24 4 2 3 384 192 192
+  test_case ${SUFFIX} 32 4 4 2 288 192 192
   test_case ${SUFFIX} 48 4 4 3 192 192 192
 done
 
@@ -56,10 +55,10 @@ SERIALIZER_TYPES=("NO_SERIALIZER" "CAPNPROTO" "CAPNPROTO_NOCOMPRESS")
 
 for STORAGE_TYPE in ${STORAGE_TYPES[@]}; do
   for SERIALIZER_TYPE in ${SERIALIZER_TYPES[@]}; do
-    #test_case "pmemcpy_omp" 8 2 2 2 1152 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
-    #test_case "pmemcpy_omp" 16 4 2 2 576 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
-    #test_case "pmemcpy_omp" 24 4 2 3 384 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
-    #test_case "pmemcpy_omp" 32 4 4 2 288 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
+    test_case "pmemcpy_omp" 8 2 2 2 1152 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
+    test_case "pmemcpy_omp" 16 4 2 2 576 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
+    test_case "pmemcpy_omp" 24 4 2 3 384 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
+    test_case "pmemcpy_omp" 32 4 4 2 288 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
     test_case "pmemcpy_omp" 48 4 4 3 192 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} 1
   done
 done

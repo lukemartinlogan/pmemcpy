@@ -43,83 +43,41 @@
   <component name="ChangeListManager">
     <list default="true" id="cb017e54-6e21-4884-8028-4244ad7d5d3a" name="Default Changelist" comment="``">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/test/unit/test_parallel_io.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_parallel_io.dir/test/unit/test_parallel_io.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/test/unit/test_pmem.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_pmem.dir/test/unit/test_pmem.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/test/unit/test_vector.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/test_vector.dir/test/unit/test_vector.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_bp.dir/3d/read_3d_bp.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_bp.dir/3d/read_3d_bp.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_bp.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_bp.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_bp.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_bp.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc4.dir/3d/read_3d_nc4.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc4.dir/3d/read_3d_nc4.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc4.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc4.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc4.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc4.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc5.dir/3d/read_3d_nc5.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc5.dir/3d/read_3d_nc5.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc5.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc5.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc5.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_nc5.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy.dir/3d/read_3d_pmemcpy.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy.dir/3d/read_3d_pmemcpy.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy_omp.dir/3d/read_3d_pmemcpy_omp.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy_omp.dir/3d/read_3d_pmemcpy_omp.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy_omp.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy_omp.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy_omp.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy_omp.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy_omp.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/read_3d_pmemcpy_omp.dir/link.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_bp.dir/3d/write_3d_bp.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_bp.dir/3d/write_3d_bp.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_bp.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_bp.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_bp.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_bp.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc4.dir/3d/write_3d_nc4.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc4.dir/3d/write_3d_nc4.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc4.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc4.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc4.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc4.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc5.dir/3d/write_3d_nc5.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc5.dir/3d/write_3d_nc5.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc5.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc5.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc5.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_nc5.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy.dir/3d/write_3d_pmemcpy.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy.dir/3d/write_3d_pmemcpy.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy_omp.dir/3d/write_3d_pmemcpy_omp.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy_omp.dir/3d/write_3d_pmemcpy_omp.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy_omp.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy_omp.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy_omp.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy_omp.dir/flags.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy_omp.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/CMakeFiles/write_3d_pmemcpy_omp.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_bp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_bp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_nc4" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_nc4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_nc5" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_nc5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_pmemcpy" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_pmemcpy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_pmemcpy_omp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/read_3d_pmemcpy_omp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_bp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_bp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_nc4" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_nc4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_nc5" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_nc5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_pmemcpy" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_pmemcpy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_pmemcpy_omp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/e2e/write_3d_pmemcpy_omp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test/performance/pmemulator/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test/performance/pmemulator/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_parallel_io" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test_parallel_io" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_pmem" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test_pmem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/test_vector" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/test_vector" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/memcpy.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/memcpy.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/capnproto.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/capnproto.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/capnproto_nocompress.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/capnproto_nocompress.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/no_serializer.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/no_serializer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/storage/mpi_io_posix.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/storage/pmdk_hashtable.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/storage/pmdk_hashtable.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/storage/posix.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/storage/posix.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/util/error.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/util/error.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/util/errors.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/util/errors.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/util/serializeable.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/util/serializeable.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/setup.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/small-test.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/small-test.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/tests.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/tests.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/logger.h" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/logger.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_bp.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc4.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc4.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_nc5.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy_omp.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_bp.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc4.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc4.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc5.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_nc5.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,10 +139,10 @@
       <recent name="$PROJECT_DIR$/include/pmem_memcpy" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.read_3d_pmemcpy_omp">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+  <component name="RunManager" selected="CMake Application.write_3d_bp_mpi">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="build-pmemulator" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="build-pmemulator" CONFIG_NAME="Debug">
@@ -630,7 +588,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="write_3d_bp_mpi" type="CMakeRunConfiguration" factoryName="Application" folderName="test-3d-mpi" PROGRAM_PARAMS="-n 8 write_3d_bp $USER_HOME$/tmpfs/test $PROJECT_DIR$/test/performance/e2e/3d/3d.xml 2 2 2 256 256 256" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/cmake-build-debug/test/performance/e2e" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="write_3d_bp" CONFIG_NAME="Debug" RUN_PATH="$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/openmpi-3.1.6-fudbchuusfasnbeu3s3q472y6dyyuned/bin/mpirun">
+    <configuration name="write_3d_bp_mpi" type="CMakeRunConfiguration" factoryName="Application" folderName="test-3d-mpi" PROGRAM_PARAMS="-n 8 write_3d_bp $USER_HOME$/tmpfs/test $PROJECT_DIR$/test/performance/e2e/3d/3d.xml 2 2 2 192 192 192" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/cmake-build-debug/test/performance/e2e" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pm" TARGET_NAME="write_3d_bp" CONFIG_NAME="Debug" RUN_PATH="$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/openmpi-3.1.6-fudbchuusfasnbeu3s3q472y6dyyuned/bin/mpirun">
       <envs>
         <env name="LD_LIBRARY_PATH" value="$PROJECT_DIR$/../scspkg/packages/pmemcpy/lib64:$PROJECT_DIR$/../scspkg/packages/pmemcpy/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/c-blosc-1.17.0-dfys4bthvaalrzfidgag6uebq7zqvusj/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/sz-1.4.12.3-qcsrxp2gj6tcejtcjs6h4fibxulacjft/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/lz4-1.9.2-pe3gznzybsegai7ikcckyws3oy326a6j/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/zfp-0.5.5-as4ecujpjekireivgqlckpquj2sb6ksh/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/openmpi-3.1.6-fudbchuusfasnbeu3s3q472y6dyyuned/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/parallel-netcdf-1.12.1-3gtzbcsmkiix76lp7ybwqj7pxajte7o5/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/mxml-2.10-cpcdkki6cfiygznnvzxvwn72yv2vijza/lib:$PROJECT_DIR$/../scspkg/packages/pmdk/lib64:$PROJECT_DIR$/../scspkg/packages/pmdk/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/capnproto-0.7.0-je56lj4s5bgincybicviilexjeevqjcx/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/boost-1.74.0-4wwdsqkrx5wnq7x3vgei7lcfgudg5v4t/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/msgpack-c-3.1.1-wuob7l3wfkfrsry67wetwdbtxt4dzsjj/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/adios-1.13.1-rjcwbpi6fpihml3c4r2mxxejra4zvflq/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/netcdf-c-4.7.4-pp7ummgtc6rp4dsxv4udhgmcntkhgykw/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/mpich-3.3.2-mrb5naabd33wnlxywz4ldnfm2nubs3lt/lib" />
         <env name="LIBRARY_PATH" value="$PROJECT_DIR$/../scspkg/packages/pmemcpy/lib64:$PROJECT_DIR$/../scspkg/packages/pmemcpy/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/c-blosc-1.17.0-dfys4bthvaalrzfidgag6uebq7zqvusj/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/sz-1.4.12.3-qcsrxp2gj6tcejtcjs6h4fibxulacjft/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/lz4-1.9.2-pe3gznzybsegai7ikcckyws3oy326a6j/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/zfp-0.5.5-as4ecujpjekireivgqlckpquj2sb6ksh/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/openmpi-3.1.6-fudbchuusfasnbeu3s3q472y6dyyuned/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/parallel-netcdf-1.12.1-3gtzbcsmkiix76lp7ybwqj7pxajte7o5/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/mxml-2.10-cpcdkki6cfiygznnvzxvwn72yv2vijza/lib:$PROJECT_DIR$/../scspkg/packages/pmdk/lib64:$PROJECT_DIR$/../scspkg/packages/pmdk/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/capnproto-0.7.0-je56lj4s5bgincybicviilexjeevqjcx/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/boost-1.74.0-4wwdsqkrx5wnq7x3vgei7lcfgudg5v4t/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/msgpack-c-3.1.1-wuob7l3wfkfrsry67wetwdbtxt4dzsjj/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/adios-1.13.1-rjcwbpi6fpihml3c4r2mxxejra4zvflq/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/netcdf-c-4.7.4-pp7ummgtc6rp4dsxv4udhgmcntkhgykw/lib:$USER_HOME$/spack/opt/spack/linux-linuxmint20-zen2/gcc-9.3.0/mpich-3.3.2-mrb5naabd33wnlxywz4ldnfm2nubs3lt/lib" />
@@ -796,7 +754,8 @@
       <workItem from="1624176298334" duration="9271000" />
       <workItem from="1624245869367" duration="9000000" />
       <workItem from="1624258160523" duration="760000" />
-      <workItem from="1624338984662" duration="17639000" />
+      <workItem from="1624338984662" duration="18549000" />
+      <workItem from="1624364343233" duration="2864000" />
     </task>
     <servers />
   </component>
@@ -839,16 +798,6 @@
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp</url>
-          <line>108</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp</url>
-          <line>107</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/include/pmemcpy/serialize/capnproto_nocompress.h</url>
           <line>20</line>
           <option name="timeStamp" value="31" />
@@ -857,11 +806,6 @@
           <url>file://$PROJECT_DIR$/include/pmemcpy/storage/posix.h</url>
           <line>48</line>
           <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy_omp.cpp</url>
-          <line>46</line>
-          <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/include/pmemcpy/storage/posix.h</url>

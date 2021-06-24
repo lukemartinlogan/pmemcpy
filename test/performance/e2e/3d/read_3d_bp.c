@@ -6,6 +6,7 @@
 #include <adios.h>
 #include <adios_read.h>
 #include <adios_read_v1.h>
+#include "logger.h"
 
 int read_pattern_3(int argc, char ** argv) {
     int adios_err;
@@ -94,14 +95,7 @@ int read_pattern_3(int argc, char ** argv) {
 
     for(int i = 0; i < 10; ++i) {
         read_bytes = adios_read_var(group_handle, tags[i], start, readsize, grav_x_c);
-        if (!read_bytes) fprintf(stderr, "%d: %s (A)\n", rank, adios_errmsg());\
-        /*printf("READ BYTES: %lu\n", read_bytes);
-        if(rank == 0) {
-            for (int j = readsize[0] * readsize[1] * readsize[2] - 10; j < readsize[0] * readsize[1] * readsize[2]; ++j) {
-                printf("%lf\n", grav_x_c[j]);
-            }
-            printf("\n\n");
-        }*/
+        if (!read_bytes) fprintf(stderr, "%d: %s (A)\n", rank, adios_errmsg());
         MPI_Barrier(MPI_COMM_WORLD);
     }
 
@@ -114,9 +108,7 @@ int read_pattern_3(int argc, char ** argv) {
     end_time = MPI_Wtime();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
-        size_t size_per_proc = 10*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
-        size_t agg_size = size_per_proc*nprocs;
-        printf("read bp %lu %lu %lu %lu %lu %lu %lf none none\n", nprocs, readsize[0], readsize[1], readsize[2], size_per_proc, agg_size, end_time - start_time);
+        log_end2("read", "bp", nprocs, start_time, end_time, readsize, "none", "none");
     }
     adios_err = MPI_Finalize();
 }

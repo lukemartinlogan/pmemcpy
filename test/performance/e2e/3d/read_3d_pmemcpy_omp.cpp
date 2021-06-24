@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <omp.h>
+#include "logger.h"
 
 // 3. all of a few vars (3 for 3-d, for example)
 int read_pattern_3 (int argc, char ** argv)
@@ -112,12 +113,7 @@ int read_pattern_3 (int argc, char ** argv)
     }
 
     //io_type method size ndx ndy ndz size_per_proc agg_size time storage serializer
-    size_t size_per_proc = 10*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
-    size_t agg_size = size_per_proc*size;
-    printf("read pmemcpy_omp %d %lld %lld %lld %lu %lu %lf %s %s\n",
-           size, readsize[0], readsize[1], readsize[2],
-           size_per_proc, agg_size, end_time - start_time,
-           argv[5], argv[6]);
+    log_end2((const char*)"read", (const char*)"pmemcpy_omp", nproc_x*nproc_y*nproc_z, start_time, end_time, readsize, argv[5], argv[6]);
     return 0;
 }
 

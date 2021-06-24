@@ -4,11 +4,13 @@
 #include <netcdf.h>
 #include <netcdf_par.h>
 #include <string.h>
+#include "logger.h"
 
 int main(int argc, char **argv)
 {
   int i, j, k,l;
   int status;
+  int size;
   int ncid;
   int dimid1, dimid2, dimid3, udimid;
   int cube_dim[3] ;
@@ -33,7 +35,7 @@ int main(int argc, char **argv)
     char filename [256];
 
   MPI_Init(&argc, &argv);
-  MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Info_create(&info);
   MPI_Info_set(info, "cb_align", "2");
@@ -44,6 +46,7 @@ int main(int argc, char **argv)
   npx = atoi(argv[2]);
   npy = atoi(argv[3]);
   npz = atoi(argv[4]);
+  nprocs = npx*npy*npz;
 
   ndx = atoi(argv[5]);
   ndy = atoi(argv[6]);
@@ -63,10 +66,10 @@ int main(int argc, char **argv)
 
   ddata = (double *)malloc(sizeof(double*)*ndx*ndy*ndz);
 
-  for (i=0;i<ndx*ndy*ndz;i++)
-  {
-    ddata [i] = rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank;
-  } 
+    srand(1000);
+    for (i=0;i<ndx*ndy*ndz;i++) {
+        ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank)*rand();
+    }
   
   
   cube_start[0] = offx;
@@ -166,9 +169,7 @@ int main(int argc, char **argv)
     end_time = MPI_Wtime ();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
-        size_t size_per_proc = 10*sizeof(double)*cube_count[0]*cube_count[1]*cube_count[2];
-        size_t agg_size = size_per_proc*nprocs;
-        printf("write nc4 %d %lu %lu %lu %lu %lu %lf none none\n", nprocs, cube_count[0], cube_count[1], cube_count[2], size_per_proc, agg_size, end_time - start_time);
+        log_end1("write", "nc4", nprocs, start_time, end_time, cube_count, "none", "none");
     }
     free (ddata);
     MPI_Info_free (&info);

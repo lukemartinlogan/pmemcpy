@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include "logger.h"
 
 // 3. all of a few vars (3 for 3-d, for example)
 int read_pattern_3 (int argc, char ** argv) {
@@ -31,6 +32,7 @@ int read_pattern_3 (int argc, char ** argv) {
     int x_min;       // offset for local x
     int y_min;       // offset for local y
     int z_min;       // offset for local z
+    int nprocs;
 
     double *grav_x_c;
 
@@ -43,6 +45,7 @@ int read_pattern_3 (int argc, char ** argv) {
     nproc_x = atoi(nx_str);
     nproc_y = atoi(ny_str);
     nproc_z = atoi(nz_str);
+    nprocs = nproc_x * nproc_y * nproc_z;
 
     nc_err = MPI_Init(&argc, &argv);
     nc_err = MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -104,9 +107,7 @@ int read_pattern_3 (int argc, char ** argv) {
     end_time = MPI_Wtime();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
-        size_t size_per_proc = 10*sizeof(double)*readsize[0]*readsize[1]*readsize[2];
-        size_t agg_size = size_per_proc*size;
-        printf("read nc4 %d %lu %lu %lu %lu %lu %lf none none\n", size, readsize[0], readsize[1], readsize[2], size_per_proc, agg_size, end_time - start_time);
+        log_end1("read", "nc4", nprocs, start_time, end_time, readsize, "none", "none");
     }
     nc_err = MPI_Finalize();
 }

@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <mpi.h>
 #include <adios.h>
+#include "logger.h"
 
 int main(int argc, char **argv)
 {
@@ -37,6 +38,7 @@ int main(int argc, char **argv)
     npx = atoi(argv[3]);
     npy = atoi(argv[4]);
     npz = atoi(argv[5]);
+    nprocs = npx*npy*npz;
 
     ndx = atoi(argv[6]);
     ndy = atoi(argv[7]);
@@ -59,11 +61,6 @@ int main(int argc, char **argv)
     srand(1000);
     for (i=0;i<ndx*ndy*ndz;i++) {
        ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank)*rand();
-       /*if(i >= ndx*ndy*ndz - 10) {
-           if(rank == 0) {
-               printf("%lf\n", ddata[i]);
-           }
-       }*/
     }
 
     A = B = C = D = E = F = G = H = I = J = ddata;
@@ -76,6 +73,7 @@ int main(int argc, char **argv)
     cube_count[1] = ndy;
     cube_count[2] = ndz;
     // the number of procs must be divisible by 8
+
 
     // start the timing now.
     status = MPI_Barrier (MPI_COMM_WORLD);
@@ -90,9 +88,7 @@ int main(int argc, char **argv)
     end_time = MPI_Wtime ();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
-        size_t size_per_proc = 10*sizeof(double)*cube_count[0]*cube_count[1]*cube_count[2];
-        size_t agg_size = size_per_proc*nprocs;
-        printf("write bp %d %lu %lu %lu %lu %lu %lf none none\n", nprocs, cube_count[0], cube_count[1], cube_count[2], size_per_proc, agg_size, end_time - start_time);
+        log_end1("write", "bp", nprocs, start_time, end_time, cube_count, "none", "none");
     }
     free (ddata);
     adios_finalize (rank);

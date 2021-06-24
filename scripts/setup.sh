@@ -6,6 +6,7 @@ sudo mount -t pmemulator-ext4 -o dax /dev/sdb ~/tmpfs
 sudo umount ~/tmpfs
 make rm-pmemulator
 
+#LOGIN to Chameleon
 ssh cc@129.114.109.179
 
 #COPY pmemcpy to Chameleon
@@ -46,9 +47,9 @@ tar -xzf ${HOME}/pmemcpy.tar.gz -C ${HOME}/pmemcpy
 #SMALL TEST
 rm -r ~/tmpfs/*
 mkdir ~/tmpfs/test
-test/performance/e2e/write_3d_pmemcpy_omp ~/tmpfs/test 4 2 3 384 192 192 POSIX NO_SERIALIZER 1
+test/performance/e2e/write_3d_pmemcpy_omp ~/tmpfs/test 4 2 3 384 192 192 POSIX CAPNPROTO_NOCOMPRESS 1
 gprof test/performance/e2e/write_3d_pmemcpy_omp
-test/performance/e2e/read_3d_pmemcpy_omp ~/tmpfs/test 4 2 3 POSIX NO_SERIALIZER 1
+test/performance/e2e/read_3d_pmemcpy_omp ~/tmpfs/test 4 2 3 POSIX CAPNPROTO_NOCOMPRESS 1
 gprof test/performance/e2e/read_3d_pmemcpy_omp
 
 #SMALL TESTS

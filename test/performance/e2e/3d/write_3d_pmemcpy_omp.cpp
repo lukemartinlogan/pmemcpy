@@ -4,6 +4,7 @@
 #include <pmemcpy/memcpy.h>
 #include <string.h>
 #include <omp.h>
+#include "logger.h"
 
 /* Prototype for functions used only in this file */
 
@@ -74,8 +75,9 @@ int main(int argc, char **argv) {
 
         ddata = (double *) malloc(sizeof(double) * ndx * ndy * ndz);
 
-        for (int i = 0; i < ndx * ndy * ndz; i++) {
-            ddata[i] = rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank;
+        srand(1000);
+        for (int i=0;i<ndx*ndy*ndz;i++) {
+            ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank)*rand();
         }
 
         cube_start[0] = offx;
@@ -120,13 +122,7 @@ int main(int argc, char **argv) {
         }
     }
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
-    size_t size_per_proc = 10*sizeof(double)*cube_count[0]*cube_count[1]*cube_count[2];
-    size_t agg_size = size_per_proc*nprocs;
-    printf("write pmemcpy_omp %d %lu %lu %lu %lu %lu %lf %s %s\n",
-           nprocs, cube_count[0], cube_count[1], cube_count[2],
-           size_per_proc, agg_size,
-           end_time - start_time,
-           argv[8], argv[9]);
+    log_end1((const char*)"write", (const char*)"pmemcpy_omp", nprocs, start_time, end_time, cube_count, argv[8], argv[9]);
     MPI_Finalize();
     return 0;
 }

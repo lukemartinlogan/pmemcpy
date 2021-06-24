@@ -5,6 +5,7 @@
 #include <string.h>
 #define _GNU_SOURCE
 #include <unistd.h>
+#include "logger.h"
 
 /* Prototype for functions used only in this file */
 static void handle_error(int status);
@@ -52,6 +53,7 @@ int main(int argc, char **argv) {
   npx = atoi(argv[2]);
   npy = atoi(argv[3]);
   npz = atoi(argv[4]);
+  nprocs = npx*npy*npz;
 
   ndx = atoi(argv[5]);
   ndy = atoi(argv[6]);
@@ -71,10 +73,10 @@ int main(int argc, char **argv) {
 
   ddata = (double *)malloc(sizeof(double*)*ndx*ndy*ndz);
 
-  for (i=0;i<ndx*ndy*ndz;i++)
-  {
-	ddata [i] = rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank;
-  } 
+    srand(1000);
+    for (i=0;i<ndx*ndy*ndz;i++) {
+        ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank)*rand();
+    }
   
   //if (rank == 0) fprintf(stderr, "Test... %s %d %d\n",filename,l,ndx*ndy*ndz);
   
@@ -160,9 +162,7 @@ int main(int argc, char **argv) {
     end_time = MPI_Wtime ();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
-        size_t size_per_proc = 10*sizeof(double)*cube_count[0]*cube_count[1]*cube_count[2];
-        size_t agg_size = size_per_proc*nprocs;
-        printf("write nc5 %d %lld %lld %lld %lu %lu %lf none none\n", nprocs, cube_count[0], cube_count[1], cube_count[2], size_per_proc, agg_size, end_time - start_time);
+        log_end2("write", "nc5", nprocs, start_time, end_time, cube_count, "none", "none");
     }
     free (ddata);
     MPI_Info_free (&info);
