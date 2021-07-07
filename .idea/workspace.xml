@@ -33,27 +33,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb017e54-6e21-4884-8028-4244ad7d5d3a" name="Default Changelist" comment="``">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/memcpy.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/memcpy.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/serialize/serializer.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/serialize/serializer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/pmemcpy/util/trace.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/pmemcpy/util/trace.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_bp.c" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_bp.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/read_3d_pmemcpy_omp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/3d/write_3d_pmemcpy_omp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/performance/e2e/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/performance/e2e/CMakeLists.txt" afterDir="false" />
-    </list>
+    <list default="true" id="cb017e54-6e21-4884-8028-4244ad7d5d3a" name="Default Changelist" comment="``" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -115,7 +95,7 @@
       <recent name="$PROJECT_DIR$/include/pmem_memcpy" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.test_adios">
+  <component name="RunManager" selected="CMake Application.test_pmem_read">
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />

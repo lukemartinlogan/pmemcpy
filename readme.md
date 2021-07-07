@@ -2,7 +2,7 @@
 # PMEMCPY
 
 A simple, lightweight, and portable I/O library for interfacing with persistent
-memory devices.
+memory devices. This is a mostly header-only library.
 
 ## Dependencies
 
@@ -49,13 +49,6 @@ pmem.free(std::string id);
 * pmem.mmap: Allocates "size" bytes from the file at "path". Creates the file with this size if it does not exist.
 * pmem.munmap: Unmap the memory region. Automatically called in destructor.
 
-## Limitations
-
-* pmem.mmap must be called with the "size" parameter in order to create the pool for the PMDK storage type. PMDK pools cannot be extended whence allocated. However, the size parameter is not needed for the POSIX storage type; size is determined automatically.
-* pmem.mmap cannot be called in parallel to the same path when using PMDK. In other words, when using PMDK with MPI, you must either share the PMEM object among all processes or use file-per-processs. The POSIX storage type does not have this limitation.
-* For writes, CapnProto requires the memory region where data gets serialized to be zeroed using memset, which is fairly expensive. Reads are fine.
-* CapnProto can only serialize primitive types (char, int, float, double) and C-style arrays of these types. Slightly more work would have to be done in order to incorporate STL or custom structured types.
-
 ### Serializer Types
 Different serialization methods can be used to serialize the data in PMEM:
 
@@ -77,3 +70,21 @@ use "/" in the id name.
 StorageType::POSIX
 StorageType::PMDK
 ```
+
+### Error Handling
+
+We provide a wrapper around try/catch to help with error handling.
+Variables defined within this region cannot be accessed after PMEMCPY_ERROR_HANDLE_END has been called.
+They will be out of scope.
+```C
+PMEMCPY_ERROR_HANDLE_START()
+//PMEMCPY code...
+PMEMCPY_ERROR_HANDLE_END()
+```
+
+## Limitations
+
+* pmem.mmap must be called with the "size" parameter in order to create the pool for the PMDK storage type. PMDK pools cannot be extended whence allocated. However, the size parameter is not needed for the POSIX storage type; size is determined automatically.
+* pmem.mmap cannot be called in parallel to the same path when using PMDK. In other words, when using PMDK with MPI, you must either share the PMEM object among all processes or use file-per-processs. The POSIX storage type does not have this limitation.
+* For writes, CapnProto requires the memory region where data gets serialized to be zeroed using memset, which is fairly expensive. Reads are fine.
+* CapnProto can only serialize primitive types (char, int, float, double) and C-style arrays of these types. Slightly more work would have to be done in order to incorporate STL or custom structured types.
