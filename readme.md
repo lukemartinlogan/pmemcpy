@@ -26,7 +26,7 @@ cmake ../ -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTS=ON
 
 ## Usage
 
-Examples can be seen under test/unit and test/performance.
+Examples can be seen under test/unit/test_pmem and test/performance/e2e/write_pmemcpy_omp and read_pmemcpy_omp.
 test/api was used to make pseudocode for the paper, and differs slightly from the actual work.
 
 ### APIs
