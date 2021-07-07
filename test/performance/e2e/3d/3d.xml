@@ -29,7 +29,7 @@
   </adios-group>
 
   <!--<transport group="data" method="MPI">stripe_count=1,stripe_offset=200,stripe_size=1048576,block_size=1048576</transport>-->
-  <transport group="data" method="POSIX"></transport>
+  <transport group="data" method="MPI_AGGREGATE"> </transport>
 
   <buffer size-MB="16384"/>
 

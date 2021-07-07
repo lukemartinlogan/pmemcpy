@@ -40,6 +40,7 @@ function test_case() {
 
 SUFFIXES=()
 #SUFFIXES=("bp" "nc4" "nc5")
+SUFFIXES=("bp")
 for SUFFIX in ${SUFFIXES[@]}; do
   test_case ${SUFFIX} 8 2 2 2 1776 192 192
   test_case ${SUFFIX} 16 4 2 2 888 192 192
@@ -47,6 +48,7 @@ for SUFFIX in ${SUFFIXES[@]}; do
   test_case ${SUFFIX} 32 4 4 2 444 192 192
   test_case ${SUFFIX} 48 4 4 3 296 192 192
 done
+exit
 
 STORAGE_TYPES=("PMDK_HASHTABLE" "POSIX")
 #SERIALIZER_TYPES=("NO_SERIALIZER" "CAPNPROTO" "CAPNPROTO_NOCOMPRESS" "MSGPACK" "BOOST" "CEREAL")
