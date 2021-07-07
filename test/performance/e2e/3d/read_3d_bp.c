@@ -108,7 +108,7 @@ int read_pattern_3(int argc, char ** argv) {
     end_time = MPI_Wtime();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
-        log_end2("read", "bp", nprocs, start_time, end_time, readsize, "none", "none");
+        log_end1("read", "bp", nprocs, start_time, end_time, readsize, "none", "none");
     }
     adios_err = MPI_Finalize();
 }

@@ -14,7 +14,7 @@ set(LIBS dl ${ORIG_LIBS} ${PMEMCPY_LIBS})
 
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/test/performance/pmemulator)
 
-set(TEST_CASES bp nc4 nc5 pmemcpy pmemcpy_omp)
+set(TEST_CASES bp nc4 nc5 pmemcpy_omp)
 set(DIMS 3d)
 set(IO_TYPES read write)
 

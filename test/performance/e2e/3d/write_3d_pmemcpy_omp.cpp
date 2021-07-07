@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
     int status;
     int nprocs;
     uint64_t cube_count[3];
-    int npx, npy, npz, ndx, ndy, ndz;
+    uint64_t npx, npy, npz, ndx, ndy, ndz;
     uint64_t nx, ny, nz;
     double t_time, sz, gps;
     char filename [256];
@@ -125,4 +125,3 @@ int main(int argc, char **argv) {
     MPI_Finalize();
     return 0;
 }
-

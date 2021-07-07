@@ -21,7 +21,7 @@ To build with tests (requires netcdf, adios, and pnetcdf):
 ```bash
 mkdir build
 cd build
-cmake ../ -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_TESTS
+cmake ../ -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTS=ON
 ```
 
 ## Usage
@@ -57,7 +57,7 @@ pmem.free(std::string id);
 * CapnProto can only serialize primitive types (char, int, float, double) and C-style arrays of these types. Slightly more work would have to be done in order to incorporate STL or custom structured types.
 
 ### Serializer Types
-Different serialization methods can be used to store the data in PMEM:
+Different serialization methods can be used to serialize the data in PMEM:
 
 ```C
 SerializerType::CAPNPROTO

@@ -52,7 +52,7 @@ int read_pattern_3 (int argc, char ** argv)
     MPI_Barrier (MPI_COMM_WORLD);
     start_time = MPI_Wtime ();
 
-    pmemcpy::PMEM pmem(pmemcpy::StorageType::PMDK_HASHTABLE, pmemcpy::SerializerType::MSGPACK);
+    pmemcpy::PMEM pmem(pmemcpy::StorageType::PMDK_HASHTABLE, pmemcpy::SerializerType::CAPNPROTO);
     pmem.mmap(filename, 100*(1<<20));
     pmem.load<uint64_t>("nx", nx);
     pmem.load<uint64_t>("ny", ny);

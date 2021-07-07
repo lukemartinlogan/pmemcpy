@@ -16,7 +16,7 @@ int read_pattern_3 (int argc, char ** argv)
 
     int rank;
     int size;
-    int nproc_x, nproc_y, nproc_z;
+    uint64_t nproc_x, nproc_y, nproc_z;
 
     MPI_Offset readsize [10];
 
@@ -102,7 +102,7 @@ int read_pattern_3 (int argc, char ** argv)
         PMEMCPY_ERROR_HANDLE_START()
         for(int i = 0; i < 10; ++i) {
             pmem.load<double>(tags[i] + std::to_string(rank), grav_x_c,
-                              pmemcpy::Dimensions(local_readsize[0], local_readsize[1], local_readsize[2]));
+                              pmemcpy::Dimensions((size_t)local_readsize[0], (size_t)local_readsize[1], (size_t)local_readsize[2]));
         }
         PMEMCPY_ERROR_HANDLE_END()
 
@@ -113,7 +113,7 @@ int read_pattern_3 (int argc, char ** argv)
     }
 
     //io_type method size ndx ndy ndz size_per_proc agg_size time storage serializer
-    log_end2((const char*)"read", (const char*)"pmemcpy_omp", nproc_x*nproc_y*nproc_z, start_time, end_time, readsize, argv[5], argv[6]);
+    log_end2(static_cast<const char*>("read"), static_cast<const char*>("pmemcpy_omp"), nproc_x*nproc_y*nproc_z, start_time, end_time, readsize, argv[5], argv[6]);
     return 0;
 }
 

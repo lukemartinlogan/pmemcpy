@@ -11,18 +11,28 @@
 
 namespace pmemcpy {
 
+#define PMEMCPY_DIMENSIONS_CONSTRUCT(T) \
+    template<typename ...Args>\
+    Dimensions(T dim1, Args ...args) : count_(1) {\
+        std::vector<T> dims = {dim1, args...};  \
+        dims_ = std::vector<size_t>(dims.begin(), dims.end());\
+        for(const size_t &dim : dims_) {\
+            count_ *= dim;\
+        }\
+    }
 typedef struct Dimensions {
 private:
     std::vector<size_t> dims_;
     size_t count_;
 public:
-    template<typename ...Args>
-    Dimensions(Args ...args) : count_(1) {
-        dims_ = {args...};
-        for(const size_t &dim : dims_) {
-            count_ *= dim;
-        }
-    }
+    PMEMCPY_DIMENSIONS_CONSTRUCT(int8_t)
+    PMEMCPY_DIMENSIONS_CONSTRUCT(int16_t)
+    PMEMCPY_DIMENSIONS_CONSTRUCT(int32_t)
+    PMEMCPY_DIMENSIONS_CONSTRUCT(int64_t)
+    PMEMCPY_DIMENSIONS_CONSTRUCT(uint8_t)
+    PMEMCPY_DIMENSIONS_CONSTRUCT(uint16_t)
+    PMEMCPY_DIMENSIONS_CONSTRUCT(uint32_t)
+    PMEMCPY_DIMENSIONS_CONSTRUCT(uint64_t)
 
     size_t count() { return count_; }
     size_t *data() { return dims_.data(); }

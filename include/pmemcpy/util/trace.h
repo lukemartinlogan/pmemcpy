@@ -10,7 +10,10 @@
 #include <cstdlib>
 #include <memory>
 #include <pmemcpy/util/serializeable.h>
+
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <unistd.h>
 
 #ifdef DEBUG

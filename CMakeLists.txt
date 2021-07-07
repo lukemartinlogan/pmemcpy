@@ -8,7 +8,7 @@ set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED YES )
 
 option(CMAKE_BUILD_TYPE Debug)
-option(BUILD_TESTS ON)
+option(BUILD_TESTS OFF)
 
 set( CMAKE_C_FLAGS "-g -O3" )
 set( CMAKE_CXX_FLAGS "-g -O3" )
