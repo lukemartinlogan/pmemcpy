@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <memory>
 #include <pmemcpy/util/serializeable.h>
+#define _GNU_SOURCE
 #include <unistd.h>
 
 #ifdef DEBUG
@@ -24,7 +25,7 @@ namespace pmemcpy {
         template<typename ...Args>
         AutoTrace(std::string fmt, Args ...args) {
             //std::cout << Formatter::format(fmt, args...) + "\n";
-            printf("%s, pid=%d, tid=%d\n", Formatter::format(fmt, args...).c_str(), getpid(), gettid());
+            printf("%s, pid=%d\n", Formatter::format(fmt, args...).c_str(), getpid());
             fflush(stdout);
         }
     };

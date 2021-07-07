@@ -1,0 +1,17 @@
+#include <pmemcpy/pmemcpy.h>
+int main(int argc, char** argv) {
+    int rank, nprocs;
+    MPI_Init(&argc,&argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+    pmemcpy::PMEM pmem;
+    size_t count = 100;
+    size_t dimsf = 100*nprocs;
+    char *path = argv[1];
+
+    double data[100] = {0};
+    pmem.mmap(path, MPI_COM_WORLD);
+    pmem.alloc<double>("A", 1, &count, &dimsf);
+    pmem.store<double>("A", data);
+    MPI_Finalize();
+}

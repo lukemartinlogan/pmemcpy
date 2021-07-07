@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
     cube_count[2] = ndz;
 
     pmemcpy::PMEM pmem(pmemcpy::StorageType::PMDK_HASHTABLE, pmemcpy::SerializerType::CAPNPROTO);
-    pmem.mmap(filename, 70* (1ul << 30));
+    pmem.mmap(filename, 55 * (1ul << 30));
 
     if (rank == 0) {
         status = MPI_Barrier(MPI_COMM_WORLD);

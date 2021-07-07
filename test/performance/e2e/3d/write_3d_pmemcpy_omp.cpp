@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
     int status;
     int nprocs;
     uint64_t cube_count[3];
-    uint64_t npx, npy, npz, ndx, ndy, ndz;
+    int npx, npy, npz, ndx, ndy, ndz;
     uint64_t nx, ny, nz;
     double t_time, sz, gps;
     char filename [256];
@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 
     pmemcpy::PMEM pmem(storage_t, serializer_t, use_mmap);
     PMEMCPY_ERROR_HANDLE_START()
-    pmem.mmap(filename, (size_t) (70 * pmemcpy::SizeType::GB));
+    pmem.mmap(filename, (size_t) (55 * pmemcpy::SizeType::GB));
     //pmem.mmap(filename, (size_t) (15 * pmemcpy::SizeType::GB));
     PMEMCPY_ERROR_HANDLE_END()
 
@@ -75,9 +75,8 @@ int main(int argc, char **argv) {
 
         ddata = (double *) malloc(sizeof(double) * ndx * ndy * ndz);
 
-        srand(1000);
         for (int i=0;i<ndx*ndy*ndz;i++) {
-            ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank)*rand();
+            ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank);
         }
 
         cube_start[0] = offx;

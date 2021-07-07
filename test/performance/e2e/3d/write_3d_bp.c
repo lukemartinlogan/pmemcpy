@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     char filename [256];
 
     int64_t adios_handle;
-    uint64_t adios_groupsize, adios_totalsize;
+    uint64_t adios_groupsize=0, adios_totalsize = 0;
     MPI_Comm comm = MPI_COMM_WORLD;
 
     MPI_Init(&argc, &argv);
@@ -60,7 +60,8 @@ int main(int argc, char **argv)
 
     srand(1000);
     for (i=0;i<ndx*ndy*ndz;i++) {
-       ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank)*rand();
+       //ddata [i] = (rank*i + (rank+1)*(rank+1)*i + (i+1)*(i+1)*rank)*rand();
+       ddata [i] = rank;
     }
 
     A = B = C = D = E = F = G = H = I = J = ddata;
@@ -80,7 +81,27 @@ int main(int argc, char **argv)
     start_time = MPI_Wtime ();
 
     status = adios_open (&adios_handle, "data", filename, "w", comm);
-#include "gwrite_data.ch"
+    adios_groupsize = 36lu + 80lu*ndx*ndy*ndz;
+    adios_group_size (adios_handle, adios_groupsize, &adios_totalsize);
+    adios_write (adios_handle, "nx", &nx);
+    adios_write (adios_handle, "ny", &ny);
+    adios_write (adios_handle, "nz", &nz);
+    adios_write (adios_handle, "offx", &offx);
+    adios_write (adios_handle, "offy", &offy);
+    adios_write (adios_handle, "offz", &offz);
+    adios_write (adios_handle, "ndx", &ndx);
+    adios_write (adios_handle, "ndy", &ndy);
+    adios_write (adios_handle, "ndz", &ndz);
+    adios_write (adios_handle, "A", A);
+    adios_write (adios_handle, "B", B);
+    adios_write (adios_handle, "C", C);
+    adios_write (adios_handle, "D", D);
+    adios_write (adios_handle, "E", E);
+    adios_write (adios_handle, "F", F);
+    adios_write (adios_handle, "G", G);
+    adios_write (adios_handle, "H", H);
+    adios_write (adios_handle, "I", I);
+    adios_write (adios_handle, "J", J);
     status = adios_close (adios_handle);
 
     status = MPI_Barrier (MPI_COMM_WORLD);

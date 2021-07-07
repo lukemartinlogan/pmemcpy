@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<adios-config host-language="C">
+  <adios-group name="data" time-index="steps">
+    <var name="dimsf" type="integer" transform="none"/>
+    <var name="count" type="integer" transform="none"/>
+    <global-bounds dimensions="dimsf" offsets="offset">
+        <var name="A" type="double" dimensions="count" transform="none"/>
+    </global-bounds>
+  </adios-group>
+  <transport group="data" method="MPI">stripe_count=1,stripe_size=1048576,block_size=1048576</transport>
+  <buffer size-MB="16384"/>
+</adios-config>

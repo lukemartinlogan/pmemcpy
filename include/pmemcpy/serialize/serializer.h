@@ -34,8 +34,8 @@ template<typename T>
 class Serializer {
 public:
     inline virtual size_t est_encoded_size(size_t size) = 0;
-    inline virtual void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) = 0;
-    inline virtual void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) = 0;
+    inline virtual size_t serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) = 0;
+    inline virtual size_t serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) = 0;
     inline virtual std::shared_ptr<pmemcpy::generic_buffer> serialize(T &src) = 0;
     inline virtual std::shared_ptr<pmemcpy::generic_buffer> serialize(T *src, Dimensions dims) = 0;
     inline virtual void deserialize(T &dst, const std::shared_ptr<pmemcpy::generic_buffer> src) = 0;

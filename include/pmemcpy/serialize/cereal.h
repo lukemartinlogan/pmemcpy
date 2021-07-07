@@ -44,10 +44,12 @@ public:
         return 0;
     }
 
-    inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+    inline size_t serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+        return 0;
     }
 
-    inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+    inline size_t serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+        return 0;
     }
 
     inline std::shared_ptr<pmemcpy::generic_buffer> serialize(T &src) {

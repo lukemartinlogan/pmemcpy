@@ -13,14 +13,16 @@
 namespace pmemcpy {
 
 #define NO_SERIALIZER(T, CT)\
-    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {\
+    inline size_t _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {\
         AUTO_TRACE("pmemcpy::no_serializer::serialize::single buf size={}", SizeType(sizeof(T), SizeType::MB)); \
-        memcpy((void*)buf->c_str(), (void*)&src, sizeof(T)); \
+        memcpy((void*)buf->c_str(), (void*)&src, sizeof(T));                      \
+        return sizeof(T);\
     }\
-    inline void _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, size_t count) {\
+    inline size_t _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, size_t count) {\
         size_t size = sizeof(T)*count; \
         AUTO_TRACE("pmemcpy::no_serializer::serialize::array buf size={}", SizeType(size, SizeType::MB));\
-        memcpy((void*)buf->c_str(), (void*)src, size); \
+        memcpy((void*)buf->c_str(), (void*)src, size);                            \
+        return size;\
     }\
     inline std::shared_ptr<pmemcpy::generic_buffer> _serialize(T &src) { \
         AUTO_TRACE("pmemcpy::no_serializer::serialize::single size={}", SizeType(sizeof(T), SizeType::MB)); \
@@ -63,11 +65,11 @@ namespace pmemcpy {
             return size;
         }
 
-        inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
+        inline size_t serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {
             return _serialize(buf, src);
         }
 
-        inline void serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
+        inline size_t serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, Dimensions dims) {
             return _serialize(buf, src, dims.count());
         }
 

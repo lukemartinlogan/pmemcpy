@@ -47,6 +47,12 @@ add_executable(test_pmem ${CMAKE_SOURCE_DIR}/test/unit/test_pmem.cpp)
 target_link_libraries(test_pmem ${TEST_LIBS})
 target_compile_definitions(test_pmem PUBLIC DEBUG)
 
+#API tests
+add_executable(test_hdf5 ${CMAKE_SOURCE_DIR}/test/api/test_hdf5.cpp)
+target_link_libraries(test_hdf5 mpi hdf5)
+add_executable(test_adios ${CMAKE_SOURCE_DIR}/test/api/test_adios.cpp)
+target_link_libraries(test_adios adios adiosread  mpi m pthread z zfp lz4 SZ blosc)
+
 #Build performance test and pmemulator
 add_subdirectory(test/performance)
 

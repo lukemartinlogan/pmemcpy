@@ -61,7 +61,8 @@ public:
         if(use_mmap_) {
             auto serial = SerializerFactory<T>::get(serializer_);
             std::shared_ptr<pmemcpy::generic_buffer> buf = storage_->alloc(id, serial->est_encoded_size(sizeof(T)));
-            SerializerFactory<T>::get(serializer_)->serialize(buf, src);
+            size_t size = SerializerFactory<T>::get(serializer_)->serialize(buf, src);
+            ADD_WRITE_PENALTY(size);
         } else {
             std::shared_ptr<pmemcpy::generic_buffer> serial = SerializerFactory<T>::get(serializer_)->serialize(src);
             storage_->store(id, serial);
@@ -72,7 +73,8 @@ public:
         if(use_mmap_) {
             auto serial = SerializerFactory<T>::get(serializer_);
             std::shared_ptr<pmemcpy::generic_buffer> buf = storage_->alloc(id, serial->est_encoded_size(sizeof(T)*dims.count()));
-            serial->serialize(buf, src, dims);
+            size_t size = serial->serialize(buf, src, dims);
+            ADD_WRITE_PENALTY(size);
         } else {
             std::shared_ptr<pmemcpy::generic_buffer> serial = SerializerFactory<T>::get(serializer_)->serialize(src, dims);
             storage_->store(id, serial);
@@ -87,6 +89,7 @@ public:
         if(use_mmap_) {
             std::shared_ptr<pmemcpy::generic_buffer> serial = storage_->find(id);
             SerializerFactory<T>::get(serializer_)->deserialize(dst, serial);
+            ADD_READ_PENALTY(serial->size());
         } else {
             std::shared_ptr<pmemcpy::generic_buffer> serial = storage_->load(id);
             SerializerFactory<T>::get(serializer_)->deserialize(dst, serial);
@@ -97,6 +100,7 @@ public:
         if(use_mmap_) {
             std::shared_ptr<pmemcpy::generic_buffer> serial = storage_->find(id);
             SerializerFactory<T>::get(serializer_)->deserialize(dst, serial, dims);
+            ADD_READ_PENALTY(serial->size());
         } else {
             std::shared_ptr<pmemcpy::generic_buffer> serial = storage_->load(id);
             SerializerFactory<T>::get(serializer_)->deserialize(dst, serial, dims);
