@@ -53,9 +53,9 @@ pmem.free(std::string id);
 Different serialization methods can be used to serialize the data in PMEM:
 
 ```C
-SerializerType::CAPNPROTO
-SerializerType::CAPNPROTO_NOCOMPRESS
-SerializerType::NO_SERIALIZER
+pmemcpy::SerializerType::CAPNPROTO
+pmemcpy::SerializerType::CAPNPROTO_NOCOMPRESS
+pmemcpy::SerializerType::NO_SERIALIZER
 ```
 
 By default, CapnProto will encode data using a simple deduplication algorithm. This can be disabled using the CAPNPROTO_NOCOMPRESS option.
@@ -67,8 +67,8 @@ variable created using pmem.store will be a file in this directory. You cannot
 use "/" in the id name.
 
 ```C
-StorageType::POSIX
-StorageType::PMDK
+pmemcpy::StorageType::POSIX
+pmemcpy::StorageType::PMDK
 ```
 
 ### Error Handling
