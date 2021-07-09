@@ -14,6 +14,7 @@
 #include <pmemcpy/storage/storage_factory.h>
 #include <string>
 #include <memory>
+#include <libpmem.h>
 
 #ifdef PMEMULATION
 #define DRAM_BW 68
@@ -44,7 +45,7 @@ private:
     std::shared_ptr<Storage> storage_;
     bool use_mmap_;
 public:
-    PMEM(StorageType storage=StorageType::PMDK_HASHTABLE, SerializerType serializer=SerializerType::CAPNPROTO, bool use_mmap=false) : serializer_(serializer), use_mmap_(use_mmap) {
+    PMEM(StorageType storage=StorageType::PMDK_HASHTABLE, SerializerType serializer=SerializerType::CAPNPROTO, bool use_mmap=true) : serializer_(serializer), use_mmap_(use_mmap) {
         storage_ = StorageFactory::get(storage);
     }
 

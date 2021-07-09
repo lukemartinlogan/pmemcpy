@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
         }
     }
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
-    log_end1((const char*)"write", (const char*)"pmemcpy_omp", nprocs, start_time, end_time, cube_count, argv[8], argv[9]);
+    log_end1(static_cast<const char*>("write"), static_cast<const char*>("pmemcpy_omp"), nprocs, start_time, end_time, cube_count, argv[8], argv[9]);
     MPI_Finalize();
     return 0;
 }

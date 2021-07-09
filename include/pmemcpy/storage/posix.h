@@ -15,6 +15,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <libpmem.h>
 
 namespace pmemcpy {
 
@@ -24,8 +25,8 @@ public:
     size_t size_;
 
     mmap_buffer() : buf_(nullptr), size_(0) {}
-    mmap_buffer(int fd, size_t size) { alloc(fd, size); }
-    mmap_buffer(int fd) { load(fd); }
+    mmap_buffer(std::string path, size_t size) { alloc(path, size); }
+    mmap_buffer(std::string path) { load(path); }
     mmap_buffer(const mmap_buffer& old) {
         buf_ = old.c_str();
         size_ = old.size();
@@ -37,23 +38,24 @@ public:
         old.size_ = 0;
     }
     ~mmap_buffer() {
-        if(buf_ && buf_ != MAP_FAILED) {
-            msync(buf_, size_, MS_SYNC);
-            munmap(buf_, size_);
+        if(buf_ && buf_ != nullptr) {
+            pmem_persist(buf_, size_);
+            pmem_unmap(buf_, size_);
         }
     }
 
-    inline void alloc(int fd, size_t size) {
+    inline void alloc(std::string path, size_t size) {
         size_ = size;
-        buf_ = (char*)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-        if(buf_ == MAP_FAILED) {
-            throw POSIX_MMAP_FAILED.format(SizeType(size, SizeType::MB), fd, std::string(strerror(errno)));
+        buf_ = (char*)pmem_map_file(path.c_str(), size, PMEM_FILE_CREATE | PMEM_FILE_SPARSE, 0666, NULL, NULL);
+        if(buf_ == nullptr) {
+            throw POSIX_MMAP_FAILED.format(SizeType(size, SizeType::MB), path, std::string(strerror(errno)));
         }
     }
-    inline void load(int fd) {
-        size_ = lseek(fd, 0, SEEK_END);
-        lseek(fd, 0, SEEK_SET);
-        buf_ = (char*)mmap(NULL, size_, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    inline void load(std::string path) {
+        buf_ = (char*)pmem_map_file(path.c_str(), 0, 0, 0666, &size_, NULL);
+        if(buf_ == nullptr) {
+            throw POSIX_MMAP_FAILED.format(SizeType(size_, SizeType::MB), path, std::string(strerror(errno)));
+        }
     }
     inline size_t size() const { return size_; }
     inline char *c_str() const { return (char*)buf_; }
@@ -70,8 +72,9 @@ public:
     ~PosixStorage() {}
 
     void mmap(std::string path, uint64_t size = 0) {
+        AUTO_TRACE("pmemcpy::PosixStorage::mmap {}", path);
         if(!boost::filesystem::exists(path)) {
-            mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            boost::filesystem::create_directory(path.c_str());
         }
         if(!boost::filesystem::is_directory(path)) {
             throw POSIX_PATH_NOT_DIRECTORY.format(path);
@@ -79,25 +82,23 @@ public:
         path_prefix_ = path;
     }
 
-    void munmap() {}
+    void munmap() {
+        AUTO_TRACE("pmemcpy::PosixStorage::munmap");
+    }
 
-    void release(std::string path) {}
+    void release(std::string path) {
+        AUTO_TRACE("pmemcpy::PosixStorage::release");
+    }
 
     std::shared_ptr<pmemcpy::generic_buffer> alloc(std::string id, size_t size) {
+        AUTO_TRACE("pmemcpy::PosixStorage::alloc id={}, size={}", id, SizeType(size, SizeType::MB));
         std::string path = path_prefix_ + "/" + id;
-        int fd = open(path.c_str(), O_RDWR | O_CREAT, 0666);
-        if(fd < 0) {
-            throw POSIX_WRITE_FAILED.format(fd, path_prefix_, id, fd, std::string(strerror(errno)));
-        }
-        if(ftruncate(fd, size) < 0) {
-            throw POSIX_TRUNCATE_FAILED.format(size, path_prefix_, id, std::string(strerror(errno)));
-        }
-        std::shared_ptr<pmemcpy::mmap_buffer> buf(new pmemcpy::mmap_buffer(fd, size));
-        close(fd);
+        std::shared_ptr<pmemcpy::mmap_buffer> buf(new pmemcpy::mmap_buffer(path, size));
         return buf;
     }
 
     void store(std::string id, std::shared_ptr<pmemcpy::generic_buffer> &src) {
+        AUTO_TRACE("pmemcpy::PosixStorage::store id={}, size={}", id, SizeType(src->size(), SizeType::MB));
         std::string path = path_prefix_ + "/" + id;
         int fd = open(path.c_str(), O_WRONLY | O_CREAT, 0666);
         if(fd < 0) {
@@ -112,17 +113,16 @@ public:
     }
 
     std::shared_ptr<pmemcpy::generic_buffer> find(std::string id) {
+        AUTO_TRACE("pmemcpy::PosixStorage::find id={}", id);
         std::string path = path_prefix_ + "/" + id;
-        int fd = open(path.c_str(), O_RDWR, 0666);
-        if(fd < 0) {
+        if(!boost::filesystem::exists(path)) {
             throw POSIX_FIND_FAILED.format(path_prefix_, id, std::string(strerror(errno)));
         }
-        std::shared_ptr<pmemcpy::mmap_buffer> buf(new pmemcpy::mmap_buffer(fd));
-        close(fd);
-        return buf;
+        return std::shared_ptr<pmemcpy::mmap_buffer>(new pmemcpy::mmap_buffer(path));
     }
 
     std::shared_ptr<pmemcpy::generic_buffer> load(std::string id) {
+        AUTO_TRACE("pmemcpy::PosixStorage::load id={}", id);
         std::string path = path_prefix_ + "/" + id;
         int fd = open(path.c_str(), O_RDONLY | O_CREAT, 0666);
         if(fd < 0) {
@@ -140,6 +140,7 @@ public:
     }
 
     void free(std::string id) {
+        AUTO_TRACE("pmemcpy::PosixStorage::free id={}", id);
         std::string path = path_prefix_ + "/" + id;
         remove(path.c_str());
     }

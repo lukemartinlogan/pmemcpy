@@ -15,7 +15,7 @@ namespace pmemcpy {
 #define NO_SERIALIZER(T, CT)\
     inline size_t _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {\
         AUTO_TRACE("pmemcpy::no_serializer::serialize::single buf size={}", SizeType(sizeof(T), SizeType::MB)); \
-        memcpy((void*)buf->c_str(), (void*)&src, sizeof(T));                      \
+        memcpy((void*)buf->c_str(), (void*)&src, sizeof(T));                        \
         return sizeof(T);\
     }\
     inline size_t _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T *src, size_t count) {\

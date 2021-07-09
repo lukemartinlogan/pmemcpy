@@ -12,6 +12,7 @@
 #define PMEMCPY_STORAGE_FACTORY_H
 
 #include <pmemcpy/util/errors.h>
+#include <pmemcpy/storage/storage.h>
 #include <pmemcpy/storage/pmdk_hashtable.h>
 #include <pmemcpy/storage/posix.h>
 #include <memory>

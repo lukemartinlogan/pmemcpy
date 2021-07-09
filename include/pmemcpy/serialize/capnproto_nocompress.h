@@ -16,6 +16,7 @@
 
 namespace pmemcpy {
 
+#ifndef __CLION_IDE__
 #define CAPNP_NO_COMP_PRIM_SERIAL(T, CT)\
     inline size_t _serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {\
         kj::ArrayOutputStream output(kj::ArrayPtr<kj::byte>((kj::byte*)buf->c_str(), buf->size()));\
@@ -70,6 +71,9 @@ namespace pmemcpy {
         capnp::List<T>::Reader temp = nums.get##CT##Arr();\
         for(size_t i = 0; i < temp.size(); ++i) { dst[i] = temp[i]; }\
     }
+#else
+#define CAPNP_NO_COMP_PRIM_SERIAL(T, CT)
+#endif
 
 template<typename T>
 class CapnProtoNoCompressSerializer : public Serializer<T> {
@@ -87,7 +91,7 @@ private:
 
 public:
     inline size_t est_encoded_size(size_t size) {
-        return size*1.1 + 128;
+        return size + 128;
     }
 
     inline size_t serialize(std::shared_ptr<pmemcpy::generic_buffer> buf, T &src) {

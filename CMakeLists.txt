@@ -16,19 +16,20 @@ set( CMAKE_CXX_FLAGS "-g -O3" )
 pkg_check_modules( libpmemobj capnp REQUIRED IMPORTED_TARGET )
 find_package(Boost)
 
-include_directories(include src/serialize)
+include_directories(include src/serialize src/serialize/bp4)
 
 #Build CapNP File
-set(CAPNP_SRC_DIR ${CMAKE_SOURCE_DIR}/src/serialize)
-set(CAPNP_PROTO_DIR ${CMAKE_SOURCE_DIR}/include/pmemcpy/serialize)
+set(SERIALIZER_SRC_DIR ${CMAKE_SOURCE_DIR}/src/serialize)
+set(SERIALIZER_DST_DIR ${CMAKE_SOURCE_DIR}/include/pmemcpy/serialize)
 add_custom_command(
-        OUTPUT ${CAPNP_SRC_DIR}/basic_capnp.capnp.c++
-        COMMAND capnp compile --src-prefix=${CAPNP_PROTO_DIR} -oc++:${CAPNP_SRC_DIR} ${CAPNP_PROTO_DIR}/basic_capnp.capnp
-        DEPENDS ${CAPNP_PROTO_DIR}/basic_capnp.capnp)
+        OUTPUT ${SERIALIZER_SRC_DIR}/basic_capnp.capnp.c++
+        COMMAND capnp compile --src-prefix=${SERIALIZER_DST_DIR} -oc++:${SERIALIZER_SRC_DIR} ${SERIALIZER_DST_DIR}/basic_capnp.capnp
+        DEPENDS ${SERIALIZER_DST_DIR}/basic_capnp.capnp)
 
 #Build the serialization library
-add_library(pmemcpy SHARED ${CAPNP_SRC_DIR}/basic_capnp.capnp.c++)
-target_link_libraries(pmemcpy pmemlog pmem pmemobj capnp boost_system boost_filesystem)
+#add_library(pmemcpy SHARED ${SERIALIZER_SRC_DIR}/basic_capnp.capnp.c++ ${SERIALIZER_SRC_DIR}/bp4/BP4Base.cpp ${SERIALIZER_SRC_DIR}/bp4/BP4Deserializer.cpp ${SERIALIZER_SRC_DIR}/bp4/BP4Serializer.cpp)
+add_library(pmemcpy SHARED ${SERIALIZER_SRC_DIR}/basic_capnp.capnp.c++)
+target_link_libraries(pmemcpy pmem pmemobj capnp boost_system boost_filesystem)
 
 if ( BUILD_TESTS )
   #Build unit test
