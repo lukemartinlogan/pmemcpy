@@ -77,7 +77,7 @@ pmemcpy::StorageType::PMDK_FS
 ```
 
 * PMDK uses a hashtable with chaining to store data structures. It requires the user to mmap enough data to store all data structures in pmem.mmap().
-* PMDK_FS and POSIX creates a file for each data structure. POSIX uses mmap without MAP_SYNC, PMDK_FS uses MAP_SYNC.
+* PMDK_FS and POSIX creates a file for each data structure. POSIX uses mmap without MAP_SYNC, PMDK_FS uses MAP_SYNC. The size parameter in pmem.mmap() is ignored.
 
 ### Error Handling
 
