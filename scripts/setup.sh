@@ -48,8 +48,8 @@ sudo umount /home/cc/tmpfs
 
 #ALL TESTS
 bash ~/pmemcpy/scripts/tests.sh
-scp cc@129.114.108.56:~/pmemcpy/cmake-build-debug/log.txt log.txt
 scp -i ~/.ssh/id_rsa_pass ../scripts/tests.sh cc@129.114.108.56:/home/cc/pmemcpy/scripts/tests.sh
+scp -i ~/.ssh/id_rsa_pass cc@129.114.108.56:~/pmemcpy/cmake-build-debug/log.txt log.txt
 
 scp -i ~/.ssh/id_rsa_pass /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/test/performance/e2e/3d/3d.xml cc@129.114.108.56:/home/cc/pmemcpy/test/performance/e2e/3d/3d.xml
 
@@ -59,4 +59,5 @@ df = pd.read_csv("log.csv")
 cols = list(df.columns)
 cols.remove("time")
 df = df.groupby(cols).mean().reset_index()
+df["time2"] = df["time"] + 5
 df.to_csv("averages2.csv")

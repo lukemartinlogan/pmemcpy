@@ -9,6 +9,10 @@ memory devices. This is a mostly header-only library.
 * boost, capnproto
 * pmdk
 
+```bash
+spack install boost capnproto pmdk
+```
+
 ## Install
 
 ```bash
@@ -88,3 +92,4 @@ PMEMCPY_ERROR_HANDLE_END()
 * pmem.mmap cannot be called in parallel to the same path when using PMDK. In other words, when using PMDK with MPI, you must either share the PMEM object among all processes or use file-per-processs. The POSIX storage type does not have this limitation.
 * For writes, CapnProto requires the memory region where data gets serialized to be zeroed using memset, which is fairly expensive. Reads are fine.
 * CapnProto can only serialize primitive types (char, int, float, double) and C-style arrays of these types. Slightly more work would have to be done in order to incorporate STL or custom structured types.
+* PMDK adds a fair amount of overhead for crash consistency concerns. 

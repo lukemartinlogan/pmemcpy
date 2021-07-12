@@ -21,25 +21,25 @@ function test_case() {
   if [ ${suffix} == "bp" ]; then
     echo mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/write_3d_${suffix} ${PMEM_DIR}/test ${SOURCE_DIR}/3d.xml ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz}
     mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/write_3d_${suffix} ${PMEM_DIR}/test ${SOURCE_DIR}/3d.xml ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz}
-    #echo mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
-    #mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
+    echo mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
+    mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
   elif [ ${suffix} == "pmemcpy_omp" ]; then
     echo ${EXEC_DIR}/write_3d_pmemcpy_omp ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz} ${storage} ${serializer} ${use_mmap}
     mkdir ${PMEM_DIR}/test
     ${EXEC_DIR}/write_3d_pmemcpy_omp ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz} ${storage} ${serializer} ${use_mmap}
-    #echo ${EXEC_DIR}/read_3d_pmemcpy_omp ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${storage} ${serializer} ${use_mmap}
-    #${EXEC_DIR}/read_3d_pmemcpy_omp ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${storage} ${serializer} ${use_mmap}
+    echo ${EXEC_DIR}/read_3d_pmemcpy_omp ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${storage} ${serializer} ${use_mmap}
+    ${EXEC_DIR}/read_3d_pmemcpy_omp ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${storage} ${serializer} ${use_mmap}
   else
     echo mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/write_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz}
     mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/write_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz} ${ndx} ${ndy} ${ndz}
-    #echo mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
-    #mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
+    echo mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
+    mpirun -n ${nprocs} --use-hwthread-cpus ${EXEC_DIR}/read_3d_${suffix} ${PMEM_DIR}/test ${npx} ${npy} ${npz}
   fi
 }
 
 SUFFIXES=()
 #SUFFIXES=("bp" "nc4" "nc5")
-#SUFFIXES=("bp")
+SUFFIXES=("nc4")
 for SUFFIX in ${SUFFIXES[@]}; do
   test_case ${SUFFIX} 8 2 2 2 1776 192 192
   test_case ${SUFFIX} 16 4 2 2 888 192 192
@@ -55,15 +55,15 @@ SERIALIZER_TYPES=("NO_SERIALIZER" "CAPNPROTO_NOCOMPRESS")
 USE_MMAP=(1 0)
 
 #STORAGE_TYPES=("PMDK_HASHTABLE")
-STORAGE_TYPES=("POSIX")
+STORAGE_TYPES=("PMDK_FS" )
 SERIALIZER_TYPES=("NO_SERIALIZER")
 USE_MMAP=(1)
 
 for STORAGE_TYPE in ${STORAGE_TYPES[@]}; do
   for SERIALIZER_TYPE in ${SERIALIZER_TYPES[@]}; do
     for MMAP_OPT in ${USE_MMAP[@]}; do
-      #test_case "pmemcpy_omp" 8 2 2 2 1776 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} ${MMAP_OPT}
-      #test_case "pmemcpy_omp" 16 4 2 2 888 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} ${MMAP_OPT}
+      test_case "pmemcpy_omp" 8 2 2 2 1776 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} ${MMAP_OPT}
+      test_case "pmemcpy_omp" 16 4 2 2 888 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} ${MMAP_OPT}
       test_case "pmemcpy_omp" 24 4 2 3 592 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} ${MMAP_OPT}
       test_case "pmemcpy_omp" 32 4 4 2 444 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} ${MMAP_OPT}
       test_case "pmemcpy_omp" 48 4 4 3 296 192 192 ${STORAGE_TYPE} ${SERIALIZER_TYPE} ${MMAP_OPT}

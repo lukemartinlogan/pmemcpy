@@ -2,8 +2,8 @@
 // Created by lukemartinlogan on 5/28/21.
 //
 
-#ifndef PMEMCPY_POSIX_H
-#define PMEMCPY_POSIX_H
+#ifndef PMEMCPY_PMDK_FS_H
+#define PMEMCPY_PMDK_FS_H
 
 #include <pmemcpy/util/errors.h>
 #include <pmemcpy/util/serializeable.h>
@@ -17,7 +17,7 @@
 #include <sys/stat.h>
 #include <libpmem.h>
 
-namespace pmemcpy {
+namespace pmemcpy::pmdk::fs {
 
 struct mmap_buffer : public generic_buffer {
 public:
@@ -63,13 +63,13 @@ public:
 
 };
 
-class PosixStorage : public Storage {
+class FilesystemPMDKStorage : public Storage {
 private:
     std::string path_prefix_;
 
 public:
-    PosixStorage() {}
-    ~PosixStorage() {}
+    FilesystemPMDKStorage() {}
+    ~FilesystemPMDKStorage() {}
 
     void mmap(std::string path, uint64_t size = 0) {
         AUTO_TRACE("pmemcpy::PosixStorage::mmap {}", path);
@@ -93,7 +93,7 @@ public:
     std::shared_ptr<pmemcpy::generic_buffer> alloc(std::string id, size_t size) {
         AUTO_TRACE("pmemcpy::PosixStorage::alloc id={}, size={}", id, SizeType(size, SizeType::MB));
         std::string path = path_prefix_ + "/" + id;
-        std::shared_ptr<pmemcpy::mmap_buffer> buf(new pmemcpy::mmap_buffer(path, size));
+        std::shared_ptr<pmemcpy::pmdk::fs::mmap_buffer> buf(new pmemcpy::pmdk::fs::mmap_buffer(path, size));
         return buf;
     }
 
@@ -118,7 +118,7 @@ public:
         if(!boost::filesystem::exists(path)) {
             throw POSIX_FIND_FAILED.format(path_prefix_, id, std::string(strerror(errno)));
         }
-        return std::shared_ptr<pmemcpy::mmap_buffer>(new pmemcpy::mmap_buffer(path));
+        return std::shared_ptr<pmemcpy::pmdk::fs::mmap_buffer>(new pmemcpy::pmdk::fs::mmap_buffer(path));
     }
 
     std::shared_ptr<pmemcpy::generic_buffer> load(std::string id) {
@@ -148,4 +148,4 @@ public:
 
 }
 
-#endif //PMEMCPY_POSIX_H
+#endif //PMEMCPY_PMDK_FS_H

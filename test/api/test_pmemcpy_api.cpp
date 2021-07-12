@@ -6,12 +6,13 @@ int main(int argc, char** argv) {
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
     pmemcpy::PMEM pmem;
     size_t count = 100;
+    size_t off = 100*rank;
     size_t dimsf = 100*nprocs;
     char *path = argv[1];
 
     double data[100] = {0};
     pmem.mmap(path, MPI_COM_WORLD);
-    pmem.alloc<double>("A", 1, &count, &dimsf);
-    pmem.store<double>("A", data);
+    pmem.alloc<double>("A", 1, &dimsf);
+    pmem.store<double>("A", data, 1, &off, &count);
     MPI_Finalize();
 }

@@ -22,8 +22,9 @@ struct mmap_buffer : public generic_buffer {
 public:
     char *buf_;
     size_t size_;
+    int fd_;
 
-    mmap_buffer() : buf_(nullptr), size_(0) {}
+    mmap_buffer() : buf_(nullptr), size_(0), fd_(-1) {}
     mmap_buffer(int fd, size_t size) { alloc(fd, size); }
     mmap_buffer(int fd) { load(fd); }
     mmap_buffer(const mmap_buffer& old) {
@@ -38,22 +39,30 @@ public:
     }
     ~mmap_buffer() {
         if(buf_ && buf_ != MAP_FAILED) {
-            msync(buf_, size_, MS_SYNC);
+            int ret = msync(buf_, size_, MS_SYNC);
+            if(ret < 0) {
+                printf("Yep, it failed..\n");
+                exit(1);
+            }
             munmap(buf_, size_);
         }
     }
 
     inline void alloc(int fd, size_t size) {
         size_ = size;
-        buf_ = (char*)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+        buf_ = (char*)mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED_VALIDATE, fd, 0);
         if(buf_ == MAP_FAILED) {
             throw POSIX_MMAP_FAILED.format(SizeType(size, SizeType::MB), fd, std::string(strerror(errno)));
         }
+        fd_ = fd;
+        fsync(fd_);
     }
     inline void load(int fd) {
         size_ = lseek(fd, 0, SEEK_END);
         lseek(fd, 0, SEEK_SET);
-        buf_ = (char*)mmap(NULL, size_, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+        buf_ = (char*)mmap(NULL, size_, PROT_READ | PROT_WRITE, MAP_SHARED_VALIDATE, fd, 0);
+        fd_ = fd;
+        fsync(fd_);
     }
     inline size_t size() const { return size_; }
     inline char *c_str() const { return (char*)buf_; }
