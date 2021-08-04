@@ -6,8 +6,6 @@ pmem.munmap();
 pmem.store<T>(std::string id, T &data);
 pmem.alloc<T>(std::string id,
   int ndims, size_t *dims);
-pmem.alloc<T>(std::string id,
-  pmemcpy::Dimensions dims);
 pmem.store<T>(std::string id, T *data,
   int ndims, size_t *offsets, size_t *dimspp);
 

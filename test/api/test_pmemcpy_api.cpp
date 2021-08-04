@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
     char *path = argv[1];
 
     double data[100] = {0};
-    pmem.mmap(path, MPI_COM_WORLD);
+    pmem.mmap(path, MPI_COMM_WORLD);
     pmem.alloc<double>("A", 1, &dimsf);
     pmem.store<double>("A", data, 1, &off, &count);
     MPI_Finalize();
