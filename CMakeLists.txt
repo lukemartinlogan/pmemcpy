@@ -8,7 +8,7 @@ set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED YES )
 
 option(CMAKE_BUILD_TYPE Debug)
-option(BUILD_TESTS OFF)
+option(BUILD_TESTS ON)
 
 set( CMAKE_C_FLAGS "-g -O3" )
 set( CMAKE_CXX_FLAGS "-g -O3" )
@@ -24,7 +24,9 @@ set(SERIALIZER_DST_DIR ${CMAKE_SOURCE_DIR}/include/pmemcpy/serialize)
 add_custom_command(
         OUTPUT ${SERIALIZER_SRC_DIR}/basic_capnp.capnp.c++
         COMMAND capnp compile --src-prefix=${SERIALIZER_DST_DIR} -oc++:${SERIALIZER_SRC_DIR} ${SERIALIZER_DST_DIR}/basic_capnp.capnp
-        DEPENDS ${SERIALIZER_DST_DIR}/basic_capnp.capnp)
+        DEPENDS ${SERIALIZER_DST_DIR}/basic_capnp.capnp
+        COMMENT building capnproto dependencies)
+message("capnp compile --src-prefix=${SERIALIZER_DST_DIR} -oc++:${SERIALIZER_SRC_DIR} ${SERIALIZER_DST_DIR}/basic_capnp.capnp")
 
 #Build the serialization library
 #add_library(pmemcpy SHARED ${SERIALIZER_SRC_DIR}/basic_capnp.capnp.c++ ${SERIALIZER_SRC_DIR}/bp4/BP4Base.cpp ${SERIALIZER_SRC_DIR}/bp4/BP4Deserializer.cpp ${SERIALIZER_SRC_DIR}/bp4/BP4Serializer.cpp)

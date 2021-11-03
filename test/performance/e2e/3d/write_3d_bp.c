@@ -6,6 +6,9 @@
 #include <adios.h>
 #include "logger.h"
 
+#include <unistd.h>
+#include <fcntl.h>
+
 int main(int argc, char **argv)
 {
     int i, j, k, l;
@@ -105,13 +108,14 @@ int main(int argc, char **argv)
     status = adios_close (adios_handle);
 
     status = MPI_Barrier (MPI_COMM_WORLD);
+    free (ddata);
+    adios_finalize (rank);
+
     end_time = MPI_Wtime ();
     //io_type method nprocs ndx ndy ndz size_per_proc agg_size time storage serializer
     if (rank == 0) {
         log_end1("write", "bp", nprocs, start_time, end_time, cube_count, "none", "none");
     }
-    free (ddata);
-    adios_finalize (rank);
     MPI_Finalize ();
 
     return 0;

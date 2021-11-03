@@ -97,3 +97,15 @@ PMEMCPY_ERROR_HANDLE_END()
 * For writes, CapnProto requires the memory region where data gets serialized to be zeroed using memset, which is fairly expensive. Reads are fine.
 * CapnProto can only serialize primitive types (char, int, float, double) and C-style arrays of these types. Slightly more work would have to be done in order to incorporate STL or custom structured types.
 * PMDK adds a fair amount of overhead for crash consistency concerns.
+
+
+```
+IP=129.114.108.10
+ssh llogan@$IP
+
+IP=129.114.108.10
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/include cc@${IP}:~/pmemcpy
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/src cc@${IP}:~/pmemcpy
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/test cc@${IP}:~/pmemcpy
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/scripts cc@${IP}:~/pmemcpy
+```

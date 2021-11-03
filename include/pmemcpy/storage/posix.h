@@ -39,12 +39,17 @@ public:
     }
     ~mmap_buffer() {
         if(buf_ && buf_ != MAP_FAILED) {
+            _msync();
+            munmap(buf_, size_);
+        }
+    }
+    void _msync() {
+        if(buf_ && buf_ != MAP_FAILED) {
             int ret = msync(buf_, size_, MS_SYNC);
-            if(ret < 0) {
+            if (ret < 0) {
                 printf("Yep, it failed..\n");
                 exit(1);
             }
-            munmap(buf_, size_);
         }
     }
 
@@ -54,15 +59,17 @@ public:
         if(buf_ == MAP_FAILED) {
             throw POSIX_MMAP_FAILED.format(SizeType(size, SizeType::MB), fd, std::string(strerror(errno)));
         }
+        //_msync();
         fd_ = fd;
-        fsync(fd_);
+        //fsync(fd_);
     }
     inline void load(int fd) {
         size_ = lseek(fd, 0, SEEK_END);
         lseek(fd, 0, SEEK_SET);
         buf_ = (char*)mmap(NULL, size_, PROT_READ | PROT_WRITE, MAP_SHARED_VALIDATE, fd, 0);
+        //_msync();
         fd_ = fd;
-        fsync(fd_);
+        //fsync(fd_);
     }
     inline size_t size() const { return size_; }
     inline char *c_str() const { return (char*)buf_; }
@@ -117,6 +124,7 @@ public:
             close(fd);
             throw POSIX_WRITE_FAILED.format(src->size(), path_prefix_, id, ret, std::string(strerror(errno)));
         }
+        fsync(fd);
         close(fd);
     }
 

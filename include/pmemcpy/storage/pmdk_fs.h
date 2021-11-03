@@ -109,6 +109,7 @@ public:
             close(fd);
             throw POSIX_WRITE_FAILED.format(src->size(), path_prefix_, id, ret, std::string(strerror(errno)));
         }
+        fsync(fd);
         close(fd);
     }
 
@@ -135,6 +136,7 @@ public:
             close(fd);
             throw POSIX_READ_FAILED.format(len, path_prefix_, id, ret, std::string(strerror(errno)));
         }
+        fsync(fd);
         close(fd);
         return std::shared_ptr<pmemcpy::malloc_buffer>(new pmemcpy::malloc_buffer(buffer, len));
     }

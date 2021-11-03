@@ -10,7 +10,6 @@ int main (int argc, char **argv) {
   hsize_t offset = rank*100;
   hsize_t dimsf = nprocs*100;
   hid_t	plist_id;
-  herr_t	status;
   char *path = argv[1];
   int data[100];
 
@@ -33,7 +32,7 @@ int main (int argc, char **argv) {
     NULL, &count, NULL);
 
   plist_id = H5Pcreate(H5P_DATASET_XFER);
-  status = H5Dwrite(dset_id, H5T_NATIVE_INT,
+  H5Dwrite(dset_id, H5T_NATIVE_INT,
     memspace, filespace, plist_id, data);
 
   H5Dclose(dset_id);

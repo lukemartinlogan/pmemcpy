@@ -1,6 +1,7 @@
 
 #LOGIN to Chameleon
-ssh cc@129.114.108.56
+IP=129.114.108.10
+ssh cc@${IP}
 
 #Install spack and pmem dependencies
 cd ${HOME}
@@ -22,14 +23,11 @@ GRUB_CMDLINE_LINUX="memmap=60G!10G"
 sudo update-grub2
 
 #COPY pmemcpy to Chameleon
-cd /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/cmake-build-debug
-ROOT_DIR=../
-tar -czf pmemcpy.tar.gz ${ROOT_DIR}/include ${ROOT_DIR}/src ${ROOT_DIR}/test ${ROOT_DIR}/scripts ${ROOT_DIR}/CMakeLists.txt
-scp pmemcpy.tar.gz cc@129.114.108.56:~/
-
-#DECOMPRESS pmemcpy on Chameleon
-mkdir ${HOME}/pmemcpy
-tar -xzf ${HOME}/pmemcpy.tar.gz -C ${HOME}/pmemcpy
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/CMakeLists.txt cc@${IP}:~/pmemcpy
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/include cc@${IP}:~/pmemcpy
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/src cc@${IP}:~/pmemcpy
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/test cc@${IP}:~/pmemcpy
+rsync -a -e 'ssh -i ~/.ssh/scs_chameleon_pass' --progress /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/scripts cc@${IP}:~/pmemcpy
 
 #BUILD pmemcpy
 cd ${HOME}/pmemcpy
@@ -42,20 +40,19 @@ make -j8
 mkdir ~/tmpfs
 sudo mkfs.ext4 /dev/pmem0
 sudo mount -o dax /dev/pmem0 /home/cc/tmpfs
-#sudo mount -t pmemulator-ext4 -o dax /dev/pmem0 ~/tmpfs
 sudo chown -R cc /home/cc/tmpfs
 sudo umount /home/cc/tmpfs
 
 #ALL TESTS
+export CPATH="/home/cc/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.3.0/parallel-netcdf-1.12.2-ejnehvefuraqlpmya24jporxczhqg7j4/include:/home/cc/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.3.0/netcdf-c-4.8.1-xcsyxgya5wdhstixxbthkftb4c3ue24a/include:/home/cc/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.3.0/capnproto-0.8.0-t3gxgugdkn7nwdx5wrvrfpcgcudn6xgm/include:/home/cc/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.3.0/openmpi-4.1.1-appr545p7jtqiam3pygjkseyzdzdlssa/include:/home/cc/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.3.0/adios-1.13.1-5icuhwvnnrmvf3ifytlzgshi7sk5aorn/include:/home/cc/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.3.0/hdf5-1.10.7-zywvux2r43l2uns4qwj3notysg2jsg3s/include:/home/cc/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.3.0/boost-1.77.0-dkjimsg6v3plowbxgj3hy3l35gpqomz6/include:/home/cc/spack/opt/spack/linux-ubuntu20.04-skylake_avx512/gcc-9.3.0/pmdk-1.11.0-ojpodkzcgoiir7bs5m5bbvts7emkhufk/include"
+export INCLUDE=$CPATH
 bash ~/pmemcpy/scripts/tests.sh
-scp -i ~/.ssh/id_rsa_pass ../scripts/tests.sh cc@129.114.108.56:/home/cc/pmemcpy/scripts/tests.sh
-scp -i ~/.ssh/id_rsa_pass cc@129.114.108.56:~/pmemcpy/cmake-build-debug/log.txt log.txt
-
-scp -i ~/.ssh/id_rsa_pass /home/lukemartinlogan/Documents/Projects/PhD/pmemcpy/test/performance/e2e/3d/3d.xml cc@129.114.108.56:/home/cc/pmemcpy/test/performance/e2e/3d/3d.xml
+scp -i ~/.ssh/id_rsa_pass cc@${IP}:~/pmemcpy/scripts/log.txt log.txt
 
 #
+python3
 import pandas as pd
-df = pd.read_csv("log.csv")
+df = pd.read_csv("log.txt", sep=" ")
 cols = list(df.columns)
 cols.remove("time")
 df = df.groupby(cols).mean().reset_index()
